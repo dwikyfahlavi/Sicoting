@@ -3,6 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+-- Generation Time: Jan 08, 2023 at 04:41 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 -- Generation Time: Nov 19, 2022 at 03:03 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
@@ -10,7 +13,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,9 +26,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `sub_soal_latihan`
 --
 
+CREATE TABLE `sub_soal_latihan` (
+  `id_sub_latihan` int(11) NOT NULL,
+  `jenis_sub_soal` int(11) NOT NULL,
+  `jenis_jawaban` int(11) NOT NULL,
+  `bobot` int(11) NOT NULL,
+  `jawaban_benar` text NOT NULL,
+  `soal_sub_latihan` text NOT NULL,
+  `file_soal` text NOT NULL,
+  `id_soal_latihan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table structure for table `user`
+--
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `nama` varchar(128) NOT NULL,
@@ -41,9 +56,19 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `sub_soal_latihan`
 --
 
+INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `jenis_jawaban`, `bobot`, `jawaban_benar`, `soal_sub_latihan`, `file_soal`, `id_soal_latihan`) VALUES
+(1, 1, 2, 25, 'a,b,c,e', 'Berdasarkan soal di atas, manakah hal-hal penting yang dapat kamu temukan dan menuntun kepada penyelesaian masalah?', '', 1),
+(2, 2, 1, 25, 'd', 'Berdasarkan soal di atas, informasi apakah yang bisa kita abaikan?', '', 1),
+(3, 3, 3, 25, 'a', 'Sebuah spesies amoeba akan membelah diri menjadi 3 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 10.', '', 1),
+(4, 3, 3, 25, 'b', 'Buatlah program untuk menampilkan angka kelipatan 3. Program memiliki input user yang berfungsi sebagai nilai awal pada kelipatan pertama. Pengulangan dibuat sebanyak 10 kali. Lalu jumlahkan bilangan dari hasil kelipatan tersebut.', '', 1),
+(5, 3, 3, 25, 'b', 'Sebuah spesies amoeba akan membelah diri menjadi 2 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 15.', '', 1),
+(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 1);
+
+-- Dumping data for table `user`
+--
 INSERT INTO `user` (`id_user`, `nama`, `username`, `email`, `kontak`, `image`, `password`, `role_id`, `is_active`, `date_created`) VALUES
 (4, 'Harlixa', 'harli', 'harli@gmail.com', '08314442582', 'default.jpg', '$2y$10$Nf2Xh3u8LUSh5.ecs3bZFucP0LQVwBCJcmgORssmAOkIiDpamLOCG', 3, 1, 1663329279),
 (6, 'Muhammad Cahya', 'cahya', 'muhammadcahya32@yahoo.com', '081234412345', 'avatar-5.png', '$2y$10$PLj4yuzdKs6/3t.qCWwLUeOZY5MoX/9D1ZbvMNf3DXU6mJKCc1TdW', 2, 1, 1668864932),
@@ -151,6 +176,7 @@ INSERT INTO `user_sub_menu` (`id_user_sub_menu`, `menu_id`, `title`, `url`, `ico
 --
 
 --
+-- Indexes for table `sub_soal_latihan`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -177,6 +203,10 @@ ALTER TABLE `user_role`
 --
 -- Indexes for table `user_sub_menu`
 --
+ALTER TABLE `sub_soal_latihan`
+  ADD PRIMARY KEY (`id_sub_latihan`),
+  ADD KEY `fk_id_soal_latihan` (`id_soal_latihan`);
+
 ALTER TABLE `user_sub_menu`
   ADD PRIMARY KEY (`id_user_sub_menu`);
 
@@ -185,6 +215,7 @@ ALTER TABLE `user_sub_menu`
 --
 
 --
+-- AUTO_INCREMENT for table `sub_soal_latihan`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -211,10 +242,10 @@ ALTER TABLE `user_role`
 --
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
+ALTER TABLE `sub_soal_latihan`
+  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 ALTER TABLE `user_sub_menu`
   MODIFY `id_user_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
