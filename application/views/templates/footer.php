@@ -14,6 +14,7 @@
     var remove_ip = document.getElementById('remove_ip');
 
     add_more_ip.onclick = function() {
+        console.log("ini console");
         var newField = document.createElement('input');
         newField.setAttribute('type', 'text');
         newField.setAttribute('name', 'ip[]');
@@ -60,7 +61,36 @@
             indikator.removeChild(mybr[(mybr.length) - 1]);
         }
     }
+
+    var view_detail = document.getElementById('view_detail');
     
+    view_detail.onclick = function() {
+       console.log("ini consolee");
+    }
+
+    //   $(document).on('click', '.view_detail', function() {
+    //     console.log("GeeksforGeeks is a portal for geeks.");
+          
+    //       var id = $(this).attr('relid'); //get the attribute value
+          
+    //       $.ajax({
+    //           url : "<?php echo base_url(); ?>guru/get_soal_latihan",
+    //           data:{id : id},
+    //           method:'GET',
+    //           dataType:'json',
+    //           success:function(response) {
+    //             $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
+    //             $('#jenis_jawaban').html(response.jenis_jawaban);
+    //             $('#bobot').html(response.bobot);
+    //             $('#jawaban_benar').html(response.jawaban_benar);
+    //             $('#soal_sub_latihan').html(response.soal_sub_latihan);
+    //             $('#file_soal').html(response.file_soal);
+    //             $('#show_modal').modal({backdrop: 'static', keyboard: true, show: true});
+                
+    //         }
+    //       });
+    //   });
+
 </script>
 
 
@@ -70,6 +100,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+
 <script src="<?= base_url(); ?>/assets/js/stisla.js"></script>
 
 <!-- JS Libraies -->

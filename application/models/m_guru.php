@@ -208,6 +208,53 @@ class m_guru extends CI_Model
         $this->db->where('id_tes', $id_tes)->update('tes', $argumen);
     }
 
+    public function getLatihan()
+    {
+        $data = $this->db->get("soal_latihan");
+        return $data->result_array();
+    }
+
+    public function getLatihanByID($id_latihan)
+    {
+        $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("soal_latihan", $argumen);
+        return $data->row_array();
+    }
+
+    public function deleteLatihan($id_latihan)
+    {
+        $db_debug = $this->db->db_debug; //save setting
+        $this->db->db_debug = FALSE; //disable debugging for queries
+
+        $this->db->where('id_latihan', $id_latihan);
+        $this->db->delete('soal_latihan');
+        $db_error = $this->db->error();
+        $this->db->db_debug = $db_debug; //restore setting
+
+        //cek error db
+        if ($db_error['code'] == 0) {
+            //kalau 0, maka return true
+            $result = TRUE;
+        } else {
+            //kalau bukan 0, maka return false
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+    public function updateLatihan($id_latihan, $argumen)
+    {
+        $this->db->where('id_latihan', $id_latihan)->update('soal_latihan', $argumen);
+    }
+
+    public function getSubSoalByID($id_latihan)
+    {
+        $argumen = array("id_soal_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->row_array();
+    }
+
     public function getUserSiswa()
     {
         $kondisi = array("role_id" => 3);

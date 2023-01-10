@@ -8,7 +8,7 @@ class Guru extends CI_Controller
         parent::__construct();
         if (!$this->session->userdata("logged_in_guru")) {
             //jika tak ada, balik ke controler login
-            redirect('auth/blocked');
+            redirect('auth/blocked');fghjkl;
         }
         $this->load->model('m_guru', 'guru');
     }
@@ -468,6 +468,29 @@ class Guru extends CI_Controller
                 Tes berhasil dihapus!</div>');
         redirect('guru/tes/' . $id_materi);
     }
+
+    public function latihan($id_materi)
+    {
+        $data['title'] = 'latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->guru->getLatihan();
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/latihan', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function getSubSoal()
+    {
+        $id = $this->input->get('id');
+        $get_latihan = $this->guru->getSubSoal($id);
+        echo json_encode($get_latihan); 
+        exit();
+    }
+
 
     public function akunsiswa()
     {

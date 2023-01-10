@@ -24,7 +24,7 @@
                         <?= $this->session->flashdata('message'); ?> 
                         <a href="<?php echo site_url('guru/tambahMedia/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Tambah Media</a>
                         <a href="<?php echo site_url('guru/tes/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Test</a>
-                        <a href="<?php echo site_url('guru/tes/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Soal Latihan</a>
+                        <a href="<?php echo site_url('guru/latihan/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Soal Latihan</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>

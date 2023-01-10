@@ -16,30 +16,37 @@
                             <div class="alert alert-danger"> <?= validation_errors(); ?> </div>
                         <?php endif; ?>
                         <?= $this->session->flashdata('message'); ?> 
-                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTesModal"><i class="fas fa-plus"></i>Test</a>
+                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTesModal"><i class="fas fa-plus"></i> Soal Latihan</a>
+                        <a href="<?php echo site_url('guru/latihan/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Hasil Siswa</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>
                                     <tr>
                                         <th>Nomor</th>
-                                        <th>Nama Tes</th>
-                                        <th>Jenis Media</th>
-                                        <th>Url</th>
+                                        <th>Soal</th>
+                                        <th>Dekomposisi</th>
+                                        <th>Abstraksi</th>
+                                        <th>Pengenalan Pola</th>
+                                        <th>Algoritma</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i = 1; ?>
-                                    <?php foreach ($tes as $m) : ?>
+                                    <?php foreach ($latihan as $m) : ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?= $m['nama_tes']; ?></td>
-                                            <td><?= $m['jenis_tes']; ?></td>
-                                            <td><a href="<?= $m['url']; ?>" class="btn btn-primary">Pretest</a></td>
+                                            <td><?= $m['soal']; ?></td>
+
+                                             <!-- <button class="btn btn-primary view_detail" relid="<?php echo $m['id_latihan'];  ?>"id="view_detail">Dekomposisi</button> -->
+                                            <td><a href="#" id="view_detail"><i class="fa fa-plus"></i>Add More</a></td>
+                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Abstraksi</a></td>
+                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Pengenalan Pola</a></td>
+                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Algoritma</a></td>
                                             <td>
                                                 <!-- <a href="<?php echo site_url('guru/media/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>  -->
-                                                <a href="<?php echo site_url('guru/updateTes/' . $m['id_tes'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
-                                                <a href="<?php echo site_url('guru/deleteTes/' . $m['id_tes'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
+                                                <a href="<?php echo site_url('guru/updateTes/' . $m['id_latihan'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
+                                                <a href="<?php echo site_url('guru/deleteTes/' . $m['id_latihan'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
@@ -96,3 +103,39 @@
         </div>
     </div>
 </div>
+
+<div id="show_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i> Student Details</h3>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-striped">
+          <thead class="btn-primary">
+            <tr>
+              <th>Jenis Jawaban</th>
+              <th>Bobot</th>
+              <th>Jawaban Benar</th>
+              <th>Soal Sub Latihan</th>
+              <th>File Soal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><p id="jenis_jawaban"></p></td> //here i am showing the data with the help of id
+              <td><p id="bobot"></p></td>//here i am showing the data with the help of id
+              <td><p id="jawaban_benar"></p></td>//here i am showing the data with the help of id
+              <td><p id="soal_sub_latihan"></p></td>//here i am showing the data with the help of id
+              <td><p id="file_soal"></p></td>//here i am showing the data with the help of id
+            </tr>
+          </tbody>
+       </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
