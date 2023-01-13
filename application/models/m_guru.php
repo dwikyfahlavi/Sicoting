@@ -122,6 +122,46 @@ class m_guru extends CI_Model
         return $result;
     }
 
+    public function getApersepsi()
+    {
+        $data = $this->db->get("apersepsi");
+        return $data->result_array();
+    }
+
+    public function getApersepsiByID($id_apersepsi)
+    {
+        $argumen = array("id_apersepsi" => $id_apersepsi);
+        $data = $this->db->get_where("apersepsi", $argumen);
+        return $data->row_array();
+    }
+
+    public function updateApersepsi($id_apersepsi, $argumen)
+    {
+        $this->db->where('id_apersepsi', $id_apersepsi)->update('apersepsi', $argumen);
+    }
+
+    public function deleteApersepsi($id_apersepsi)
+    {
+        $db_debug = $this->db->db_debug; //save setting
+        $this->db->db_debug = FALSE; //disable debugging for queries
+
+        $this->db->where('id_apersepsi', $id_apersepsi);
+        $this->db->delete('apersepsi');
+        $db_error = $this->db->error();
+        $this->db->db_debug = $db_debug; //restore setting
+
+        //cek error db
+        if ($db_error['code'] == 0) {
+            //kalau 0, maka return true
+            $result = TRUE;
+        } else {
+            //kalau bukan 0, maka return false
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
     public function getMedia()
     {
         $data = $this->db->get("media");
@@ -137,7 +177,7 @@ class m_guru extends CI_Model
 
     public function addMedia($data)
     {
-        $data = $this->db->insert("media",$data);
+        $data = $this->db->insert("media", $data);
         return $data;
     }
 
