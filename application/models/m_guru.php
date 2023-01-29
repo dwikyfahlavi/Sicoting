@@ -162,6 +162,12 @@ class m_guru extends CI_Model
         return $result;
     }
 
+    public function getKomentarApersepsi()
+    {
+        $data = $this->db->get("komentar_apersepsi");
+        return $data->result_array();
+    }
+
     public function getMedia()
     {
         $data = $this->db->get("media");

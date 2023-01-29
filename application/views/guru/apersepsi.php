@@ -34,7 +34,7 @@
                                             <td><?= $a['pertanyaan_apersepsi']; ?></td>
                                             <td><?= $a['file_apersepsi']; ?></td>
                                             <td>
-                                                <!-- <a href="<?php echo site_url('guru/detailApersepsi/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>  -->
+                                                <a href="<?php echo site_url('guru/detailApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Detail</a>
                                                 <a href="<?php echo site_url('guru/updateApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
                                                 <a href="<?php echo site_url('guru/deleteApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>

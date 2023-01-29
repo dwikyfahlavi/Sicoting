@@ -9,7 +9,6 @@ class Guru extends CI_Controller
         if (!$this->session->userdata("logged_in_guru")) {
             //jika tak ada, balik ke controler login
             redirect('auth/blocked');
-            fghjkl;
         }
         $this->load->model('m_guru', 'guru');
     }
@@ -391,6 +390,21 @@ class Guru extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
                 Pertanyaan Apersepsi berhasil dihapus!</div>');
         redirect('guru/apersepsi/' . $id_materi);
+    }
+
+    public function detailApersepsi($id_apersepsi, $id_materi)
+    {
+        $data['title'] = 'Komentar Siswa';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['komentar'] = $this->guru->getKomentarApersepsi();
+        $data['apersepsi'] = $this->guru->getApersepsiByID($id_apersepsi);
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/apersepsikomentar', $data);
+        $this->load->view('templates/footer');
     }
 
     public function media($id_materi)
