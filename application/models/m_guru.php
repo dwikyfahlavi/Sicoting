@@ -248,9 +248,9 @@ class m_guru extends CI_Model
         $this->db->where('id_latihan', $id_latihan)->update('soal_latihan', $argumen);
     }
 
-    public function getSubSoalByID($id_latihan)
+    public function getSubSoalByID($id_latihan,$jenis_sub_soal)
     {
-        $argumen = array("id_soal_latihan" => $id_latihan);
+        $argumen = array("id_soal_latihan" => $id_latihan, "jenis_sub_soal" => $jenis_sub_soal);
         $data = $this->db->get_where("sub_soal_latihan", $argumen);
         return $data->row_array();
     }

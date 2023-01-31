@@ -486,7 +486,8 @@ class Guru extends CI_Controller
     public function getSubSoal()
     {
         $id = $this->input->get('id');
-        $get_latihan = $this->guru->getSubSoal($id);
+        $jenis_sub_soal = $this->input->get('jenis_sub_soal');
+        $get_latihan = $this->guru->getSubSoalByID($id,$jenis_sub_soal);
         echo json_encode($get_latihan); 
         exit();
     }

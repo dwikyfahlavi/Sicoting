@@ -8,6 +8,12 @@
 </footer>
 </div>
 </div>
+<!-- General JS Scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
     var ip = document.getElementById('ip');
     var add_more_ip = document.getElementById('add_more_ip');
@@ -62,11 +68,55 @@
         }
     }
 
-    var view_detail = document.getElementById('view_detail');
     
-    view_detail.onclick = function() {
-       console.log("ini consolee");
-    }
+
+
+
+    function getDetail(id,jenis_sub_soal, title){
+
+         $.ajax({
+              url : "<?php echo base_url(); ?>guru/getSubSoal",
+              data:{id : id,jenis_sub_soal : jenis_sub_soal},
+              method:'GET',
+              dataType:'json',
+              success:function(response) {
+                $('#title').html(title+" Details"); //hold the response in id and show on popup
+                $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
+                $('#jenis_jawaban').html(response.jenis_jawaban);
+                $('#bobot').html(response.bobot);
+                $('#jawaban_benar').html(response.jawaban_benar);
+                $('#soal_sub_latihan').html(response.soal_sub_latihan);
+                $('#file_soal').html(response.file_soal);
+                $('#show_modal').modal({backdrop: 'static', keyboard: true, show: true});
+                
+            }
+          });
+      };
+
+    function tambahSoal(id,jenis_sub_soal, title){
+        $('#newTesModal').modal({backdrop: 'static', keyboard: true, show: true});
+  // Initially hide all forms except the first one
+        $("#form2, #form3").hide();
+
+        // Next button click event
+        $("#nextBtn").click(function() {
+            // Hide current form
+            $("#form1").hide();
+            // Show next form
+            $("#form2").show();
+        });
+
+        // Form 1 submit event
+        $("#form1").on("submit", function(event) {
+            event.preventDefault();
+            // Check form for completion
+            if (formIsValid()) {
+            // Trigger next button click event
+            $("#nextBtn").click();
+            }
+        });
+      };
+    
 
     //   $(document).on('click', '.view_detail', function() {
     //     console.log("GeeksforGeeks is a portal for geeks.");
@@ -94,12 +144,7 @@
 </script>
 
 
-<!-- General JS Scripts -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 
 
 <script src="<?= base_url(); ?>/assets/js/stisla.js"></script>

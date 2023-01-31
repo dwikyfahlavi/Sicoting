@@ -16,7 +16,8 @@
                             <div class="alert alert-danger"> <?= validation_errors(); ?> </div>
                         <?php endif; ?>
                         <?= $this->session->flashdata('message'); ?> 
-                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTesModal"><i class="fas fa-plus"></i> Soal Latihan</a>
+                        <button class="btn btn-icon icon-left btn-primary" onclick="tambahSoal(2,1,'Dekomposisi')"  id="tambah_soal" ><i class="fas fa-plus"></i> Soal Latihan</button>
+                    
                         <a href="<?php echo site_url('guru/latihan/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Hasil Siswa</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
@@ -39,10 +40,10 @@
                                             <td><?= $m['soal']; ?></td>
 
                                              <!-- <button class="btn btn-primary view_detail" relid="<?php echo $m['id_latihan'];  ?>"id="view_detail">Dekomposisi</button> -->
-                                            <td><a href="#" id="view_detail"><i class="fa fa-plus"></i>Add More</a></td>
-                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Abstraksi</a></td>
-                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Pengenalan Pola</a></td>
-                                            <td><a href="" class="btn btn-icon icon-left btn-primary"></i>Algoritma</a></td>
+                                            <td><button class="btn btn-icon icon-left btn-primary" onclick="getDetail(<?php echo $m['id_latihan']?>,1,'Dekomposisi')"  id="view_detail" >Dekomposisi</button></td>
+                                            <td><button class="btn btn-icon icon-left btn-primary" onclick="getDetail(<?php echo $m['id_latihan']?>,2,'Abstraksi')"  id="view_detail" >Abstraksi</button></td>
+                                            <td><button class="btn btn-icon icon-left btn-primary" onclick="getDetail(<?php echo $m['id_latihan']?>,3,'Pengenalan Pola')"  id="view_detail" >Pengenalan Pola</button></td>
+                                            <td><button class="btn btn-icon icon-left btn-primary" onclick="getDetail(<?php echo $m['id_latihan']?>,4,'Algoritma')"  id="view_detail" >Algoritma</button></td>
                                             <td>
                                                 <!-- <a href="<?php echo site_url('guru/media/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>  -->
                                                 <a href="<?php echo site_url('guru/updateTes/' . $m['id_latihan'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
@@ -71,7 +72,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('guru/tesRespon'); ?>" method="post">
+            <form action="<?= base_url('guru/tesRespon'); ?>" form id="form1" method="post">
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
@@ -95,20 +96,27 @@
                         </div>
                     </div>
                 </div>
+            </form>
+            <form id="form2">
+                <h1>memek</h1>
+            </form>
+            <form id="form3">
+                <h1>kontol</h1>
+            </form>
+                <button id="nextBtn">Next</button>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>
 
 <div id="show_modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;"><i class="fa fa-folder"></i> Student Details</h3>
+        <h3 style="font-size: 24px; color: #17919e; text-shadow: 1px 1px #ccc;" id="title"></h3>
       </div>
       <div class="modal-body">
         <table class="table table-bordered table-striped">
@@ -123,11 +131,11 @@
           </thead>
           <tbody>
             <tr>
-              <td><p id="jenis_jawaban"></p></td> //here i am showing the data with the help of id
-              <td><p id="bobot"></p></td>//here i am showing the data with the help of id
-              <td><p id="jawaban_benar"></p></td>//here i am showing the data with the help of id
-              <td><p id="soal_sub_latihan"></p></td>//here i am showing the data with the help of id
-              <td><p id="file_soal"></p></td>//here i am showing the data with the help of id
+              <td><p id="jenis_jawaban"></p></td> 
+              <td><p id="bobot"></p></td>
+              <td><p id="jawaban_benar"></p></td>
+              <td><p id="soal_sub_latihan"></p></td>
+              <td><p id="file_soal"></p></td>
             </tr>
           </tbody>
        </table>
