@@ -38,18 +38,17 @@
                                             <td><?= $m['judul']; ?></td>
                                             <td><?= $m['topik']; ?></td>
                                             <td><?= $m['tujuan']; ?></td>
-                                            
-                                            <td><a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#apersepsi-<?= $m['id_materi']?>"><i class="fas fa-info-circle"></i>Detail Apersepsi</a></td>
-                                            
-                                                      
+                                            <td><a href="<?php echo site_url('guru/apersepsi/' . $m['id_materi']); ?>" class="btn btn-primary mb-3"><i class="fas fa-info-circle"></i>Detail Apersepsi</a></td>
+
+
                                             <td>
                                                 <a href="<?php echo site_url('guru/media/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>
                                                 <a href="<?php echo site_url('guru/updateMateri/' . $updatePembelajaran['id_kd'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
                                                 <a href="<?php echo site_url('guru/deleteMateri/' . $updatePembelajaran['id_kd'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
-       
+
                                         </tr>
-                                        <div class="modal fade" tabindex="1" role="dialog" id="apersepsi-<?= $m['id_materi']?>" data-backdrop="false" style="backround:grey;">
+                                        <!-- <div class="modal fade" tabindex="1" role="dialog" id="apersepsi-<?= $m['id_materi'] ?>" data-backdrop="false" style="backround:grey;">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -63,11 +62,11 @@
                                                                 <div class="card-body">
                                                                     <div class="form-group">
                                                                         <div class="input-group mb-2">
-                                                                            <img src="<?= base_url()?>/assets/materi/apersepsi/<?= $m['file_apersepsi']?>" alt="apersepsi" width="500" height="400">
+                                                                            <img src="<?= base_url() ?>/assets/materi/apersepsi/<?= $m['file_apersepsi'] ?>" alt="apersepsi" width="500" height="400">
                                                                             
                                                                         </div>
                                                                         <div class="input-group mb-2">
-                                                                            <input type="text" class="form-control" id="topik" name="topik" value="<?= $m['apersepsi']?>"disabled>
+                                                                            <input type="text" class="form-control" id="topik" name="topik" value="<?= $m['apersepsi'] ?>"disabled>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -77,7 +76,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -92,7 +91,7 @@
 </div>
 
 <!-- Modal -->
- <!-- Modal Ubah -->
+<!-- Modal Ubah -->
 
 
 <!-- Modal -->

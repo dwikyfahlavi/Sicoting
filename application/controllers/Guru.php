@@ -8,7 +8,7 @@ class Guru extends CI_Controller
         parent::__construct();
         if (!$this->session->userdata("logged_in_guru")) {
             //jika tak ada, balik ke controler login
-            redirect('auth/blocked');fghjkl;
+            redirect('auth/blocked');
         }
         $this->load->model('m_guru', 'guru');
     }
@@ -189,20 +189,19 @@ class Guru extends CI_Controller
     {
         $phoneData = $this->input->post('phoneData');
 
-        if(isset($phoneData) and !empty($phoneData)){
+        if (isset($phoneData) and !empty($phoneData)) {
             $data = $this->guru->getMateriByID($phoneData);
             $output = '';
-            foreach($data as $row){
+            foreach ($data as $row) {
                 $output .= '
                      
                 <h4 class="text-center">Detail Apersepsi</h4><br>
-                <center><img style="width:150px; height: 160px;" src="'.base_url().'assets/images/apersepsi/'.$row["file_apersepsi"].'"></center><br><br>
-                <input type="text" class="form-control" placeholder="Tujuan Pembelajaran">'.$row["apersepsi"].'</input>';
+                <center><img style="width:150px; height: 160px;" src="' . base_url() . 'assets/images/apersepsi/' . $row["file_apersepsi"] . '"></center><br><br>
+                <input type="text" class="form-control" placeholder="Tujuan Pembelajaran">' . $row["apersepsi"] . '</input>';
             }
-            echo $output;                          
-        }
-        else {
-            echo '<center><ul class="list-group"><li class="list-group-item">'.'Select a Phone'.'</li></ul></center>';
+            echo $output;
+        } else {
+            echo '<center><ul class="list-group"><li class="list-group-item">' . 'Select a Phone' . '</li></ul></center>';
         }
     }
 
@@ -298,6 +297,116 @@ class Guru extends CI_Controller
         redirect('guru/materi/' . $id_kd);
     }
 
+    public function apersepsi($id_materi)
+    {
+        $data['title'] = 'Daftar Apersepsi';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['apersepsi'] = $this->guru->getApersepsi();
+        $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/apersepsi', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function apersepsiRespon()
+    {
+        $data['title'] = 'Daftar Apersepsi';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['apersepsi'] = $this->guru->getApersepsi();
+        $data['updateMateri'] = $this->guru->getMateriByID($this->input->post('id_materi'));
+
+        $this->form_validation->set_rules('pertanyaan_apersepsi', 'Pertanyaan_Apersepsi', 'required');
+        $this->form_validation->set_rules('file_apersepsi', 'File_apersepsi');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('guru/apersepsi', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $config['upload_path']          = './assets/materi/apersepsi';
+            $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+            $config['max_size']             = 5000;
+
+            $this->load->library('upload', $config);
+
+            $this->upload->do_upload('file_apersepsi');
+            $data1 = array('upload_file_apersepsi' => $this->upload->data());
+            $data = [
+                'pertanyaan_apersepsi' => htmlspecialchars($this->input->post('pertanyaan_apersepsi')),
+                'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
+                'id_materi' => ($this->input->post('id_materi'))
+            ];
+            $this->db->insert('apersepsi', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success">
+                    Apersepsi berhasil ditambahkan!</div>');
+            redirect('guru/apersepsi/' . $this->input->post('id_materi'));
+        }
+    }
+
+    public function updateApersepsi($id_apersepsi, $id_materi)
+    {
+        $data['title'] = 'Update Apersepsi';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['updateApersepsi'] = $this->guru->getApersepsiByID($id_apersepsi);
+        $data['materi'] = $id_materi;
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/apersepsiupdate', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function updateApersepsiRespon()
+    {
+        $config['upload_path']          = './assets/materi/apersepsi';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('file_apersepsi');
+        $data1 = array('upload_file_apersepsi' => $this->upload->data());
+        $id = $this->input->post('id_apersepsi');
+        $id_materi = $this->input->post('id_materi');
+        $data = [
+            'pertanyaan_apersepsi' => htmlspecialchars($this->input->post('pertanyaan_apersepsi')),
+            'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
+        ];
+        $this->guru->updateApersepsi($id, $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Pertanyaan Apersepsi berhasil dirubah!</div>');
+        redirect('guru/apersepsi/' . $id_materi);
+    }
+
+    public function deleteApersepsi($id_apersepsi, $id_materi)
+    {
+        $this->guru->deleteApersepsi($id_apersepsi);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                Pertanyaan Apersepsi berhasil dihapus!</div>');
+        redirect('guru/apersepsi/' . $id_materi);
+    }
+
+    public function detailApersepsi($id_apersepsi, $id_materi)
+    {
+        $data['title'] = 'Komentar Siswa';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['komentar'] = $this->guru->getKomentarApersepsi();
+        $data['apersepsi'] = $this->guru->getApersepsiByID($id_apersepsi);
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/apersepsikomentar', $data);
+        $this->load->view('templates/footer');
+    }
+
     public function media($id_materi)
     {
         $data['title'] = 'Media';
@@ -325,7 +434,7 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function deleteMedia($id_media,$id_materi)
+    public function deleteMedia($id_media, $id_materi)
     {
         $this->guru->deleteMedia($id_media);
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
@@ -333,7 +442,7 @@ class Guru extends CI_Controller
         redirect('guru/media/' . $id_materi);
     }
 
-    public function updateMedia($id_media,$id_materi)
+    public function updateMedia($id_media, $id_materi)
     {
         $data['title'] = 'Update Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
@@ -449,7 +558,7 @@ class Guru extends CI_Controller
     {
         $id = $this->input->post('id_tes');
         $data = [
-           'nama_tes' => htmlspecialchars($this->input->post('nama_tes')),
+            'nama_tes' => htmlspecialchars($this->input->post('nama_tes')),
             'jenis_tes' => htmlspecialchars($this->input->post('jenis_tes')),
             'url' => htmlspecialchars($this->input->post('url')),
             'id_materi' => htmlspecialchars($this->input->post('id_materi')),
@@ -461,7 +570,7 @@ class Guru extends CI_Controller
     }
 
 
-    public function deleteTes($id_tes,$id_materi)
+    public function deleteTes($id_tes, $id_materi)
     {
         $this->guru->deleteTes($id_tes);
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
