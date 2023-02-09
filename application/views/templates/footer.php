@@ -46,7 +46,7 @@
     var remove_indikator = document.getElementById('remove_indikator');
     var modal = document.getElementById('modal_body');
     var submit = document.getElementById('memek');
-    
+
     add_more_indikator.onclick = function() {
         var newField = document.createElement('input');
         newField.setAttribute('type', 'text');
@@ -68,34 +68,45 @@
         }
     }
 
-    
 
 
 
-    function getDetail(id,jenis_sub_soal, title){
 
-         $.ajax({
-              url : "<?php echo base_url(); ?>guru/getSubSoal",
-              data:{id : id,jenis_sub_soal : jenis_sub_soal},
-              method:'GET',
-              dataType:'json',
-              success:function(response) {
-                $('#title').html(title+" Details"); //hold the response in id and show on popup
+    function getDetail(id, jenis_sub_soal, title) {
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>guru/getSubSoal",
+            data: {
+                id: id,
+                jenis_sub_soal: jenis_sub_soal
+            },
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#title').html(title + " Details"); //hold the response in id and show on popup
                 $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
                 $('#jenis_jawaban').html(response.jenis_jawaban);
                 $('#bobot').html(response.bobot);
                 $('#jawaban_benar').html(response.jawaban_benar);
                 $('#soal_sub_latihan').html(response.soal_sub_latihan);
                 $('#file_soal').html(response.file_soal);
-                $('#show_modal').modal({backdrop: 'static', keyboard: true, show: true});
-                
-            }
-          });
-      };
+                $('#show_modal').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
 
-    function tambahSoal(id,jenis_sub_soal, title){
-        $('#newTesModal').modal({backdrop: 'static', keyboard: true, show: true});
-  // Initially hide all forms except the first one
+            }
+        });
+    };
+
+    function tambahSoal(id, jenis_sub_soal, title) {
+        $('#newTesModal').modal({
+            backdrop: 'static',
+            keyboard: true,
+            show: true
+        });
+        // Initially hide all forms except the first one
         $("#form2, #form3").hide();
 
         // Next button click event
@@ -111,18 +122,18 @@
             event.preventDefault();
             // Check form for completion
             if (formIsValid()) {
-            // Trigger next button click event
-            $("#nextBtn").click();
+                // Trigger next button click event
+                $("#nextBtn").click();
             }
         });
-      };
-    
+    };
+
 
     //   $(document).on('click', '.view_detail', function() {
     //     console.log("GeeksforGeeks is a portal for geeks.");
-          
+
     //       var id = $(this).attr('relid'); //get the attribute value
-          
+
     //       $.ajax({
     //           url : "<?php echo base_url(); ?>guru/get_soal_latihan",
     //           data:{id : id},
@@ -136,13 +147,21 @@
     //             $('#soal_sub_latihan').html(response.soal_sub_latihan);
     //             $('#file_soal').html(response.file_soal);
     //             $('#show_modal').modal({backdrop: 'static', keyboard: true, show: true});
-                
+
     //         }
     //       });
     //   });
-
 </script>
-
+<script>
+    document.getElementById('detail_media').addEventListener('change', function() {
+        fetch("<?= base_url('Siswa/detail_media/' . $data->id_materi . '/') ?>" + this.value, {
+                method: 'GET',
+            }).then((response) => response.text())
+            .then((data) => {
+                document.getElementById('pakai_media').innerHTML = data
+            })
+    })
+</script>
 
 
 
