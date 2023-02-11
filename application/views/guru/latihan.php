@@ -64,31 +64,97 @@
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="newTesModal">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah test</h5>
+                <h5 class="modal-title">Tambah Soal Latihan </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('guru/tesRespon'); ?>" form id="form1" method="post">
+            <form action="<?= base_url('guru/tesRespon'); ?>"  method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" id="form1">
+                            
                             <div class="form-group">
-                                <label for="nama_tes"><h6>Nama Tes</h6></label>
+                                <label for="soal"><h6>Soal Latihan - <?= $materi['judul'] ?></h6></label>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="nama_tes" name="nama_tes" placeholder="Contoh : Tes for">
+                                    <textarea class="form-control" id="soal" name="soal" placeholder="Example : Budi Membawa seekor karung"  style="min-height:100wpx;height:100%"></textarea>
                                 </div>
-                                <label for="jenis_tes"><h6>Jenis Tes</h6></label>
+                               <div class="form-group">
+                                <label>File Media <br></label>
+                                <input type="file" class="form-control" name="file_media" id="file_media">
+                            </div>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="jenis_tes" name="jenis_tes" placeholder="Contoh : Pretest">
+                                    <input type="hidden" class="form-control" id="id_materi" name="id_materi" value="<?= $materi['id_materi'] ?>">
                                 </div>
-                                <label for="jenis_tes"><h6>URL (Google Form)</h6></label>
+                            </div>
+                        </div>
+                        <div class="card-body" id="form2">
+                                <label for="soal"><h6>Soal Latihan - Dekomposisi</h6></label>
+                                <div class="form-group">
+                                    <label>Jenis Jawaban <br></label>
+                                    <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Dropdown button
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#" id="option1">Option 1</a>
+                                        <a class="dropdown-item" href="#" id="option2">Option 2</a>
+                                        <a class="dropdown-item" href="#" id="option3">Option 3</a>
+                                    </div>
+                                    </div>
+
+                                    <div id="inputTextContainer">
+                                    <!-- Default input text -->
+                                    <input type="text" class="form-control" id="inputText" value="Please select an option">
+                                    </div>
+                                </div>
+                                <label>Soal<br></label>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="url" name="url" placeholder="Contoh : https://www.google.com">
+                                    <textarea class="form-control" id="soal" name="soal" placeholder="Example : Budi Membawa seekor"  style="min-height:100wpx;height:100%"></textarea>
                                 </div>
+                            
+                               <div class="form-group">
+                                    <label>File Media <br></label>
+                                    <input type="file" class="form-control" name="file_media" id="file_media">
+                                </div>
+                               <div class="form-group">
+                                    <label>Jawaban A <br></label>
+                                    <input type="text" class="form-control" name="jawabanA" id="jawabanA">
+                                </div>
+                               <div class="form-group">
+                                    <label>Jawaban B <br></label>
+                                    <input type="text" class="form-control" name="jawabanBDecom" id="jawabanBDecom">
+                                </div>
+                               <div class="form-group">
+                                    <label>Jawaban C <br></label>
+                                    <input type="text" class="form-control" name="jawabanCDecom" id="jawabanCDecom">
+                                </div>
+                               <div class="form-group">
+                                    <label>Jawaban D <br></label>
+                                    <input type="text" class="form-control" name="jawabanDDecom" id="jawabanDDecom">
+                                </div>
+                               <div class="form-group">
+                                    <label>Jawaban E <br></label>
+                                    <input type="text" class="form-control" name="jawabanEDecom" id="jawabanEDecom">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input type="hidden" class="form-control" id="id_materi" name="id_materi" value="<?= $materi['id_materi'] ?>">
+                                </div>
+                            </div>
+                        
+                        <div class="card-body" id="form3">
+                            <div class="form-group">
+                                <label for="soal"><h6>Soal Latihan - Abstraksi</h6></label>
+                                <div class="input-group mb-2">
+                                    <textarea class="form-control" id="soal" name="soal" placeholder="Example : Budi Membawa se"  style="min-height:100wpx;height:100%"></textarea>
+                                </div>
+                               <div class="form-group">
+                                <label>File Media <br></label>
+                                <input type="file" class="form-control" name="file_media" id="file_media">
+                            </div>
                                 <div class="input-group mb-2">
                                     <input type="hidden" class="form-control" id="id_materi" name="id_materi" value="<?= $materi['id_materi'] ?>">
                                 </div>
@@ -97,12 +163,7 @@
                     </div>
                 </div>
             </form>
-            <form id="form2">
-                <h1>memek</h1>
-            </form>
-            <form id="form3">
-                <h1>kontol</h1>
-            </form>
+                <button id="backBtn">Back</button>
                 <button id="nextBtn">Next</button>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

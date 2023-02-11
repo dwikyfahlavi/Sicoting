@@ -94,16 +94,34 @@
       };
 
     function tambahSoal(id,jenis_sub_soal, title){
+        index = 0;
         $('#newTesModal').modal({backdrop: 'static', keyboard: true, show: true});
   // Initially hide all forms except the first one
         $("#form2, #form3").hide();
 
-        // Next button click event
         $("#nextBtn").click(function() {
-            // Hide current form
-            $("#form1").hide();
-            // Show next form
-            $("#form2").show();
+            if(index == 0){
+                $("#form1").hide();
+                $("#form2").show();
+                index += 1;
+            }else if(index == 1){
+                $("#form2").hide();
+                $("#form3").show();
+                index += 1;
+            }
+        });     
+         
+        $("#backBtn").click(function() {
+            if(index == 1){
+                $("#form2").hide();
+                $("#form1").show();
+                index -= 1;
+            }else if(index == 2){
+                $("#form3").hide();
+                $("#form2").show();
+                index -= 1;
+            }
+            
         });
 
         // Form 1 submit event
@@ -116,7 +134,28 @@
             }
         });
       };
-    
+
+        var option1 = document.getElementById("option1");
+        var option2 = document.getElementById("option2");
+        var option3 = document.getElementById("option3");
+        var inputTextContainer = document.getElementById("inputTextContainer");
+
+        // Listen for clicks on the dropdown options
+        option1.addEventListener("click", function() {
+            // Change the input text when option 1 is selected
+            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 1 selected">';
+        });
+
+        option2.addEventListener("click", function() {
+            // Change the input text when option 2 is selected
+            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 2 selected">';
+        });
+
+        option3.addEventListener("click", function() {
+            // Change the input text when option 3 is selected
+            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 3 selected">';
+        });
+            
 
     //   $(document).on('click', '.view_detail', function() {
     //     console.log("GeeksforGeeks is a portal for geeks.");
