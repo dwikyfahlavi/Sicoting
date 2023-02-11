@@ -6,21 +6,6 @@
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">Daftar Media</h2>
-            <div class="row">
-                <div class="col-20 col-md col-lg">
-                    <div class="card">
-                        <div class="card-body">
-                            <h6>Silahkan pilih media yang ingin anda gunakan untuk belajar</h6>
-                        </div>
-                        <?php foreach ($media as $med) : ?>
-                            <div class="card-footer text-left">
-                                <a href=""><button class="btn btn-primary"><?= $med['jenis_media'] ?></button></a>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
-                </div>
-            </div>
             <h2 class="section-title">Latihan</h2>
             <div class="row">
                 <div class="col-20 col-md col-lg">
@@ -34,5 +19,42 @@
                     </div>
                 </div>
             </div>
+            <h2 class="section-title">Daftar Media</h2>
+            <div class="row">
+                <div class="col-20 col-md col-lg">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Silahkan pilih media yang ingin anda gunakan untuk belajar</h6>
+                        </div>
+                        <select class="form-control" id="detail_media" name="detail_media">
+                            <option disabled selected>Klik Disini Untuk Pilih Media</option>
+                            <option value="pdf">PDF</option>
+                            <option value="ppt">PPT</option>
+                            <option value="audio">AUDIO</option>
+                            <option value="video">VIDEO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pakai_media" class="col-auto">
+            <div id='tutorial-pdf-responsive' class='custom1'>
+                <div class='custom2'>
+
+                </div>
+            </div>
+        </div>
     </section>
 </div>
+
+<script>
+    document.getElementById('detail_media').addEventListener('change', function() {
+        fetch("<?= base_url('siswa/detail_media/' . $id_materi . '/') ?>" + this.value, {
+                method: 'GET',
+            }).then((response) => response.text())
+            .then((data) => {
+                document.getElementById('pakai_media').innerHTML = data
+            })
+    })
+</script>

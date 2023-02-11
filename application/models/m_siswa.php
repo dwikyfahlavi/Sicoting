@@ -32,4 +32,31 @@ class m_siswa extends CI_Model
         $data = $this->db->get("media");
         return $data->result_array();
     }
+
+    public function getMediaPilih($id_materi, $jenis_media)
+    {
+        $argumen = array("id_materi" => $id_materi, "jenis_media" => $jenis_media);
+        $data1 = $this->db->get_where("media", $argumen);
+        return $data1->row();
+    }
+
+    public function getMediaPilihCount($id_materi, $jenis_media)
+    {
+        $argumen = array("id_materi" => $id_materi, "jenis_media" => $jenis_media);
+        $data1 = $this->db->get_where("media", $argumen);
+        return $data1->num_rows();
+    }
+
+    public function getStatusBelajar($id_materi, $id_user)
+    {
+        $argumen = array("id_materi" => $id_materi, "id_user" => $id_user);
+        $data1 = $this->db->get_where("belajar", $argumen);
+        return $data1->num_rows();
+    }
+
+    public function insertStatusBelajar($data)
+    {
+        $result  = $this->db->insert("belajar", $data);
+        return $result;
+    }
 }
