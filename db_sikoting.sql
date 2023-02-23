@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2023 at 06:11 PM
+-- Generation Time: Feb 23, 2023 at 04:30 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -160,6 +160,16 @@ CREATE TABLE `opsi_soal_latihan` (
   `id_sub_soal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `opsi_soal_latihan`
+--
+
+INSERT INTO `opsi_soal_latihan` (`id_opsi_soal`, `opsi_a`, `opsi_b`, `opsi_c`, `opsi_d`, `opsi_e`, `id_sub_soal`) VALUES
+(8, 'asd', 'qwe', 'xzc', 'fdg', 'ret', 19),
+(9, '132', '324', '345', '6546', '7657', 20),
+(10, '', '', '', '', '', 21),
+(11, 'ewf', 'greg', 'rthtr', 'bgfrb', 'trhtrh', 22);
+
 -- --------------------------------------------------------
 
 --
@@ -168,7 +178,8 @@ CREATE TABLE `opsi_soal_latihan` (
 
 CREATE TABLE `soal_latihan` (
   `id_latihan` int(11) NOT NULL,
-  `soal` text NOT NULL,
+  `soal` varchar(255) DEFAULT NULL,
+  `file_latihan` varchar(255) DEFAULT NULL,
   `id_materi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -176,8 +187,9 @@ CREATE TABLE `soal_latihan` (
 -- Dumping data for table `soal_latihan`
 --
 
-INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `id_materi`) VALUES
-(1, 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', 102);
+INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `file_latihan`, `id_materi`) VALUES
+(1, 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', '', 102),
+(16, 'ini soal Besar', '2_2_A_Dwiqy_Fahlavi_Muhammad_Ramdani.png', 102);
 
 -- --------------------------------------------------------
 
@@ -206,7 +218,11 @@ INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `jenis_jawab
 (3, 3, 3, 25, 'a', 'Sebuah spesies amoeba akan membelah diri menjadi 3 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 10.', '', 1),
 (4, 3, 3, 25, 'b', 'Buatlah program untuk menampilkan angka kelipatan 3. Program memiliki input user yang berfungsi sebagai nilai awal pada kelipatan pertama. Pengulangan dibuat sebanyak 10 kali. Lalu jumlahkan bilangan dari hasil kelipatan tersebut.', '', 1),
 (5, 3, 3, 25, 'b', 'Sebuah spesies amoeba akan membelah diri menjadi 2 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 15.', '', 1),
-(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 1);
+(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 1),
+(19, 1, 1, 88, 'b', 'ini dekom', 'addScreen2.png', 16),
+(20, 2, 2, 88, 'a,b,c', 'ini abstrak', 'addScreen2.png', 16),
+(21, 3, 3, 78, 'true', 'ini pattern', 'addScreen2.png', 16),
+(22, 4, 4, 88, 'b', 'ini algo', 'addScreen2.png', 16);
 
 -- --------------------------------------------------------
 
@@ -353,7 +369,7 @@ INSERT INTO `user_sub_menu` (`id_user_sub_menu`, `menu_id`, `title`, `url`, `ico
 (6, 4, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
 (12, 4, 'Manajemen Akun', 'menu/manajemenakun', 'fas fa-fw fa-users-cog', 1),
 (13, 3, 'Beranda', 'siswa/beranda', 'fas fa-fw fa-home', 1),
-(14, 3, 'Mata Pelajaran', 'siswa/matapelajaran', 'fas fa-fw fa-book', 1),
+(14, 3, 'Mata Pelajaran', 'siswa/materi', 'fas fa-fw fa-book', 1),
 (15, 3, 'Bantuan', 'siswa/bantuan', 'fas fa-fw fa-info-circle', 1),
 (17, 2, 'Chat Room', 'guru/chat', 'fas fa-comments', 1);
 
@@ -517,19 +533,19 @@ ALTER TABLE `media`
 -- AUTO_INCREMENT for table `opsi_soal_latihan`
 --
 ALTER TABLE `opsi_soal_latihan`
-  MODIFY `id_opsi_soal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_opsi_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `soal_latihan`
 --
 ALTER TABLE `soal_latihan`
-  MODIFY `id_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `sub_soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
-  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tes`
@@ -582,6 +598,18 @@ ALTER TABLE `ip`
 --
 ALTER TABLE `media`
   ADD CONSTRAINT `fk_media_materi` FOREIGN KEY (`id_materi`) REFERENCES `materi` (`id_materi`) ON DELETE CASCADE ON UPDATE SET NULL;
+
+--
+-- Constraints for table `opsi_soal_latihan`
+--
+ALTER TABLE `opsi_soal_latihan`
+  ADD CONSTRAINT `fk_id_sub_soal` FOREIGN KEY (`id_sub_soal`) REFERENCES `sub_soal_latihan` (`id_sub_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sub_soal_latihan`
+--
+ALTER TABLE `sub_soal_latihan`
+  ADD CONSTRAINT `fk_id_soal_latihan2` FOREIGN KEY (`id_soal_latihan`) REFERENCES `soal_latihan` (`id_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

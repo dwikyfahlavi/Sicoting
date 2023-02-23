@@ -104,7 +104,19 @@
         index = 0;
         $('#newTesModal').modal({backdrop: 'static', keyboard: true, show: true});
   // Initially hide all forms except the first one
-        $("#form2, #form3").hide();
+        $("#form2, #form3, #form4, #form5").hide();
+        $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").hide();
+        $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId, #jawabanBenar1Decom, #jawabanBenar2Decom, #jawabanBenarDecomId, #jawabanBenar3Decom,#jawabanBenar3DecomId").hide();
+
+        $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").hide();
+        $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId, #jawabanBenar1Abstrak, #jawabanBenar2Abstrak, #jawabanBenarAbstrakId, #jawabanBenar3Abstrak").hide();
+       
+        $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").hide();
+        $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId, #jawabanBenar1Pola, #jawabanBenar2Pola, #jawabanBenarPolaId, #jawabanBenar3Pola").hide()
+        ;
+        $("#jawabanAAlgo, #jawabanBAlgo, #jawabanCAlgo, #jawabanDAlgo, #jawabanEAlgo").hide();
+        $("#jawabanAAlgoId, #jawabanBAlgoId, #jawabanCAlgoId, #jawabanDAlgoId, #jawabanEAlgoId, #jawabanBenar1Algo, #jawabanBenar2Algo, #jawabanBenarAlgoId, #jawabanBenar3Algo").hide();
+
 
         $("#nextBtn").click(function() {
             if(index == 0){
@@ -115,6 +127,14 @@
                 $("#form2").hide();
                 $("#form3").show();
                 index += 1;
+            }else if(index == 2){
+                $("#form3").hide();
+                $("#form4").show();
+                index += 1;
+            }else if (index == 3){
+                $("#form4").hide();
+                $("#form5").show();
+                index += 1;
             }
         });     
          
@@ -122,12 +142,85 @@
             if(index == 1){
                 $("#form2").hide();
                 $("#form1").show();
-                index -= 1;
+                index -= 1;jenisJawabanDecom
             }else if(index == 2){
                 $("#form3").hide();
                 $("#form2").show();
                 index -= 1;
+            }else if(index == 3){
+                $("#form4").hide();
+                $("#form3").show();
+                index -= 1;
+            }else if(index == 4){
+                $("#form5").hide();
+                $("#form4").show();
+                index -= 1;
             }
+            
+        });
+
+         $("#jenisJawabanDecom").change(function() {
+            if($(this).val() == "3"){
+                $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").hide();
+                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId, #jawabanBenar1Decom, #jawabanBenar3Decom,#jawabanBenar3DecomId").hide();
+                $("#jawabanBenar2Decom, #jawabanBenarDecomId").show();
+            }else if($(this).val() == "2"){
+                $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").show();
+                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show(); 
+                $("#jawabanBenar2Decom, #jawabanBenar1Decom, #jawabanBenarDecomId ").hide();
+                $("#jawabanBenar3Decom, #jawabanBenar3DecomId").show();     
+            }else{
+                $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").show();
+                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show(); 
+                $("#jawabanBenar2Decom, #jawabanBenar3Decom, #jawabanBenar3DecomId").hide();
+                $("#jawabanBenar1Decom, #jawabanBenarDecomId").show();     
+            }
+            
+        });
+        
+         $("#jenisJawabanAbstrak").change(function() {
+            if($(this).val() == "3"){
+                $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").hide();
+                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId, #jawabanBenar1Abstrak, #jawabanBenar3Abstrak,#jawabanBenar3AbstrakId").hide();
+                $("#jawabanBenar2Abstrak, #jawabanBenarAbstrakId").show();
+            }else if($(this).val() == "2"){
+                $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").show();
+                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show(); 
+                $("#jawabanBenar2Abstrak, #jawabanBenar1Abstrak, #jawabanBenarAbstrakId ").hide();
+                $("#jawabanBenar3Abstrak, #jawabanBenar3AbstrakId").show();     
+            }else{
+                $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").show();
+                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show(); 
+                $("#jawabanBenar2Abstrak, #jawabanBenar3Abstrak, #jawabanBenar3AbstrakId").hide();
+                $("#jawabanBenar1Abstrak, #jawabanBenarAbstrakId").show();     
+            }
+            
+        });
+         $("#jenisJawabanPola").change(function() {
+           if($(this).val() == "3"){
+                $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").hide();
+                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId, #jawabanBenar1Pola, #jawabanBenar3Pola,#jawabanBenar3PolaId").hide();
+                $("#jawabanBenar2Pola, #jawabanBenarPolaId").show();
+            }else if($(this).val() == "2"){
+                $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").show();
+                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show(); 
+                $("#jawabanBenar2Pola, #jawabanBenar1Pola").hide();
+                $("#jawabanBenar3Pola, #jawabanBenar3PolaId, #jawabanBenarPolaId").show();     
+            }else{
+                $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").show();
+                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show(); 
+                $("#jawabanBenar2Pola, #jawabanBenar3Pola, #jawabanBenar3PolaId").hide();
+                $("#jawabanBenar1Pola, #jawabanBenarPolaId").show();     
+            }
+            
+        });
+
+         $("#jenisJawabanAlgo").change(function() {
+           
+            $("#jawabanAAlgo, #jawabanBAlgo, #jawabanCAlgo, #jawabanDAlgo, #jawabanEAlgo").show();
+            $("#jawabanAAlgoId, #jawabanBAlgoId, #jawabanCAlgoId, #jawabanDAlgoId, #jawabanEAlgoId").show(); 
+            $("#jawabanBenar2Algo, #jawabanBenar3Algo, #jawabanBenar3AlgoId").hide();
+            $("#jawabanBenar1Algo, #jawabanBenarAlgoId").show();     
             
         });
 
@@ -142,50 +235,10 @@
         });
       };
 
-        var option1 = document.getElementById("option1");
-        var option2 = document.getElementById("option2");
-        var option3 = document.getElementById("option3");
-        var inputTextContainer = document.getElementById("inputTextContainer");
-
-        // Listen for clicks on the dropdown options
-        option1.addEventListener("click", function() {
-            // Change the input text when option 1 is selected
-            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 1 selected">';
-        });
-
-        option2.addEventListener("click", function() {
-            // Change the input text when option 2 is selected
-            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 2 selected">';
-        });
-
-        option3.addEventListener("click", function() {
-            // Change the input text when option 3 is selected
-            inputTextContainer.innerHTML = '<input type="text" class="form-control" id="inputText" value="Option 3 selected">';
-        });
+    document.getElementById('jenisJawaban').addEventListener('change', function(){
+        console.log(this.value);
+    })
             
-
-    //   $(document).on('click', '.view_detail', function() {
-    //     console.log("GeeksforGeeks is a portal for geeks.");
-
-    //       var id = $(this).attr('relid'); //get the attribute value
-
-    //       $.ajax({
-    //           url : "<?php echo base_url(); ?>guru/get_soal_latihan",
-    //           data:{id : id},
-    //           method:'GET',
-    //           dataType:'json',
-    //           success:function(response) {
-    //             $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
-    //             $('#jenis_jawaban').html(response.jenis_jawaban);
-    //             $('#bobot').html(response.bobot);
-    //             $('#jawaban_benar').html(response.jawaban_benar);
-    //             $('#soal_sub_latihan').html(response.soal_sub_latihan);
-    //             $('#file_soal').html(response.file_soal);
-    //             $('#show_modal').modal({backdrop: 'static', keyboard: true, show: true});
-
-    //         }
-    //       });
-    //   });
 </script>
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {

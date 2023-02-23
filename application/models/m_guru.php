@@ -187,6 +187,8 @@ class m_guru extends CI_Model
         return $data;
     }
 
+    
+
     public function updateMedia($id_media, $argumen)
     {
         $this->db->where('id_media', $id_media)->update('media', $argumen);
@@ -258,6 +260,36 @@ class m_guru extends CI_Model
     {
         $data = $this->db->get("soal_latihan");
         return $data->result_array();
+    }
+
+    public function getLastLatihan()
+    {
+        $data = $this->db->query("SELECT * FROM soal_latihan ORDER BY id_latihan DESC");
+        return $data->row();
+    }
+
+    public function addLatihan($data)
+    {
+        $data = $this->db->insert("soal_latihan", $data);
+        return $data;
+    }
+
+    public function addSubSoal($data)
+    {
+        $data = $this->db->insert("sub_soal_latihan", $data);
+        return $data;
+    }
+
+    public function getLastSubSoal()
+    {
+        $data = $this->db->query("SELECT * FROM sub_soal_latihan ORDER BY id_sub_latihan DESC");
+        return $data->row();
+    }
+
+     public function addOpsiSubSoal($data)
+    {
+        $data = $this->db->insert("opsi_soal_latihan", $data);
+        return $data;
     }
 
     public function getLatihanByID($id_latihan)

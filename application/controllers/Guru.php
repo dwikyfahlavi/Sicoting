@@ -578,18 +578,226 @@ class Guru extends CI_Controller
         redirect('guru/tes/' . $id_materi);
     }
 
+    public function deleteSoalLatihan($id_latihan, $id_materi)
+    {
+        $this->guru->deleteLatihan($id_latihan);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                Soal Latihan berhasil dihapus!</div>');
+        redirect('guru/latihan/' . $id_materi);
+    }
+
     public function latihan($id_materi)
     {
         $data['title'] = 'latihan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['latihan'] = $this->guru->getLatihan();
         $data['materi'] = $this->guru->getMateriByID($id_materi);
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('guru/latihan', $data);
+            $this->load->view('templates/footer');
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('guru/latihan', $data);
-        $this->load->view('templates/footer');
+    }
+
+    public function tambahLatihan(){
+        $config['upload_path']          = './assets/materi/latihan';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        //Soal Besar
+        $this->upload->do_upload('file_latihan');
+        $data1 = array('upload_file_latihan' => $this->upload->data());
+        $data = [
+            'soal' => $this->input->post('soal'),
+            'file_latihan' => $data1['upload_file_latihan']['file_name'],
+            'id_materi' => $this->input->post('id_materi'),
+        ];
+        $this->guru->addLatihan($data);
+
+        $soal = $this->guru->getLastLatihan();
+        $soalId = $soal->id_latihan;
+
+        //Sub Soal Dekomposisi
+
+        $config['upload_path']          = './assets/materi/latihan/dekomposisi';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('fileMediaDecom');
+        $data1 = array('upload_fileMediaDecom' => $this->upload->data());
+
+        $jawaban_benar;
+
+        if($this->input->post('jawabanBenar1Decom') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar1Decom');
+        }else if($this->input->post('jawabanBenar2Decom') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar2Decom');
+        }else{
+            $jawaban_benar = $this->input->post('jawabanBenar3Decom');
+        }
+
+        $data = [
+            'file_soal' => $data1['upload_fileMediaDecom']['file_name'],
+            'jenis_sub_soal' => $this->input->post('jenisSoalDekom'),
+            'jenis_jawaban' => $this->input->post('jenisJawabanDecom'),
+            'soal_sub_latihan' => $this->input->post('soalDecom'),
+            'bobot' => $this->input->post('bobotJawabanDecom'),
+            'jawaban_benar' => $jawaban_benar,
+            'id_soal_latihan' => $soalId,
+        ];
+        $this->guru->addSubSoal($data);
+
+        $subSoalDecom = $this->guru->getLastSubSoal();
+        $idSubSoalDecom = $subSoalDecom->id_sub_latihan;
+
+        $data2 = [
+            'opsi_a' => $this->input->post('jawabanADecom'),
+            'opsi_b' => $this->input->post('jawabanBDecom'),
+            'opsi_c' => $this->input->post('jawabanCDecom'),
+            'opsi_d' => $this->input->post('jawabanDDecom'),
+            'opsi_e' => $this->input->post('jawabanEDecom'),
+            'id_sub_soal' => $idSubSoalDecom,
+        ];
+
+        $this->guru->addOpsiSubSoal($data2);
+
+        //Sub Soal Abstrak
+        
+        $config['upload_path']          = './assets/materi/latihan/abstraksi';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('fileMediaAbstrak');
+        $data1 = array('upload_fileMediaAbstrak' => $this->upload->data());
+
+        $jawaban_benar;
+
+        if($this->input->post('jawabanBenar1Abstrak') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar1Abstrak');
+        }else if($this->input->post('jawabanBenar2Abstrak') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar2Abstrak');
+        }else{
+            $jawaban_benar = $this->input->post('jawabanBenar3Abstrak');
+        }
+
+        $data = [
+            'file_soal' => $data1['upload_fileMediaAbstrak']['file_name'],
+            'jenis_sub_soal' => $this->input->post('jenisSoalAbstrak'),
+            'jenis_jawaban' => $this->input->post('jenisJawabanAbstrak'),
+            'soal_sub_latihan' => $this->input->post('soalAbstrak'),
+            'bobot' => $this->input->post('bobotJawabanAbstrak'),
+            'jawaban_benar' => $jawaban_benar,
+            'id_soal_latihan' => $soalId,
+        ];
+        $this->guru->addSubSoal($data);
+        
+        $subSoalAbstrak = $this->guru->getLastSubSoal();
+        $idSubSoalAbstrak = $subSoalAbstrak->id_sub_latihan;
+
+        $data2 = [
+            'opsi_a' => $this->input->post('jawabanAAbstrak'),
+            'opsi_b' => $this->input->post('jawabanBAbstrak'),
+            'opsi_c' => $this->input->post('jawabanCAbstrak'),
+            'opsi_d' => $this->input->post('jawabanDAbstrak'),
+            'opsi_e' => $this->input->post('jawabanEAbstrak'),
+            'id_sub_soal' => $idSubSoalAbstrak,
+        ];
+
+        $this->guru->addOpsiSubSoal($data2);
+
+        //Sub Soal Pattern
+
+        $config['upload_path']          = './assets/materi/latihan/pattern';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('fileMediaPola');
+        $data1 = array('upload_fileMediaPola' => $this->upload->data());
+
+        $jawaban_benar;
+
+        if($this->input->post('jawabanBenar1Pola') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar1Pola');
+        }else if($this->input->post('jawabanBenar2Pola') != null){
+            $jawaban_benar = $this->input->post('jawabanBenar2Pola');
+        }else{
+            $jawaban_benar = $this->input->post('jawabanBenar3Pola');
+        }
+
+        $data = [
+            'file_soal' => $data1['upload_fileMediaPola']['file_name'],
+            'jenis_sub_soal' => $this->input->post('jenisSoalPola'),
+            'jenis_jawaban' => $this->input->post('jenisJawabanPola'),
+            'soal_sub_latihan' => $this->input->post('soalPola'),
+            'bobot' => $this->input->post('bobotJawabanPola'),
+            'jawaban_benar' => $jawaban_benar,
+            'id_soal_latihan' => $soalId,
+        ];
+        $this->guru->addSubSoal($data);
+
+        $subSoalPola = $this->guru->getLastSubSoal();
+        $idSubSoalPola = $subSoalPola->id_sub_latihan;
+
+        $data2 = [
+            'opsi_a' => $this->input->post('jawabanAPola'),
+            'opsi_b' => $this->input->post('jawabanBPola'),
+            'opsi_c' => $this->input->post('jawabanCPola'),
+            'opsi_d' => $this->input->post('jawabanDPola'),
+            'opsi_e' => $this->input->post('jawabanEPola'),
+            'id_sub_soal' => $idSubSoalPola,
+        ];
+
+        $this->guru->addOpsiSubSoal($data2);
+
+        //Sub Soal Algoritma
+
+        $config['upload_path']          = './assets/materi/latihan/algoritma';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('fileMediaAlgo');
+        $data1 = array('upload_fileMediaAlgo' => $this->upload->data());
+        
+
+        $data = [
+            'file_soal' => $data1['upload_fileMediaAlgo']['file_name'],
+            'jenis_sub_soal' => $this->input->post('jenisSoalAlgo'),
+            'jenis_jawaban' => $this->input->post('jenisJawabanAlgo'),
+            'soal_sub_latihan' => $this->input->post('soalAlgo'),
+            'bobot' => $this->input->post('bobotJawabanAlgo'),
+            'jawaban_benar' => $this->input->post('jawabanBenar1Algo'),
+            'id_soal_latihan' => $soalId,
+        ];
+        $this->guru->addSubSoal($data);
+
+        $subSoalAlgo = $this->guru->getLastSubSoal();
+        $idSubSoalAlgo = $subSoalAlgo->id_sub_latihan;
+
+        $data2 = [
+            'opsi_a' => $this->input->post('jawabanAAlgo'),
+            'opsi_b' => $this->input->post('jawabanBAlgo'),
+            'opsi_c' => $this->input->post('jawabanCAlgo'),
+            'opsi_d' => $this->input->post('jawabanDAlgo'),
+            'opsi_e' => $this->input->post('jawabanEAlgo'),
+            'id_sub_soal' => $idSubSoalAlgo,
+        ];
+
+        $this->guru->addOpsiSubSoal($data2);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Soal Latihan berhasil ditambahkan!</div>');
+        redirect('guru/latihan/' . $this->input->post('id_materi'));
     }
 
     public function getSubSoal()
