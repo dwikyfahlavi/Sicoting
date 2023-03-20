@@ -238,7 +238,6 @@ class m_guru extends CI_Model
         $this->db->delete('tes');
         $db_error = $this->db->error();
         $this->db->db_debug = $db_debug; //restore setting
-
         //cek error db
         if ($db_error['code'] == 0) {
             //kalau 0, maka return true
@@ -331,6 +330,30 @@ class m_guru extends CI_Model
         $argumen = array("id_soal_latihan" => $id_latihan, "jenis_sub_soal" => $jenis_sub_soal);
         $data = $this->db->get_where("sub_soal_latihan", $argumen);
         return $data->row_array();
+    }
+
+    public function getHasilLatihan()
+    {
+        $data = $this->db->get("hasil_siswa");
+        return $data->result_array();
+    }
+
+    public function getHasilSiswaById($id, $id_user ,$jenis_sub_soal)
+    {
+        $this->db->select('*');
+        $this->db->from('hasil_siswa');
+        $this->db->join('sub_soal_latihan', 'hasil_siswa.id_sub_soal = sub_soal_latihan.id_sub_latihan');
+        $this->db->join('opsi_soal_latihan', 'opsi_soal_latihan.id_sub_soal = hasil_siswa.id_sub_soal');
+        // $this->db->join('sub_soal_latihan', 'sub_soal_latihan.id_soal_latihan = soal_latihan.id_latihan');
+        $this->db->where('hasil_siswa.id_sub_soal', $id);
+        $this->db->where('hasil_siswa.id_user', $id_user);
+        $this->db->where('opsi_soal_latihan.id_sub_soal', $id);
+        // $this->db->where('sub_soal_latihan.id_sub_latihan', $id);
+        // $this->db->where('sub_soal_latihan.jenis_sub_soal', $jenis_sub_soal);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result;
+    
     }
 
     public function getUserSiswa()

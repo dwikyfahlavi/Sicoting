@@ -809,6 +809,30 @@ class Guru extends CI_Controller
         exit();
     }
 
+     public function getHasilSoal()
+    {
+        $id = $this->input->get('id');
+        $id_user = $this->input->get('id_user');
+        $jenis_sub_soal = $this->input->get('jenis_sub_soal');
+        $get_latihan = $this->guru->getHasilSiswaById($id,$id_user,$jenis_sub_soal);
+        echo json_encode($get_latihan); 
+        exit();
+    }
+
+    public function hasilLatihan($id_soal,$id_materi)
+    {
+        $data['title'] = 'latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['hasil'] = $this->guru->getHasilLatihan();
+        $data['latihan'] = $this->guru->getLatihanByID($id_soal);
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('guru/hasilSiswaLatihan', $data);
+            $this->load->view('templates/footer');
+
+    }
 
     public function akunsiswa()
     {

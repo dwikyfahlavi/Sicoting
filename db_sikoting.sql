@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2023 at 04:30 AM
+-- Generation Time: Mar 20, 2023 at 01:51 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -33,6 +33,37 @@ CREATE TABLE `apersepsi` (
   `file_apersepsi` text NOT NULL,
   `id_materi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hasil_siswa`
+--
+
+CREATE TABLE `hasil_siswa` (
+  `id_hasil_siswa` int(11) NOT NULL,
+  `nis` varchar(255) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `jawaban` varchar(255) NOT NULL,
+  `jenis_soal` int(11) NOT NULL,
+  `id_sub_soal` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hasil_siswa`
+--
+
+INSERT INTO `hasil_siswa` (`id_hasil_siswa`, `nis`, `nama`, `nilai`, `jawaban`, `jenis_soal`, `id_sub_soal`, `id_user`) VALUES
+(1, '123456', 'ihsan', 80, 'a,b,c', 2, 24, 11),
+(2, '123456', 'ihsan', 79, 'b', 1, 23, 11),
+(3, '123456', 'ihsan', 98, 'true', 3, 25, 11),
+(4, '123456', 'ihsan', 77, 'a,b,c,d', 4, 26, 11),
+(5, '123454', 'dwiky', 70, 'a,b,d', 1, 1, 8),
+(6, '123454', 'dwiky', 87, 'a', 2, 2, 8),
+(7, '123454', 'dwiky', 76, 'true', 3, 3, 8),
+(8, '123454', 'dwiky', 99, 'a,b,d', 4, 6, 8);
 
 -- --------------------------------------------------------
 
@@ -165,10 +196,14 @@ CREATE TABLE `opsi_soal_latihan` (
 --
 
 INSERT INTO `opsi_soal_latihan` (`id_opsi_soal`, `opsi_a`, `opsi_b`, `opsi_c`, `opsi_d`, `opsi_e`, `id_sub_soal`) VALUES
-(8, 'asd', 'qwe', 'xzc', 'fdg', 'ret', 19),
-(9, '132', '324', '345', '6546', '7657', 20),
-(10, '', '', '', '', '', 21),
-(11, 'ewf', 'greg', 'rthtr', 'bgfrb', 'trhtrh', 22);
+(12, 'erger', 'hreher', 'hreh', 'reher', 'herher', 23),
+(13, 'egwweg', 'hrthtr', 'htrjtr', 'jtrjtr', 'jtrjtr', 24),
+(14, '', '', '', '', '', 25),
+(15, 'hrtjyt', 'jteh', 'rtej', 'yrjt', 'jytytr', 26),
+(16, 'ini a', 'ini b', 'ini c', 'ini d', 'ini e', 1),
+(17, 'ini aa', 'ini bb', 'ini cc', 'ini dd', 'ini ee', 2),
+(18, 'ini aaa', 'ini bbb', 'ini ccc', 'ini ddd', 'ini eee', 3),
+(19, 'ini aaa', 'ini bbb', 'ini ccc', 'ini ddd', 'ini eee', 6);
 
 -- --------------------------------------------------------
 
@@ -189,7 +224,7 @@ CREATE TABLE `soal_latihan` (
 
 INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `file_latihan`, `id_materi`) VALUES
 (1, 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', '', 102),
-(16, 'ini soal Besar', '2_2_A_Dwiqy_Fahlavi_Muhammad_Ramdani.png', 102);
+(17, 'defgfd', '', 102);
 
 -- --------------------------------------------------------
 
@@ -205,24 +240,22 @@ CREATE TABLE `sub_soal_latihan` (
   `jawaban_benar` text NOT NULL,
   `soal_sub_latihan` text NOT NULL,
   `file_soal` text NOT NULL,
-  `id_soal_latihan` int(11) NOT NULL
+  `soal_latihan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sub_soal_latihan`
 --
 
-INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `jenis_jawaban`, `bobot`, `jawaban_benar`, `soal_sub_latihan`, `file_soal`, `id_soal_latihan`) VALUES
-(1, 1, 2, 25, 'a,b,c,e', 'Berdasarkan soal di atas, manakah hal-hal penting yang dapat kamu temukan dan menuntun kepada penyelesaian masalah?', '', 1),
-(2, 2, 1, 25, 'd', 'Berdasarkan soal di atas, informasi apakah yang bisa kita abaikan?', '', 1),
-(3, 3, 3, 25, 'a', 'Sebuah spesies amoeba akan membelah diri menjadi 3 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 10.', '', 1),
-(4, 3, 3, 25, 'b', 'Buatlah program untuk menampilkan angka kelipatan 3. Program memiliki input user yang berfungsi sebagai nilai awal pada kelipatan pertama. Pengulangan dibuat sebanyak 10 kali. Lalu jumlahkan bilangan dari hasil kelipatan tersebut.', '', 1),
-(5, 3, 3, 25, 'b', 'Sebuah spesies amoeba akan membelah diri menjadi 2 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 15.', '', 1),
-(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 1),
-(19, 1, 1, 88, 'b', 'ini dekom', 'addScreen2.png', 16),
-(20, 2, 2, 88, 'a,b,c', 'ini abstrak', 'addScreen2.png', 16),
-(21, 3, 3, 78, 'true', 'ini pattern', 'addScreen2.png', 16),
-(22, 4, 4, 88, 'b', 'ini algo', 'addScreen2.png', 16);
+INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `jenis_jawaban`, `bobot`, `jawaban_benar`, `soal_sub_latihan`, `file_soal`, `soal_latihan`) VALUES
+(1, 1, 2, 25, 'a,b,c,e', 'Berdasarkan soal di atas, manakah hal-hal penting yang dapat kamu temukan dan menuntun kepada penyelesaian masalah?', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!'),
+(2, 2, 1, 25, 'd', 'Berdasarkan soal di atas, informasi apakah yang bisa kita abaikan?', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!'),
+(3, 3, 3, 25, 'a', 'Sebuah spesies amoeba akan membelah diri menjadi 3 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 10.', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!'),
+(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!'),
+(23, 1, 1, 33, 'c', 'gweedg', '', 'defgfd'),
+(24, 2, 2, 78, 'a,b,c', 'reght', '', 'defgfd'),
+(25, 3, 3, 33, 'false', 'fewgre', '', 'defgfd'),
+(26, 4, 4, 66, 'c', 'grthtr', '', 'defgfd');
 
 -- --------------------------------------------------------
 
@@ -385,6 +418,14 @@ ALTER TABLE `apersepsi`
   ADD KEY `fk_id_materi` (`id_materi`);
 
 --
+-- Indexes for table `hasil_siswa`
+--
+ALTER TABLE `hasil_siswa`
+  ADD PRIMARY KEY (`id_hasil_siswa`),
+  ADD KEY `fk_id_user` (`id_user`),
+  ADD KEY `fk_sub_soal` (`id_sub_soal`);
+
+--
 -- Indexes for table `ip`
 --
 ALTER TABLE `ip`
@@ -443,8 +484,7 @@ ALTER TABLE `soal_latihan`
 -- Indexes for table `sub_soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
-  ADD PRIMARY KEY (`id_sub_latihan`),
-  ADD KEY `fk_id_soal_latihan` (`id_soal_latihan`);
+  ADD PRIMARY KEY (`id_sub_latihan`);
 
 --
 -- Indexes for table `tes`
@@ -494,6 +534,12 @@ ALTER TABLE `apersepsi`
   MODIFY `id_apersepsi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `hasil_siswa`
+--
+ALTER TABLE `hasil_siswa`
+  MODIFY `id_hasil_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `ip`
 --
 ALTER TABLE `ip`
@@ -533,19 +579,19 @@ ALTER TABLE `media`
 -- AUTO_INCREMENT for table `opsi_soal_latihan`
 --
 ALTER TABLE `opsi_soal_latihan`
-  MODIFY `id_opsi_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_opsi_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `soal_latihan`
 --
 ALTER TABLE `soal_latihan`
-  MODIFY `id_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `sub_soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
-  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tes`
@@ -588,6 +634,13 @@ ALTER TABLE `user_sub_menu`
 --
 
 --
+-- Constraints for table `hasil_siswa`
+--
+ALTER TABLE `hasil_siswa`
+  ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_sub_soal` FOREIGN KEY (`id_sub_soal`) REFERENCES `sub_soal_latihan` (`id_sub_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `ip`
 --
 ALTER TABLE `ip`
@@ -604,12 +657,6 @@ ALTER TABLE `media`
 --
 ALTER TABLE `opsi_soal_latihan`
   ADD CONSTRAINT `fk_id_sub_soal` FOREIGN KEY (`id_sub_soal`) REFERENCES `sub_soal_latihan` (`id_sub_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `sub_soal_latihan`
---
-ALTER TABLE `sub_soal_latihan`
-  ADD CONSTRAINT `fk_id_soal_latihan2` FOREIGN KEY (`id_soal_latihan`) REFERENCES `soal_latihan` (`id_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
