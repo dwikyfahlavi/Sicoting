@@ -21,71 +21,16 @@ class m_guru extends CI_Model
         $this->db->where('id_user', $id_user)->update('user', $argumen);
     }
 
-    public function getDataKD()
-    {
-        $data = $this->db->query("SELECT ip . *, kd . *
-        FROM ip JOIN kd
-          ON ip . kd_id = kd . id_kd
-        ");
-        return $data->result_array();
-    }
-
-    public function GetKDLast()
-    {
-        $data = $this->db->query("SELECT * FROM kd ORDER BY id_kd DESC");
-        return $data->row();
-    }
-
-    public function getKDByID($id_kd)
-    {
-        $argumen = array("id_kd" => $id_kd);
-        $data = $this->db->get_where("kd", $argumen);
-        return $data->row_array();
-    }
-
-    public function getIPByID($id_kd)
-    {
-        $argumen = array("kd_id" => $id_kd);
-        $data = $this->db->get_where("ip", $argumen);
-        return $data->result_array();
-    }
-
-    public function updatePembelajaran($id_kd, $argumen)
-    {
-        $this->db->where('id_kd', $id_kd)->update('kd', $argumen);
-    }
-
-    public function updatePembelajaran1($id_ip, $argumen)
-    {
-        $this->db->where('id_ip', $id_ip)->update('ip', $argumen);
-    }
-
-    public function deletePembelajaran($id_kd)
-    {
-        $db_debug = $this->db->db_debug; //save setting
-        $this->db->db_debug = FALSE; //disable debugging for queries
-
-        $this->db->where('id_kd', $id_kd);
-        $this->db->delete('kd');
-        $db_error = $this->db->error();
-        $this->db->db_debug = $db_debug; //restore setting
-
-        //cek error db
-        if ($db_error['code'] == 0) {
-            //kalau 0, maka return true
-            $result = TRUE;
-        } else {
-            //kalau bukan 0, maka return false
-            $result = FALSE;
-        }
-
-        return $result;
-    }
-
     public function getMateri()
     {
         $data = $this->db->get("materi");
         return $data->result_array();
+    }
+
+    public function addMateri($data)
+    {
+        $data = $this->db->insert("materi", $data);
+        return $data;
     }
 
     public function getMateriByID($id_materi)
@@ -122,10 +67,63 @@ class m_guru extends CI_Model
         return $result;
     }
 
+    public function getSubMateri($id_materi)
+    {
+        $argumen = array("id_materi" => $id_materi);
+        $data = $this->db->get_where("submateri", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubMateriByID($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("submateri", $argumen);
+        return $data->row_array();
+    }
+
+    public function addSubMateri($data)
+    {
+        $data = $this->db->insert("submateri", $data);
+        return $data;
+    }
+
+    public function updateSubMateri($id_submateri, $argumen)
+    {
+        $this->db->where('id_submateri', $id_submateri)->update('submateri', $argumen);
+    }
+
+    public function deleteSubMateri($id_submateri)
+    {
+        $db_debug = $this->db->db_debug; //save setting
+        $this->db->db_debug = FALSE; //disable debugging for queries
+
+        $this->db->where('id_submateri', $id_submateri);
+        $this->db->delete('submateri');
+        $db_error = $this->db->error();
+        $this->db->db_debug = $db_debug; //restore setting
+
+        //cek error db
+        if ($db_error['code'] == 0) {
+            //kalau 0, maka return true
+            $result = TRUE;
+        } else {
+            //kalau bukan 0, maka return false
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
     public function getApersepsi()
     {
         $data = $this->db->get("apersepsi");
         return $data->result_array();
+    }
+
+    public function addApersepsi($data)
+    {
+        $data = $this->db->insert("apersepsi", $data);
+        return $data;
     }
 
     public function getApersepsiByID($id_apersepsi)
@@ -186,8 +184,6 @@ class m_guru extends CI_Model
         $data = $this->db->insert("media", $data);
         return $data;
     }
-
-    
 
     public function updateMedia($id_media, $argumen)
     {
@@ -285,7 +281,7 @@ class m_guru extends CI_Model
         return $data->row();
     }
 
-     public function addOpsiSubSoal($data)
+    public function addOpsiSubSoal($data)
     {
         $data = $this->db->insert("opsi_soal_latihan", $data);
         return $data;
@@ -325,7 +321,7 @@ class m_guru extends CI_Model
         $this->db->where('id_latihan', $id_latihan)->update('soal_latihan', $argumen);
     }
 
-    public function getSubSoalByID($id_latihan,$jenis_sub_soal)
+    public function getSubSoalByID($id_latihan, $jenis_sub_soal)
     {
         $argumen = array("id_soal_latihan" => $id_latihan, "jenis_sub_soal" => $jenis_sub_soal);
         $data = $this->db->get_where("sub_soal_latihan", $argumen);

@@ -8,7 +8,7 @@
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h4><?= $updateMateri['judul'] ?></h4>
+                        <h4><?= $submateri['sub_materi'] ?></h4>
                     </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>
@@ -31,12 +31,12 @@
                                     <?php foreach ($apersepsi as $a) : ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?= $a['pertanyaan_apersepsi']; ?></td>
+                                            <td><a href="<?php echo site_url('guru/detailApersepsi/' . $a['id_apersepsi'] . '/' . $submateri['id_submateri']); ?>"></i><?= $a['pertanyaan_apersepsi']; ?></a>
+                                            </td>
                                             <td><?= $a['file_apersepsi']; ?></td>
                                             <td>
-                                                <a href="<?php echo site_url('guru/detailApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Detail</a>
-                                                <a href="<?php echo site_url('guru/updateApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
-                                                <a href="<?php echo site_url('guru/deleteApersepsi/' . $a['id_apersepsi'] . '/' . $a['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
+                                                <a href="<?php echo site_url('guru/updateApersepsi/' . $a['id_apersepsi'] . '/' . $submateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
+                                                <a href="<?php echo site_url('guru/deleteApersepsi/' . $a['id_apersepsi'] . '/' . $submateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
                                         </tr>
                                         <?php $i++; ?>
@@ -62,7 +62,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= form_open_multipart('guru/apersepsiRespon') ?>
+            <?= form_open_multipart('guru/apersepsi/' . $submateri['id_submateri']) ?>
             <div class="modal-body">
                 <div class="card">
                     <div class="card-body">
@@ -74,7 +74,7 @@
                                 <input type="file" class="form-control" id="file_apersepsi" name="file_apersepsi">
                             </div>
                             <div class="input-group mb-2">
-                                <input type="hidden" class="form-control" id="id_materi" name="id_materi" value="<?php echo $updateMateri['id_materi']; ?> ">
+                                <input type="hidden" class="form-control" id="id_submateri" name="id_submateri" value="<?php echo $submateri['id_submateri']; ?> ">
                             </div>
                         </div>
                     </div>

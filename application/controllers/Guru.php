@@ -85,48 +85,34 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'Pembelajaran';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['perulangan'] = $this->guru->getDataKD();
+        $data['materi'] = $this->guru->getMateri();
 
-        $this->form_validation->set_rules('kd', 'KD', 'required');
-        $this->form_validation->set_rules('kompetensidasar', 'kompetensidasar', 'required');
+        $this->form_validation->set_rules('materi', 'Materi', 'required');
+        $this->form_validation->set_rules('cp_pembelajaran', 'cp_pembelajaran', 'required');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('guru/perulangan', $data);
+            $this->load->view('guru/pembelajaran', $data);
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'kd' => $this->input->post('kd'),
-                'kompetensidasar' => $this->input->post('kompetensidasar')
+                'materi' => $this->input->post('materi'),
+                'cp_pembelajaran' => $this->input->post('cp_pembelajaran')
             ];
-            $this->db->insert('kd', $data);
-            $kd = $this->guru->getKDLast();
-            $kd_id = $kd->id_kd;
-            $ip = $this->input->post('ip');
-            $indikatorpencapaian = $this->input->post('indikatorpencapaian');
-            foreach ($ip as $indikator) :
-                $ip1[] = $indikator;
-            endforeach;
-            $nomor = 0;
-            foreach ($indikatorpencapaian as $indikator1) :
-                $data1 = array("ip" => $ip1[$nomor], "indikatorpencapaian" => $indikator1, "kd_id" => $kd_id);
-                $this->db->insert('ip', $data1);
-                $nomor++;
-            endforeach;
+            $this->guru->addMateri($data);
             $this->session->set_flashdata('message', '<div class="alert alert-success">
-                    Kompetensi Dasar berhasil ditambahkan!</div>');
+                    Materi berhasil ditambahkan!</div>');
             redirect('guru/pembelajaran');
         }
     }
 
-    public function updatePembelajaran($id_kd)
+    public function updatePembelajaran($id_materi)
     {
-        $data['title'] = 'Update Akun Siswa';
+        $data['title'] = 'Update Materi';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['updatePembelajaran'] = $this->guru->getKDByID($id_kd);
-        $data['updatePembelajaran1'] = $this->guru->getIPByID($id_kd);
+        $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -137,52 +123,93 @@ class Guru extends CI_Controller
 
     public function updatePembelajaranRespon()
     {
-        $id = $this->input->post('id_kd');
+        $id_materi = $this->input->post('id_materi');
         $data = [
-            'kd' => $this->input->post('kd'),
-            'kompetensidasar' => $this->input->post('kompetensidasar')
+            'materi' => $this->input->post('materi'),
+            'cp_pembelajaran' => $this->input->post('cp_pembelajaran')
         ];
-        $this->guru->updatePembelajaran($id, $data);
-        $ip = $this->input->post('ip');
-        $id_ip = $this->input->post('id_ip');
-        $indikatorpencapaian = $this->input->post('indikatorpencapaian');
-        foreach ($ip as $indikator) :
-            $ip1[] = $indikator;
-        endforeach;
-        foreach ($id_ip as $indikatorip) :
-            $id_ip1[] = $indikatorip;
-        endforeach;
-        $nomor = 0;
-        foreach ($indikatorpencapaian as $indikator1) :
-            $data1 = array("ip" => $ip1[$nomor], "indikatorpencapaian" => $indikator1);
-            $this->guru->updatePembelajaran1($id_ip1[$nomor], $data1);
-            $nomor++;
-        endforeach;
+        $this->guru->updateMateri($id_materi, $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success">
-                    Kompetensi Dasar berhasil dirubah!</div>');
+                    Materi berhasil di ubah!</div>');
         redirect('guru/pembelajaran');
     }
 
-    public function deletePembelajaran($id_kd)
+    public function deletePembelajaran($id_materi)
     {
-        $this->guru->deletePembelajaran($id_kd);
+        $this->guru->deleteMateri($id_materi);
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
-                KD berhasil dihapus!</div>');
+                Materi berhasil dihapus!</div>');
         redirect('guru/pembelajaran');
     }
 
-    public function materi($id_kd)
+    public function submateri($id_materi)
     {
-        $data['title'] = 'Materi';
+        $data['title'] = 'Sub Materi';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['materi'] = $this->guru->getMateri();
-        $data['updatePembelajaran'] = $this->guru->getKDByID($id_kd);
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
+        $data['submateri'] = $this->guru->getSubMateri($id_materi);
+
+        $this->form_validation->set_rules('sub_materi', 'sub_materi', 'required');
+        $this->form_validation->set_rules('kompetensidasar', 'Kompetensidasar', 'required');
+        $this->form_validation->set_rules('ipk', 'IPK', 'required');
+        $this->form_validation->set_rules('tujuan', 'tujuan', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('guru/submateri', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $data = [
+                'sub_materi' => $this->input->post('sub_materi'),
+                'kompetensidasar' => $this->input->post('kompetensidasar'),
+                'ipk' => $this->input->post('ipk'),
+                'tujuan' => $this->input->post('tujuan'),
+                'id_materi' => $this->input->post('id_materi')
+            ];
+            $this->guru->addSubMateri($data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success">
+                    Sub Materi berhasil ditambahkan!</div>');
+            redirect('guru/submateri/' . $this->input->post('id_materi'));
+        }
+    }
+
+    public function updateSubMateri($id_materi, $id_submateri)
+    {
+        $data['title'] = 'Update Sub Materi';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['updateSubMateri'] = $this->guru->getSubMateriByID($id_submateri);
+        $data['materi'] = $this->guru->getMateriByID($id_materi);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('guru/materi', $data);
+        $this->load->view('guru/submateriupdate', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function updateSubMateriRespon()
+    {
+        $id_submateri = $this->input->post('id_submateri');
+        $data = [
+            'sub_materi' => $this->input->post('sub_materi'),
+            'kompetensidasar' => $this->input->post('kompetensidasar'),
+            'ipk' => $this->input->post('ipk'),
+            'tujuan' => $this->input->post('tujuan'),
+        ];
+        $this->guru->updateSubMateri($id_submateri, $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                    Sub Materi berhasil di ubah!</div>');
+        redirect('guru/submateri/' . $this->input->post('id_materi'));
+    }
+
+    public function deleteSubMateri($id_materi, $id_submateri)
+    {
+        $this->guru->deleteSubMateri($id_submateri);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                Sub Materi berhasil dihapus!</div>');
+        redirect('guru/submateri/' . $id_materi);
     }
 
     public function materiApersepsi()
@@ -205,118 +232,103 @@ class Guru extends CI_Controller
         }
     }
 
+    // public function materiRespon()
+    // {
+    //     $data['title'] = 'Materi';
+    //     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    //     $data['materi'] = $this->guru->getMateri();
+    //     $data['updatePembelajaran'] = $this->guru->getKDByID($this->input->post('id_kd'));
 
-    public function materiRespon()
-    {
-        $data['title'] = 'Materi';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['materi'] = $this->guru->getMateri();
-        $data['updatePembelajaran'] = $this->guru->getKDByID($this->input->post('id_kd'));
+    //     $this->form_validation->set_rules('judul', 'Judul', 'required');
+    //     $this->form_validation->set_rules('topik', 'Topik', 'required');
+    //     $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+    //     $this->form_validation->set_rules('tujuan', 'Tujuan', 'required');
+    //     $this->form_validation->set_rules('apersepsi', 'Apersepsi', 'required');
+    //     $this->form_validation->set_rules('file_apersepsi', 'File_apersepsi');
 
-        $this->form_validation->set_rules('judul', 'Judul', 'required');
-        $this->form_validation->set_rules('topik', 'Topik', 'required');
-        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
-        $this->form_validation->set_rules('tujuan', 'Tujuan', 'required');
-        $this->form_validation->set_rules('apersepsi', 'Apersepsi', 'required');
-        $this->form_validation->set_rules('file_apersepsi', 'File_apersepsi');
+    //     if ($this->form_validation->run() == false) {
+    //         $this->load->view('templates/header', $data);
+    //         $this->load->view('templates/sidebar', $data);
+    //         $this->load->view('templates/topbar', $data);
+    //         $this->load->view('guru/materi', $data);
+    //         $this->load->view('templates/footer');
+    //     } else {
+    //         $config['upload_path']          = './assets/materi/apersepsi';
+    //         $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+    //         $config['max_size']             = 5000;
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('guru/materi', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $config['upload_path']          = './assets/materi/apersepsi';
-            $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-            $config['max_size']             = 5000;
+    //         $this->load->library('upload', $config);
 
-            $this->load->library('upload', $config);
+    //         $this->upload->do_upload('file_apersepsi');
+    //         $data1 = array('upload_file_apersepsi' => $this->upload->data());
+    //         $data = [
+    //             'judul' => htmlspecialchars($this->input->post('judul')),
+    //             'topik' => htmlspecialchars($this->input->post('topik')),
+    //             'deskripsi' => htmlspecialchars($this->input->post('deskripsi')),
+    //             'tujuan' => htmlspecialchars($this->input->post('tujuan')),
+    //             'apersepsi' => htmlspecialchars($this->input->post('apersepsi')),
+    //             'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
+    //         ];
+    //         $this->db->insert('materi', $data);
+    //         $this->session->set_flashdata('message', '<div class="alert alert-success">
+    //                 Materi berhasil ditambahkan!</div>');
+    //         redirect('guru/materi/' . $this->input->post('id_kd'));
+    //     }
+    // }
 
-            $this->upload->do_upload('file_apersepsi');
-            $data1 = array('upload_file_apersepsi' => $this->upload->data());
-            $data = [
-                'judul' => htmlspecialchars($this->input->post('judul')),
-                'topik' => htmlspecialchars($this->input->post('topik')),
-                'deskripsi' => htmlspecialchars($this->input->post('deskripsi')),
-                'tujuan' => htmlspecialchars($this->input->post('tujuan')),
-                'apersepsi' => htmlspecialchars($this->input->post('apersepsi')),
-                'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
-            ];
-            $this->db->insert('materi', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success">
-                    Materi berhasil ditambahkan!</div>');
-            redirect('guru/materi/' . $this->input->post('id_kd'));
-        }
-    }
+    // public function updateMateri($id_kd, $id_materi)
+    // {
+    //     $data['title'] = 'Update Materi';
+    //     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    //     $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
+    //     $data['updatePembelajaran'] = $this->guru->getKDByID($id_kd);
 
-    public function updateMateri($id_kd, $id_materi)
-    {
-        $data['title'] = 'Update Materi';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
-        $data['updatePembelajaran'] = $this->guru->getKDByID($id_kd);
+    //     $this->load->view('templates/header', $data);
+    //     $this->load->view('templates/sidebar', $data);
+    //     $this->load->view('templates/topbar', $data);
+    //     $this->load->view('guru/materiupdate', $data);
+    //     $this->load->view('templates/footer');
+    // }
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('guru/materiupdate', $data);
-        $this->load->view('templates/footer');
-    }
+    // public function updateMateriRespon()
+    // {
+    //     $config['upload_path']          = './assets/materi/apersepsi';
+    //     $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+    //     $config['max_size']             = 5000;
 
-    public function updateMateriRespon()
-    {
-        $config['upload_path']          = './assets/materi/apersepsi';
-        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-        $config['max_size']             = 5000;
+    //     $this->load->library('upload', $config);
 
-        $this->load->library('upload', $config);
+    //     $this->upload->do_upload('file_apersepsi');
+    //     $data1 = array('upload_file_apersepsi' => $this->upload->data());
+    //     $id = $this->input->post('id_materi');
+    //     $data = [
+    //         'judul' => $this->input->post('judul'),
+    //         'topik' => $this->input->post('topik'),
+    //         'deskripsi' => $this->input->post('deskripsi'),
+    //         'tujuan' => $this->input->post('tujuan'),
+    //         'apersepsi' => $this->input->post('apersepsi'),
+    //         'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
+    //     ];
+    //     $this->guru->updateMateri($id, $data);
+    //     $this->session->set_flashdata('message', '<div class="alert alert-success">
+    //             Materi berhasil dirubah!</div>');
+    //     redirect('guru/materi/' . $this->input->post('id_kd'));
+    // }
 
-        $this->upload->do_upload('file_apersepsi');
-        $data1 = array('upload_file_apersepsi' => $this->upload->data());
-        $id = $this->input->post('id_materi');
-        $data = [
-            'judul' => $this->input->post('judul'),
-            'topik' => $this->input->post('topik'),
-            'deskripsi' => $this->input->post('deskripsi'),
-            'tujuan' => $this->input->post('tujuan'),
-            'apersepsi' => $this->input->post('apersepsi'),
-            'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
-        ];
-        $this->guru->updateMateri($id, $data);
-        $this->session->set_flashdata('message', '<div class="alert alert-success">
-                Materi berhasil dirubah!</div>');
-        redirect('guru/materi/' . $this->input->post('id_kd'));
-    }
+    // public function deleteMateri($id_kd, $id_materi)
+    // {
+    //     $this->guru->deleteMateri($id_materi);
+    //     $this->session->set_flashdata('message', '<div class="alert alert-danger">
+    //             Materi berhasil dihapus!</div>');
+    //     redirect('guru/materi/' . $id_kd);
+    // }
 
-    public function deleteMateri($id_kd, $id_materi)
-    {
-        $this->guru->deleteMateri($id_materi);
-        $this->session->set_flashdata('message', '<div class="alert alert-danger">
-                Materi berhasil dihapus!</div>');
-        redirect('guru/materi/' . $id_kd);
-    }
-
-    public function apersepsi($id_materi)
-    {
-        $data['title'] = 'Daftar Apersepsi';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['apersepsi'] = $this->guru->getApersepsi();
-        $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('guru/apersepsi', $data);
-        $this->load->view('templates/footer');
-    }
-
-    public function apersepsiRespon()
+    public function apersepsi($id_submateri)
     {
         $data['title'] = 'Daftar Apersepsi';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['apersepsi'] = $this->guru->getApersepsi();
-        $data['updateMateri'] = $this->guru->getMateriByID($this->input->post('id_materi'));
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->form_validation->set_rules('pertanyaan_apersepsi', 'Pertanyaan_Apersepsi', 'required');
         $this->form_validation->set_rules('file_apersepsi', 'File_apersepsi');
@@ -336,24 +348,25 @@ class Guru extends CI_Controller
 
             $this->upload->do_upload('file_apersepsi');
             $data1 = array('upload_file_apersepsi' => $this->upload->data());
+            $id_submateri = $this->input->post('id_submateri');
             $data = [
                 'pertanyaan_apersepsi' => htmlspecialchars($this->input->post('pertanyaan_apersepsi')),
                 'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
-                'id_materi' => ($this->input->post('id_materi'))
+                'id_submateri' => $id_submateri
             ];
-            $this->db->insert('apersepsi', $data);
+            $this->guru->addApersepsi($data);
             $this->session->set_flashdata('message', '<div class="alert alert-success">
                     Apersepsi berhasil ditambahkan!</div>');
-            redirect('guru/apersepsi/' . $this->input->post('id_materi'));
+            redirect('guru/apersepsi/' . $id_submateri);
         }
     }
 
-    public function updateApersepsi($id_apersepsi, $id_materi)
+    public function updateApersepsi($id_apersepsi, $id_submateri)
     {
         $data['title'] = 'Update Apersepsi';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['updateApersepsi'] = $this->guru->getApersepsiByID($id_apersepsi);
-        $data['materi'] = $id_materi;
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -373,7 +386,7 @@ class Guru extends CI_Controller
         $this->upload->do_upload('file_apersepsi');
         $data1 = array('upload_file_apersepsi' => $this->upload->data());
         $id = $this->input->post('id_apersepsi');
-        $id_materi = $this->input->post('id_materi');
+        $id_submateri = $this->input->post('id_submateri');
         $data = [
             'pertanyaan_apersepsi' => htmlspecialchars($this->input->post('pertanyaan_apersepsi')),
             'file_apersepsi' => $data1['upload_file_apersepsi']['file_name'],
@@ -381,24 +394,24 @@ class Guru extends CI_Controller
         $this->guru->updateApersepsi($id, $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Pertanyaan Apersepsi berhasil dirubah!</div>');
-        redirect('guru/apersepsi/' . $id_materi);
+        redirect('guru/apersepsi/' . $id_submateri);
     }
 
-    public function deleteApersepsi($id_apersepsi, $id_materi)
+    public function deleteApersepsi($id_apersepsi, $id_submateri)
     {
         $this->guru->deleteApersepsi($id_apersepsi);
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
-                Pertanyaan Apersepsi berhasil dihapus!</div>');
-        redirect('guru/apersepsi/' . $id_materi);
+                Apersepsi berhasil dihapus!</div>');
+        redirect('guru/apersepsi/' . $id_submateri);
     }
 
-    public function detailApersepsi($id_apersepsi, $id_materi)
+    public function detailApersepsi($id_apersepsi, $id_submateri)
     {
         $data['title'] = 'Komentar Siswa';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['komentar'] = $this->guru->getKomentarApersepsi();
         $data['apersepsi'] = $this->guru->getApersepsiByID($id_apersepsi);
-        $data['materi'] = $this->guru->getMateriByID($id_materi);
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -407,12 +420,12 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function media($id_materi)
+    public function media($id_submateri)
     {
         $data['title'] = 'Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['media'] = $this->guru->getMedia();
-        $data['materi'] = $this->guru->getMateriByID($id_materi);
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -421,11 +434,11 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function tambahMedia($id_materi)
+    public function tambahMedia($id_submateri)
     {
         $data['title'] = 'Tambah Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -434,20 +447,20 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function deleteMedia($id_media, $id_materi)
+    public function deleteMedia($id_media, $id_submateri)
     {
         $this->guru->deleteMedia($id_media);
         $this->session->set_flashdata('message', '<div class="alert alert-danger">
                 Media berhasil dihapus!</div>');
-        redirect('guru/media/' . $id_materi);
+        redirect('guru/media/' . $id_submateri);
     }
 
-    public function updateMedia($id_media, $id_materi)
+    public function updateMedia($id_media, $id_submateri)
     {
         $data['title'] = 'Update Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['updateMedia'] = $this->guru->getMediaByID($id_media);
-        $data['materi'] = $id_materi;
+        $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
 
         $this->load->view('templates/header', $data);
@@ -468,12 +481,16 @@ class Guru extends CI_Controller
         $this->upload->do_upload('file_media');
         $data1 = array('upload_file_media' => $this->upload->data());
         $id = $this->input->post('id_media');
-        $id_materi = $this->input->post('id_materi');
-        $data = ['file_media' => $data1['upload_file_media']['file_name']];
+        $id_submateri = $this->input->post('id_submateri');
+        $data = [
+            'jenis_media' => $this->input->post('jenis_media'),
+            'file_media' => $data1['upload_file_media']['file_name'],
+            'id_submateri' => $id_submateri
+        ];
         $this->guru->updateMedia($id, $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Media berhasil dirubah!</div>');
-        redirect('guru/media/' . $id_materi);
+        redirect('guru/media/' . $id_submateri);
     }
 
     public function tambahMediaRespon()
@@ -489,12 +506,12 @@ class Guru extends CI_Controller
         $data = [
             'jenis_media' => $this->input->post('jenis_media'),
             'file_media' => $data1['upload_file_media']['file_name'],
-            'id_materi' => $this->input->post('id_materi'),
+            'id_submateri' => $this->input->post('id_submateri'),
         ];
         $this->guru->addMedia($data);
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Media berhasil ditambahkan!</div>');
-        redirect('guru/media/' . $this->input->post('id_materi'));
+        redirect('guru/media/' . $this->input->post('id_submateri'));
     }
 
     public function tes($id_materi)
@@ -592,15 +609,15 @@ class Guru extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['latihan'] = $this->guru->getLatihan();
         $data['materi'] = $this->guru->getMateriByID($id_materi);
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('guru/latihan', $data);
-            $this->load->view('templates/footer');
-
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/latihan', $data);
+        $this->load->view('templates/footer');
     }
 
-    public function tambahLatihan(){
+    public function tambahLatihan()
+    {
         $config['upload_path']          = './assets/materi/latihan';
         $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
         $config['max_size']             = 5000;
@@ -633,11 +650,11 @@ class Guru extends CI_Controller
 
         $jawaban_benar;
 
-        if($this->input->post('jawabanBenar1Decom') != null){
+        if ($this->input->post('jawabanBenar1Decom') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar1Decom');
-        }else if($this->input->post('jawabanBenar2Decom') != null){
+        } else if ($this->input->post('jawabanBenar2Decom') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar2Decom');
-        }else{
+        } else {
             $jawaban_benar = $this->input->post('jawabanBenar3Decom');
         }
 
@@ -667,7 +684,7 @@ class Guru extends CI_Controller
         $this->guru->addOpsiSubSoal($data2);
 
         //Sub Soal Abstrak
-        
+
         $config['upload_path']          = './assets/materi/latihan/abstraksi';
         $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
         $config['max_size']             = 5000;
@@ -679,11 +696,11 @@ class Guru extends CI_Controller
 
         $jawaban_benar;
 
-        if($this->input->post('jawabanBenar1Abstrak') != null){
+        if ($this->input->post('jawabanBenar1Abstrak') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar1Abstrak');
-        }else if($this->input->post('jawabanBenar2Abstrak') != null){
+        } else if ($this->input->post('jawabanBenar2Abstrak') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar2Abstrak');
-        }else{
+        } else {
             $jawaban_benar = $this->input->post('jawabanBenar3Abstrak');
         }
 
@@ -697,7 +714,7 @@ class Guru extends CI_Controller
             'id_soal_latihan' => $soalId,
         ];
         $this->guru->addSubSoal($data);
-        
+
         $subSoalAbstrak = $this->guru->getLastSubSoal();
         $idSubSoalAbstrak = $subSoalAbstrak->id_sub_latihan;
 
@@ -725,11 +742,11 @@ class Guru extends CI_Controller
 
         $jawaban_benar;
 
-        if($this->input->post('jawabanBenar1Pola') != null){
+        if ($this->input->post('jawabanBenar1Pola') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar1Pola');
-        }else if($this->input->post('jawabanBenar2Pola') != null){
+        } else if ($this->input->post('jawabanBenar2Pola') != null) {
             $jawaban_benar = $this->input->post('jawabanBenar2Pola');
-        }else{
+        } else {
             $jawaban_benar = $this->input->post('jawabanBenar3Pola');
         }
 
@@ -768,7 +785,7 @@ class Guru extends CI_Controller
 
         $this->upload->do_upload('fileMediaAlgo');
         $data1 = array('upload_fileMediaAlgo' => $this->upload->data());
-        
+
 
         $data = [
             'file_soal' => $data1['upload_fileMediaAlgo']['file_name'],
@@ -804,8 +821,8 @@ class Guru extends CI_Controller
     {
         $id = $this->input->get('id');
         $jenis_sub_soal = $this->input->get('jenis_sub_soal');
-        $get_latihan = $this->guru->getSubSoalByID($id,$jenis_sub_soal);
-        echo json_encode($get_latihan); 
+        $get_latihan = $this->guru->getSubSoalByID($id, $jenis_sub_soal);
+        echo json_encode($get_latihan);
         exit();
     }
 

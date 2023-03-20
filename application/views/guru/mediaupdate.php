@@ -11,7 +11,18 @@
                         <div class="card-body">
                             <?= form_open_multipart('guru/updateMediaRespon') ?>
                             <input type="hidden" class="form-control" name="id_media" value="<?= $updateMedia['id_media'] ?>">
-                            <input type="hidden" class="form-control" name="id_materi" value="<?= $materi ?>">
+                            <input type="hidden" class="form-control" name="id_submateri" value="<?= $submateri['id_submateri'] ?>">
+                            <div class="form-group">
+                                <!-- <label value="<?= $updateMedia['jenis_media'] ?>"></label> -->
+                                <select class="form-control" id="jenis_media" name="jenis_media">
+                                    <option value="">-- Jenis Media --</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="docs">DOCS</option>
+                                    <option value="ppt">POWER POINT</option>
+                                    <option value="video">VIDEO</option>
+                                    <option value="audio">AUDIO</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label>File (Media)</label>
                                 <input type="file" class="form-control" name="file_media">

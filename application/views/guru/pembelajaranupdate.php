@@ -6,30 +6,19 @@
                 <div class="col-12 col-md-6 col-lg">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Update Pembelajaran</h4>
+                            <h4>Update Materi</h4>
                         </div>
                         <div class="card-body">
                             <?= form_open('guru/updatePembelajaranRespon') ?>
-                            <input type="hidden" class="form-control" name="id_kd" value="<?= $updatePembelajaran['id_kd'] ?>">
+                            <input type="hidden" class="form-control" name="id_materi" value="<?= $updateMateri['id_materi'] ?>">
                             <div class="form-group">
-                                <label>No. KD</label>
-                                <input type="text" class="form-control" name="kd" value="<?= $updatePembelajaran['kd'] ?>">
+                                <label>Materi</label>
+                                <input type="text" class="form-control" name="materi" value="<?= $updateMateri['materi'] ?>">
                             </div>
                             <div class="form-group">
-                                <label>Kompetensi Dasar</label>
-                                <input type="text" class="form-control" name="kompetensidasar" value="<?= $updatePembelajaran['kompetensidasar'] ?>">
+                                <label>Capaian Pembelajaran</label>
+                                <input type="text" class="form-control" name="cp_pembelajaran" value="<?= $updateMateri['cp_pembelajaran'] ?>">
                             </div>
-                            <?php foreach ($updatePembelajaran1 as $up) : ?>
-                                <input type="hidden" class="form-control" name="id_ip[]" value="<?= $up['id_ip'] ?>">
-                                <div class="form-group">
-                                    <label>No. IP</label>
-                                    <input type="text" class="form-control" name="ip[]" value="<?= $up['ip'] ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label>Indikator Pencapaian</label>
-                                    <input type="text" class="form-control" name="indikatorpencapaian[]" value="<?= $up['indikatorpencapaian'] ?>">
-                                </div>
-                            <?php endforeach; ?>
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary mr-1" type="submit">Submit</button>

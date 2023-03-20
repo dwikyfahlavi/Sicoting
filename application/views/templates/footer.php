@@ -70,7 +70,6 @@
 
 
     function getDetail(id, jenis_sub_soal, title) {
-
         $.ajax({
             url: "<?php echo base_url(); ?>guru/getSubSoal",
             data: {
@@ -216,128 +215,251 @@
         });
     };
 
-    function tambahSoal(id,jenis_sub_soal, title){
+    function getDetailHasilSiswa(id, id_user,jenis_sub_soal) { 
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>guru/getHasilSoal",
+            data: {
+                id: id,
+                jenis_sub_soal: jenis_sub_soal,
+                id_user: id_user,
+            },
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#title').html(response.nama + " Details"); //hold the response in id and show on popup
+                $('#file_soal').html(response.file_soal);
+                $('#soal_latihan').html(response.soal_latihan);
+                $('#soal_sub_latihan').html(response.soal_sub_latihan);
+                if("a" == response.jawaban){
+                    check = true;
+                }else{
+                    check = false;
+                }
+                $('#opsi_a').attr('value',response.opsi_a).prop('checked', check);
+                $('#label_a').html(response.opsi_a);
+                if("b" == response.jawaban){
+                    check = true;
+                }else{
+                    check = false;
+                }
+                $('#opsi_b').attr('value',response.opsi_b).prop('checked', check);
+                $('#label_b').html(response.opsi_b);
+                if("c" == response.jawaban){
+                    check = true;
+                }else{
+                    check = false;
+                }
+                $('#opsica').attr('value',response.opsi_c).prop('checked', check);
+                $('#label_c').html(response.opsi_c);
+                if("d" == response.jawaban){
+                    check = true;
+                }else{
+                    check = false;
+                }
+                $('#opsi_d').attr('value',response.opsi_d).prop('checked', check);
+                $('#label_d').html(response.opsi_d);
+                if("e" == response.jawaban){
+                    check = true;
+                }else{
+                    check = false;
+                }
+                $('#opsi_e').attr('value',response.opsi_e).prop('checked', check);
+                $('#label_e').html(response.opsi_e);
+               
+                
+                $('#show_modal').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
+
+            }
+        });
+    };
+
+    // function getDetailHasilSiswa(id, id_user, title,jenis_sub_soal) {
+
+    //     $.ajax({
+    //         url: "<?php echo base_url(); ?>guru/getHasilSoal",
+    //         data: {
+    //             id: id,
+    //             memek: jenis_sub_soal,
+    //             id_user: id_user,
+    //         },
+    //         method: 'GET',
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             console.log(response);
+    //             // $('#title').html(title + " Details"); //hold the response in id and show on popup
+    //             // $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
+    //             // $('#jenis_jawaban').html(response.jenis_jawaban);
+    //             // $('#bobot').html(response.bobot);
+    //             // $('#jawaban_benar').html(response.jawaban_benar);
+    //             // $('#soal_sub_latihan').html(response.soal_sub_latihan);
+    //             // $('#file_soal').html(response.file_soal);
+    //             // $('#show_modal').modal({
+    //             //     backdrop: 'static',
+    //             //     keyboard: true,
+    //             //     show: true
+    //             // });
+
+    //         }
+    //     });
+    // };
+
+    function getHasilSiswa(id) {
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>guru/getHasilSiswa",
+            data: {
+                id: id,
+            },
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#title').html(response.nama); //hold the response in id and show on popup
+                $('#jenis_sub_soal').html(response.jenis_sub_soal); //hold the response in id and show on popup
+                $('#jenis_jawaban').html(response.jenis_jawaban);
+                $('#bobot').html(response.bobot);
+                $('#jawaban_benar').html(response.jawaban_benar);
+                $('#soal_sub_latihan').html(response.soal_sub_latihan);
+                $('#file_soal').html(response.file_soal);
+                $('#show_modal').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
+            }
+        });
+    };
+
+    function tambahSoal(id, jenis_sub_soal, title) {
         index = 0;
-        $('#newTesModal').modal({backdrop: 'static', keyboard: true, show: true});
-  // Initially hide all forms except the first one
+        $('#newTesModal').modal({
+            backdrop: 'static',
+            keyboard: true,
+            show: true
+        });
+        // Initially hide all forms except the first one
         $("#form2, #form3, #form4, #form5").hide();
         $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").hide();
         $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId, #jawabanBenar1Decom, #jawabanBenar2Decom, #jawabanBenarDecomId, #jawabanBenar3Decom,#jawabanBenar3DecomId").hide();
 
         $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").hide();
         $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId, #jawabanBenar1Abstrak, #jawabanBenar2Abstrak, #jawabanBenarAbstrakId, #jawabanBenar3Abstrak").hide();
-       
+
         $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").hide();
-        $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId, #jawabanBenar1Pola, #jawabanBenar2Pola, #jawabanBenarPolaId, #jawabanBenar3Pola").hide()
-        ;
+        $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId, #jawabanBenar1Pola, #jawabanBenar2Pola, #jawabanBenarPolaId, #jawabanBenar3Pola").hide();
         $("#jawabanAAlgo, #jawabanBAlgo, #jawabanCAlgo, #jawabanDAlgo, #jawabanEAlgo").hide();
         $("#jawabanAAlgoId, #jawabanBAlgoId, #jawabanCAlgoId, #jawabanDAlgoId, #jawabanEAlgoId, #jawabanBenar1Algo, #jawabanBenar2Algo, #jawabanBenarAlgoId, #jawabanBenar3Algo").hide();
 
 
         $("#nextBtn").click(function() {
-            if(index == 0){
+            if (index == 0) {
                 $("#form1").hide();
                 $("#form2").show();
                 index += 1;
-            }else if(index == 1){
+            } else if (index == 1) {
                 $("#form2").hide();
                 $("#form3").show();
                 index += 1;
-            }else if(index == 2){
+            } else if (index == 2) {
                 $("#form3").hide();
                 $("#form4").show();
                 index += 1;
-            }else if (index == 3){
+            } else if (index == 3) {
                 $("#form4").hide();
                 $("#form5").show();
                 index += 1;
             }
-        });     
-         
+        });
+
         $("#backBtn").click(function() {
-            if(index == 1){
+            if (index == 1) {
                 $("#form2").hide();
                 $("#form1").show();
-                index -= 1;jenisJawabanDecom
-            }else if(index == 2){
+                index -= 1;
+                jenisJawabanDecom
+            } else if (index == 2) {
                 $("#form3").hide();
                 $("#form2").show();
                 index -= 1;
-            }else if(index == 3){
+            } else if (index == 3) {
                 $("#form4").hide();
                 $("#form3").show();
                 index -= 1;
-            }else if(index == 4){
+            } else if (index == 4) {
                 $("#form5").hide();
                 $("#form4").show();
                 index -= 1;
             }
-            
+
         });
 
-         $("#jenisJawabanDecom").change(function() {
-            if($(this).val() == "3"){
+        $("#jenisJawabanDecom").change(function() {
+            if ($(this).val() == "3") {
                 $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").hide();
                 $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId, #jawabanBenar1Decom, #jawabanBenar3Decom,#jawabanBenar3DecomId").hide();
                 $("#jawabanBenar2Decom, #jawabanBenarDecomId").show();
-            }else if($(this).val() == "2"){
+            } else if ($(this).val() == "2") {
                 $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").show();
-                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show(); 
+                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show();
                 $("#jawabanBenar2Decom, #jawabanBenar1Decom, #jawabanBenarDecomId ").hide();
-                $("#jawabanBenar3Decom, #jawabanBenar3DecomId").show();     
-            }else{
+                $("#jawabanBenar3Decom, #jawabanBenar3DecomId").show();
+            } else {
                 $("#jawabanADecom, #jawabanBDecom, #jawabanCDecom, #jawabanDDecom, #jawabanEDecom").show();
-                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show(); 
+                $("#jawabanADecomId, #jawabanBDecomId, #jawabanCDecomId, #jawabanDDecomId, #jawabanEDecomId").show();
                 $("#jawabanBenar2Decom, #jawabanBenar3Decom, #jawabanBenar3DecomId").hide();
-                $("#jawabanBenar1Decom, #jawabanBenarDecomId").show();     
+                $("#jawabanBenar1Decom, #jawabanBenarDecomId").show();
             }
-            
+
         });
-        
-         $("#jenisJawabanAbstrak").change(function() {
-            if($(this).val() == "3"){
+
+        $("#jenisJawabanAbstrak").change(function() {
+            if ($(this).val() == "3") {
                 $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").hide();
                 $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId, #jawabanBenar1Abstrak, #jawabanBenar3Abstrak,#jawabanBenar3AbstrakId").hide();
                 $("#jawabanBenar2Abstrak, #jawabanBenarAbstrakId").show();
-            }else if($(this).val() == "2"){
+            } else if ($(this).val() == "2") {
                 $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").show();
-                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show(); 
+                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show();
                 $("#jawabanBenar2Abstrak, #jawabanBenar1Abstrak, #jawabanBenarAbstrakId ").hide();
-                $("#jawabanBenar3Abstrak, #jawabanBenar3AbstrakId").show();     
-            }else{
+                $("#jawabanBenar3Abstrak, #jawabanBenar3AbstrakId").show();
+            } else {
                 $("#jawabanAAbstrak, #jawabanBAbstrak, #jawabanCAbstrak, #jawabanDAbstrak, #jawabanEAbstrak").show();
-                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show(); 
+                $("#jawabanAAbstrakId, #jawabanBAbstrakId, #jawabanCAbstrakId, #jawabanDAbstrakId, #jawabanEAbstrakId").show();
                 $("#jawabanBenar2Abstrak, #jawabanBenar3Abstrak, #jawabanBenar3AbstrakId").hide();
-                $("#jawabanBenar1Abstrak, #jawabanBenarAbstrakId").show();     
+                $("#jawabanBenar1Abstrak, #jawabanBenarAbstrakId").show();
             }
-            
+
         });
-         $("#jenisJawabanPola").change(function() {
-           if($(this).val() == "3"){
+        $("#jenisJawabanPola").change(function() {
+            if ($(this).val() == "3") {
                 $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").hide();
                 $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId, #jawabanBenar1Pola, #jawabanBenar3Pola,#jawabanBenar3PolaId").hide();
                 $("#jawabanBenar2Pola, #jawabanBenarPolaId").show();
-            }else if($(this).val() == "2"){
+            } else if ($(this).val() == "2") {
                 $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").show();
-                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show(); 
+                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show();
                 $("#jawabanBenar2Pola, #jawabanBenar1Pola").hide();
-                $("#jawabanBenar3Pola, #jawabanBenar3PolaId, #jawabanBenarPolaId").show();     
-            }else{
+                $("#jawabanBenar3Pola, #jawabanBenar3PolaId, #jawabanBenarPolaId").show();
+            } else {
                 $("#jawabanAPola, #jawabanBPola, #jawabanCPola, #jawabanDPola, #jawabanEPola").show();
-                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show(); 
+                $("#jawabanAPolaId, #jawabanBPolaId, #jawabanCPolaId, #jawabanDPolaId, #jawabanEPolaId").show();
                 $("#jawabanBenar2Pola, #jawabanBenar3Pola, #jawabanBenar3PolaId").hide();
-                $("#jawabanBenar1Pola, #jawabanBenarPolaId").show();     
+                $("#jawabanBenar1Pola, #jawabanBenarPolaId").show();
             }
-            
+
         });
 
-         $("#jenisJawabanAlgo").change(function() {
-           
+        $("#jenisJawabanAlgo").change(function() {
+
             $("#jawabanAAlgo, #jawabanBAlgo, #jawabanCAlgo, #jawabanDAlgo, #jawabanEAlgo").show();
-            $("#jawabanAAlgoId, #jawabanBAlgoId, #jawabanCAlgoId, #jawabanDAlgoId, #jawabanEAlgoId").show(); 
+            $("#jawabanAAlgoId, #jawabanBAlgoId, #jawabanCAlgoId, #jawabanDAlgoId, #jawabanEAlgoId").show();
             $("#jawabanBenar2Algo, #jawabanBenar3Algo, #jawabanBenar3AlgoId").hide();
-            $("#jawabanBenar1Algo, #jawabanBenarAlgoId").show();     
-            
+            $("#jawabanBenar1Algo, #jawabanBenarAlgoId").show();
+
         });
 
         // Form 1 submit event
@@ -349,12 +471,11 @@
                 $("#nextBtn").click();
             }
         });
-      };
+    };
 
-    document.getElementById('jenisJawaban').addEventListener('change', function(){
+    document.getElementById('jenisJawaban').addEventListener('change', function() {
         console.log(this.value);
     })
-            
 </script>
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {
