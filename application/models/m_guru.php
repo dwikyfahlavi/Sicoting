@@ -333,6 +333,13 @@ class m_guru extends CI_Model
         $data = $this->db->get("hasil_siswa");
         return $data->result_array();
     }
+    
+    public function getHasilLatihanById($id_soal_latihan)
+    {
+        $argumen = array("id_soal_latihan" => $id_soal_latihan);
+        $data = $this->db->get_where("hasil_siswa", $argumen);
+        return $data->result_array();
+    }
 
     public function getHasilSiswaById($id, $id_user ,$jenis_sub_soal)
     {

@@ -48,7 +48,7 @@
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="<?php echo site_url('guru/apersepsi/' . $sm['id_submateri']); ?>">Apersepsi</a>
                                                             <a class="dropdown-item" href="<?php echo site_url('guru/media/' . $sm['id_submateri']); ?>">Media</a>
-                                                            <a class="dropdown-item" href="#">Latihan</a>
+                                                            <a class="dropdown-item" href="<?php echo site_url('guru/latihan/' . $sm['id_submateri']); ?>">Latihan</a>
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item" href="<?php echo site_url('guru/updateSubMateri/' . $materi['id_materi'] . '/' . $sm['id_submateri']); ?>">Edit</a>
                                                             <a class="dropdown-item" href="<?php echo site_url('guru/deleteSubMateri/' . $materi['id_materi'] . '/' . $sm['id_submateri']); ?>">Delete</a>

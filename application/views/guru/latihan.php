@@ -9,7 +9,7 @@
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Soal Latihan - <?= $materi['judul'] ?><br></h4>
+                        <h4>Soal Latihan - <?= $subMateri['sub_materi']; ?><br></h4>
                     </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>
@@ -18,7 +18,7 @@
                         <?= $this->session->flashdata('message'); ?>
                         <button class="btn btn-icon icon-left btn-primary" onclick="tambahSoal(2,1,'Dekomposisi')" id="tambah_soal"><i class="fas fa-plus"></i> Soal Latihan</button>
 
-                        <a href="<?php echo site_url('guru/latihan/' . $materi['id_materi']); ?>" class="btn btn-primary mb-3" style="float: right;">Hasil Siswa</a>
+                        <a href="<?php echo site_url('guru/latihan/' . $subMateri['id_submateri']); ?>" class="btn btn-primary mb-3" style="float: right;">Hasil Siswa</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>
@@ -47,8 +47,8 @@
                                             <td>
                                                 <!-- <a href="<?php echo site_url('guru/media/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>  -->
                                                 <!-- <a href="<?php echo site_url('guru/updateTes/' . $m['id_latihan'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a> -->
-                                                <a href="<?php echo site_url('guru/deleteSoalLatihan/' . $m['id_latihan'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
-                                                <a href="<?php echo site_url('guru/hasilLatihan/' . $m['id_latihan']. '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-info-circle"></i>Hasil Siswa</a>
+                                                <a href="<?php echo site_url('guru/deleteSoalLatihan/' . $m['id_latihan'] . '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
+                                                <a href="<?php echo site_url('guru/hasilLatihan/' . $m['id_latihan']. '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-info-circle"></i>Hasil Siswa</a>
                                                 
                                             </td>
                                         </tr>
