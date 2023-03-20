@@ -11,7 +11,7 @@
                         <div class="card-body">
                             <?= form_open_multipart('guru/updateApersepsiRespon') ?>
                             <input type="hidden" class="form-control" name="id_apersepsi" value="<?= $updateApersepsi['id_apersepsi'] ?>">
-                            <input type="hidden" class="form-control" name="id_materi" value="<?= $materi ?>">
+                            <input type="hidden" class="form-control" name="id_submateri" value="<?= $submateri['id_submateri'] ?>">
                             <div class="form-group">
                                 <label>Pertanyaan Apersepsi</label>
                                 <input type="text" class="form-control" name="pertanyaan_apersepsi" value="<?= $updateApersepsi['pertanyaan_apersepsi'] ?>">

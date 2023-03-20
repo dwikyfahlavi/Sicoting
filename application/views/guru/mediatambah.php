@@ -10,7 +10,7 @@
                         </div>
                         <div class="card-body">
                             <?= form_open_multipart('guru/tambahMediaRespon') ?>
-                            <input type="hidden" class="form-control" name="id_materi" value="<?= $updateMateri['id_materi'] ?>">
+                            <input type="hidden" class="form-control" name="id_submateri" value="<?= $submateri['id_submateri'] ?>">
                             <div class="form-group">
                                 <label>Jenis Media</label>
                                 <select class="form-control" id="jenis_media" name="jenis_media">
