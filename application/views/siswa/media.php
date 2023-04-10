@@ -14,7 +14,7 @@
                             <h6>Setelah belajar melalui media yang kamu pilih, lanjutkan pembelajaran dengan menyelesaikan latihan!</h6>
                         </div>
                         <div class="card-footer text-left">
-                            <a href="<?= site_url('siswa/latihan'. '/'. $m['id_submateri'] ); ?>"><button class="btn btn-primary">Mulai Latihan</button></a>
+                            <a href="<?= site_url('siswa/latihan'. '/'. $id_submateri ); ?>"><button class="btn btn-primary">Mulai Latihan</button></a>
                         </div>
                     </div>
                 </div>

@@ -218,7 +218,7 @@ class Siswa extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('guru/latihan', $data);
+        $this->load->view('siswa/latihan', $data);
         $this->load->view('templates/footer');
     }
 

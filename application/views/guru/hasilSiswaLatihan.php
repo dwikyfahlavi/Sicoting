@@ -9,7 +9,7 @@
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Soal Latihan - <?= $materi['sub_materi'] ?><br></h4>
+                        <h4> - <?= $materi['sub_materi'] ?><br></h4>
                     </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>

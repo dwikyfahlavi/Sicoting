@@ -3,25 +3,31 @@
         <div class="section-header">
             <h1><?= $title; ?></h1>
         </div>
+        
 
-        <?php foreach ($latihan as $m) : ?>
+        <?php 
+        $index =- 0;
+        foreach ($latihan as $m) : ?>
        <div class="section-body">
             <div class="row">
                 <div class="col-20 col-md col-lg">
                     <div class="card">
                         <div class="card-header">
-                            <h4><?= $m['materi'] ?></h4>
+                            <h4>Latihan <?= $index ?></h4>
                         </div>
                         <div class="card-body">
-                            <?= $m['cp_pembelajaran'] ?>
+                            <?= $m['soal'] ?>
                         </div>
                         <div class="card-footer text-left">
-                            <a href="<?= site_url('siswa/subMateri'. '/'. $m['id_materi'] ); ?>"><button class="btn btn-primary">Lihat Materi</button></a>
+                            <a href="<?= site_url('siswa/subMateri'. '/'. $m['id_latihan'] ); ?>"><button class="btn btn-primary">Lihat Materi</button></a>
                             </div>
                     </div>
                 </div>
             </div>
         </section>
-        <?php endforeach ?>
+        
+        <?php 
+        $index ++;
+        endforeach ?>
     </section>
 </div>

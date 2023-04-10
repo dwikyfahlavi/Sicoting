@@ -102,12 +102,12 @@ class m_siswa extends CI_Model
         return $data->result_array();
     }
 
-    public function getSubMateriByID($id_submateri)
-    {
-        $argumen = array("id_submateri" => $id_submateri);
-        $data = $this->db->get_where("submateri", $argumen);
-        return $data->row_array();
-    }
+    // public function getSubMateriByID($id_submateri)
+    // {
+    //     $argumen = array("id_submateri" => $id_submateri);
+    //     $data = $this->db->get_where("submateri", $argumen);
+    //     return $data->row_array();
+    // }
 
     public function insertStatusBelajar($data)
     {
