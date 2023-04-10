@@ -333,6 +333,7 @@
             }
         });
     };
+    
 
     function tambahSoal(id, jenis_sub_soal, title) {
         index = 0;
@@ -472,10 +473,70 @@
             }
         });
     };
+    
 
     document.getElementById('jenisJawaban').addEventListener('change', function() {
         console.log(this.value);
     })
+
+    var kompetensi = "";
+    var ipk = "";
+    var tujuan = "";
+    var idSubMateri= 0;
+
+    function getDetailSubMateri(id) {
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>siswa/getSubMateriById",
+            data: {
+                id: id,
+            },
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                kompetensi = response.kompetensidasar;
+                ipk = response.ipk;
+                tujuan = response.tujuan;
+                idSubMateri = id;
+                $('#title').html(response.sub_materi); //hold the response in id and show on popup
+                $('#kompetensi_dasar').html(response.kompetensidasar); //hold the response in id and show on popup
+                $('#ipk').html(response.ipk);
+                $('#tujuan').html(response.tujuan);
+                $('#show_modal').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
+            }
+        });
+    };
+    
+    function showModalSecc(type) {
+
+        if(type == 1){
+            $('#titleSec').html("Kompetensi Dasar");
+            $('#content').html(kompetensi);
+        }else if(type == 2){
+            $('#titleSec').html("Indikator Pencapaian Kompetensi");
+            $('#content').html(ipk);
+        }else{
+            $('#titleSec').html("Tujuan Pembelajaran");
+            $('#content').html(tujuan);
+        }
+         $('#show_modalsec').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
+    };
+
+    function show_modalAperr() {
+        
+        var method = "<?php echo site_url(); ?>";
+        var url = method + "/siswa/komenApersepsi/" + idSubMateri;
+        window.location.href = url;  
+    };
+
 </script>
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {

@@ -27,31 +27,86 @@ class m_siswa extends CI_Model
         return $data->result_array();
     }
 
+    public function getSubMateri($id_materi)
+    {
+        $argumen = array("id_materi" => $id_materi);
+        $data = $this->db->get_where("submateri", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubMateriById($id_subMateri)
+    {
+        $argumen = array("id_submateri" => $id_subMateri);
+        $data = $this->db->get_where("submateri", $argumen);
+        return $data->row();
+    }
+
+    public function getApersepsiByIdSubMateri($id_subMateri)
+    {
+        $argumen = array("id_submateri" => $id_subMateri);
+        $data = $this->db->get_where("apersepsi", $argumen);
+        return $data->row();
+    }
+    
+    public function getKomenApersepsiByIdUser($id_user,$id_apersepsi)
+    {
+        $argumen = array("id_user" => $id_user,"id_apersepsi" => $id_apersepsi);
+        $data = $this->db->get_where("komentar_apersepsi", $argumen);
+        return $data->row();
+    }
+
+    public function addKomenApersepsi($data)
+    {
+        $data = $this->db->insert("komentar_apersepsi", $data);
+        return $data;
+    }
+
     public function getMedia()
     {
         $data = $this->db->get("media");
         return $data->result_array();
     }
 
-    public function getMediaPilih($id_materi, $jenis_media)
+    public function getMediaById($id_subMateri)
     {
-        $argumen = array("id_materi" => $id_materi, "jenis_media" => $jenis_media);
+        $argumen = array("id_submateri" => $id_subMateri);
+        $data = $this->db->get_where("media", $argumen);
+        return $data->result_array();
+    }
+
+    public function getMediaPilih($id_submateri, $jenis_media)
+    {
+        $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
         $data1 = $this->db->get_where("media", $argumen);
         return $data1->row();
     }
 
-    public function getMediaPilihCount($id_materi, $jenis_media)
+    public function getMediaPilihCount($id_submateri, $jenis_media)
     {
-        $argumen = array("id_materi" => $id_materi, "jenis_media" => $jenis_media);
+        $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
         $data1 = $this->db->get_where("media", $argumen);
         return $data1->num_rows();
     }
 
-    public function getStatusBelajar($id_materi, $id_user)
+    public function getStatusBelajar($id_submateri, $id_user)
     {
-        $argumen = array("id_materi" => $id_materi, "id_user" => $id_user);
+        $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);
         $data1 = $this->db->get_where("belajar", $argumen);
         return $data1->num_rows();
+    }
+
+    public function getLatihanByIDMateri($id_sub_materi)
+    {
+        $argumen = array("id_sub_materi" => $id_sub_materi);
+        $data = $this->db->get_where("soal_latihan", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubMateriByID($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("submateri", $argumen);
+        return $data->row_array();
     }
 
     public function insertStatusBelajar($data)

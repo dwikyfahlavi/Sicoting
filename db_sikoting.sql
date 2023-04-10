@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2023 at 03:29 PM
+-- Generation Time: Apr 10, 2023 at 08:03 AM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,7 @@ CREATE TABLE `apersepsi` (
 --
 
 INSERT INTO `apersepsi` (`id_apersepsi`, `pertanyaan_apersepsi`, `file_apersepsi`, `id_submateri`) VALUES
-(102, 'Coba lagi lagi lagi', '', NULL),
+(102, 'Coba lagi lagi lagi', '', 105),
 (104, 'Test', '', 104);
 
 -- --------------------------------------------------------
@@ -50,29 +50,15 @@ INSERT INTO `apersepsi` (`id_apersepsi`, `pertanyaan_apersepsi`, `file_apersepsi
 
 CREATE TABLE `hasil_siswa` (
   `id_hasil_siswa` int(11) NOT NULL,
-  `nis` varchar(255) NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `nilai` int(11) NOT NULL,
-  `jawaban` varchar(255) NOT NULL,
-  `jenis_soal` int(11) NOT NULL,
-  `id_sub_soal` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_soal_latihan` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `hasil_siswa`
---
-
-INSERT INTO `hasil_siswa` (`id_hasil_siswa`, `nis`, `nama`, `nilai`, `jawaban`, `jenis_soal`, `id_sub_soal`, `id_user`, `id_soal_latihan`) VALUES
-(1, '123456', 'ihsan', 80, 'a,b,c', 2, 24, 11, 1),
-(2, '123456', 'ihsan', 79, 'b', 1, 23, 11, 1),
-(3, '123456', 'ihsan', 98, 'true', 3, 25, 11, 1),
-(4, '123456', 'ihsan', 77, 'a,b,c,d', 4, 26, 11, 1),
-(5, '123454', 'dwiky', 70, 'a,b,d', 1, 1, 8, 17),
-(6, '123454', 'dwiky', 87, 'a', 2, 2, 8, 17),
-(7, '123454', 'dwiky', 76, 'true', 3, 3, 8, 17),
-(8, '123454', 'dwiky', 99, 'a,b,d', 4, 6, 8, 17);
+  `list_soal` longtext NOT NULL,
+  `list_jawaban` longtext NOT NULL,
+  `jumlah_benar` int(11) DEFAULT NULL,
+  `nilai` decimal(10,0) DEFAULT NULL,
+  `status` enum('1','0') NOT NULL,
+  `id_materi` int(11) DEFAULT NULL,
+  `id_mapel` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -97,15 +83,17 @@ CREATE TABLE `komentar_apersepsi` (
   `nis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `komentar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `id_apersepsi` int(11) DEFAULT NULL
+  `id_apersepsi` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `komentar_apersepsi`
 --
 
-INSERT INTO `komentar_apersepsi` (`id_komentar`, `nis`, `nama`, `komentar`, `id_apersepsi`) VALUES
-(1, '1801342', 'cahya', 'Test komentar', 104);
+INSERT INTO `komentar_apersepsi` (`id_komentar`, `nis`, `nama`, `komentar`, `id_apersepsi`, `id_user`) VALUES
+(3, '1808283', 'Ihsan Akbar', 'memek komen', 104, 11),
+(4, NULL, 'Ihsan Akbar', 'ihsan gelo', 102, 11);
 
 -- --------------------------------------------------------
 
@@ -146,37 +134,20 @@ CREATE TABLE `media` (
 --
 
 INSERT INTO `media` (`id_media`, `jenis_media`, `file_media`, `id_submateri`) VALUES
-(4, 'docs', 'Surat Tugas Jugment.doc', 104);
+(4, 'pdf', 'ConsultantAgreement_Enoram_Rafi_doc.pdf', 104);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `opsi_soal_latihan`
+-- Table structure for table `pesan`
 --
 
-CREATE TABLE `opsi_soal_latihan` (
-  `id_opsi_soal` int(11) NOT NULL,
-  `opsi_a` text NOT NULL,
-  `opsi_b` text NOT NULL,
-  `opsi_c` text NOT NULL,
-  `opsi_d` text NOT NULL,
-  `opsi_e` text NOT NULL,
-  `id_sub_soal` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `opsi_soal_latihan`
---
-
-INSERT INTO `opsi_soal_latihan` (`id_opsi_soal`, `opsi_a`, `opsi_b`, `opsi_c`, `opsi_d`, `opsi_e`, `id_sub_soal`) VALUES
-(12, 'erger', 'hreher', 'hreh', 'reher', 'herher', 23),
-(13, 'egwweg', 'hrthtr', 'htrjtr', 'jtrjtr', 'jtrjtr', 24),
-(14, '', '', '', '', '', 25),
-(15, 'hrtjyt', 'jteh', 'rtej', 'yrjt', 'jytytr', 26),
-(16, 'ini a', 'ini b', 'ini c', 'ini d', 'ini e', 1),
-(17, 'ini aa', 'ini bb', 'ini cc', 'ini dd', 'ini ee', 2),
-(18, 'ini aaa', 'ini bbb', 'ini ccc', 'ini ddd', 'ini eee', 3),
-(19, 'ini aaa', 'ini bbb', 'ini ccc', 'ini ddd', 'ini eee', 6);
+CREATE TABLE `pesan` (
+  `id_pesan` int(11) NOT NULL,
+  `isi_pesan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -188,16 +159,16 @@ CREATE TABLE `soal_latihan` (
   `id_latihan` int(11) NOT NULL,
   `soal` varchar(255) DEFAULT NULL,
   `file_latihan` varchar(255) DEFAULT NULL,
-  `id_materi` int(11) NOT NULL
+  `id_sub_materi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `soal_latihan`
 --
 
-INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `file_latihan`, `id_materi`) VALUES
-(1, 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', '', 102),
-(17, 'defgfd', '', 102);
+INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `file_latihan`, `id_sub_materi`) VALUES
+(1, 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', '', 104),
+(17, 'defgfd', '', 105);
 
 -- --------------------------------------------------------
 
@@ -230,29 +201,26 @@ INSERT INTO `submateri` (`id_submateri`, `sub_materi`, `kompetensidasar`, `ipk`,
 
 CREATE TABLE `sub_soal_latihan` (
   `id_sub_latihan` int(11) NOT NULL,
-  `jenis_sub_soal` int(11) NOT NULL,
-  `jenis_jawaban` int(11) NOT NULL,
-  `bobot` int(11) NOT NULL,
-  `jawaban_benar` text NOT NULL,
-  `soal_sub_latihan` text NOT NULL,
-  `file_soal` text NOT NULL,
-  `soal_latihan` varchar(255) NOT NULL,
-  `id_sub_materi` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `jenis_sub_soal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pertanyaan` longtext NOT NULL,
+  `file_soal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipe_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `opsi_a` longtext NOT NULL,
+  `opsi_b` longtext NOT NULL,
+  `opsi_c` longtext NOT NULL,
+  `opsi_d` longtext NOT NULL,
+  `opsi_e` longtext NOT NULL,
+  `alasan` enum('1','0') NOT NULL,
+  `jawaban_benar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_latihan` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sub_soal_latihan`
 --
 
-INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `jenis_jawaban`, `bobot`, `jawaban_benar`, `soal_sub_latihan`, `file_soal`, `soal_latihan`, `id_sub_materi`) VALUES
-(1, 1, 2, 25, 'a,b,c,e', 'Berdasarkan soal di atas, manakah hal-hal penting yang dapat kamu temukan dan menuntun kepada penyelesaian masalah?', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', 104),
-(2, 2, 1, 25, 'd', 'Berdasarkan soal di atas, informasi apakah yang bisa kita abaikan?', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', 104),
-(3, 3, 3, 25, 'a', 'Sebuah spesies amoeba akan membelah diri menjadi 3 bagian setiap detiknya. Jika pada detik pertama amoeba berjumlah 3, buatlah program untuk menampilkan jumlah amoeba setiap detiknya hingga detik ke 10.', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', 104),
-(6, 4, 4, 25, 'b,a,e,d,c,f', 'Selesaikan flowchart dibawah ini dengan tahapan yang tepat!', '', 'Adi diminta oleh gurunya untuk membuat kode perulangan dengan ouput yang diinginkan yaitu menampilkan angka kelipatan 3 sebanyak 10 kali. Bantulah Adi dalam menyelesaikan kode perulangan tersebut!', 104),
-(23, 1, 1, 33, 'c', 'gweedg', '', 'defgfd', 104),
-(24, 2, 2, 78, 'a,b,c', 'reght', '', 'defgfd', 104),
-(25, 3, 3, 33, 'false', 'fewgre', '', 'defgfd', 104),
-(26, 4, 4, 66, 'c', 'grthtr', '', 'defgfd', 104);
+INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `pertanyaan`, `file_soal`, `tipe_file`, `opsi_a`, `opsi_b`, `opsi_c`, `opsi_d`, `opsi_e`, `alasan`, `jawaban_benar`, `id_latihan`) VALUES
+(5, 'Dekomposisi', 'atirussalamualaikum', '', '', 'for', 'while', 'do while', 'mek do', 'for each', '1', 'A', 1);
 
 -- --------------------------------------------------------
 
@@ -408,13 +376,19 @@ INSERT INTO `user_sub_menu` (`id_user_sub_menu`, `menu_id`, `title`, `url`, `ico
 --
 
 --
+-- Indexes for table `apersepsi`
+--
+ALTER TABLE `apersepsi`
+  ADD PRIMARY KEY (`id_apersepsi`) USING BTREE,
+  ADD KEY `fk_apersepsi_submateri` (`id_submateri`) USING BTREE;
+
+--
 -- Indexes for table `hasil_siswa`
 --
 ALTER TABLE `hasil_siswa`
-  ADD PRIMARY KEY (`id_hasil_siswa`),
-  ADD KEY `fk_id_user` (`id_user`),
-  ADD KEY `fk_sub_soal` (`id_sub_soal`),
-  ADD KEY `fk_id_soal_latihan` (`id_soal_latihan`);
+  ADD PRIMARY KEY (`id_hasil_siswa`) USING BTREE,
+  ADD KEY `fk_hasil_user` (`id_user`) USING BTREE,
+  ADD KEY `fk_hasil_materi` (`id_materi`) USING BTREE;
 
 --
 -- Indexes for table `jawaban_sub_soal`
@@ -428,7 +402,8 @@ ALTER TABLE `jawaban_sub_soal`
 --
 ALTER TABLE `komentar_apersepsi`
   ADD PRIMARY KEY (`id_komentar`) USING BTREE,
-  ADD KEY `fk_komentar_apersepsi` (`id_apersepsi`) USING BTREE;
+  ADD KEY `fk_komentar_apersepsi` (`id_apersepsi`) USING BTREE,
+  ADD KEY `fk_idUser` (`id_user`) USING BTREE;
 
 --
 -- Indexes for table `materi`
@@ -445,18 +420,18 @@ ALTER TABLE `media`
   ADD KEY `fk_media_submateri` (`id_submateri`) USING BTREE;
 
 --
--- Indexes for table `opsi_soal_latihan`
+-- Indexes for table `pesan`
 --
-ALTER TABLE `opsi_soal_latihan`
-  ADD PRIMARY KEY (`id_opsi_soal`),
-  ADD KEY `fk_id_sub_soal` (`id_sub_soal`);
+ALTER TABLE `pesan`
+  ADD PRIMARY KEY (`id_pesan`) USING BTREE,
+  ADD KEY `fk_pesan_user` (`id_user`) USING BTREE;
 
 --
 -- Indexes for table `soal_latihan`
 --
 ALTER TABLE `soal_latihan`
   ADD PRIMARY KEY (`id_latihan`),
-  ADD KEY `fk_id_materi` (`id_materi`);
+  ADD KEY `fk_id_sub_materi` (`id_sub_materi`);
 
 --
 -- Indexes for table `submateri`
@@ -469,8 +444,8 @@ ALTER TABLE `submateri`
 -- Indexes for table `sub_soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
-  ADD PRIMARY KEY (`id_sub_latihan`),
-  ADD KEY `fk_id_sub_materi` (`id_sub_materi`);
+  ADD PRIMARY KEY (`id_sub_latihan`) USING BTREE,
+  ADD KEY `fk_sub_soal_latihan` (`id_latihan`) USING BTREE;
 
 --
 -- Indexes for table `tes`
@@ -502,10 +477,34 @@ ALTER TABLE `user_menu`
 --
 
 --
+-- AUTO_INCREMENT for table `apersepsi`
+--
+ALTER TABLE `apersepsi`
+  MODIFY `id_apersepsi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
 -- AUTO_INCREMENT for table `hasil_siswa`
 --
 ALTER TABLE `hasil_siswa`
-  MODIFY `id_hasil_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_hasil_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+
+--
+-- AUTO_INCREMENT for table `komentar_apersepsi`
+--
+ALTER TABLE `komentar_apersepsi`
+  MODIFY `id_komentar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `media`
+--
+ALTER TABLE `media`
+  MODIFY `id_media` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pesan`
+--
+ALTER TABLE `pesan`
+  MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT for table `soal_latihan`
@@ -514,22 +513,64 @@ ALTER TABLE `soal_latihan`
   MODIFY `id_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `sub_soal_latihan`
+--
+ALTER TABLE `sub_soal_latihan`
+  MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `apersepsi`
+--
+ALTER TABLE `apersepsi`
+  ADD CONSTRAINT `fk_apersepsi_submateri` FOREIGN KEY (`id_submateri`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `hasil_siswa`
 --
 ALTER TABLE `hasil_siswa`
-  ADD CONSTRAINT `fk_id_soal_latihan` FOREIGN KEY (`id_soal_latihan`) REFERENCES `soal_latihan` (`id_latihan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_sub_soal` FOREIGN KEY (`id_sub_soal`) REFERENCES `sub_soal_latihan` (`id_sub_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_hasil_materi` FOREIGN KEY (`id_materi`) REFERENCES `materi` (`id_materi`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_hasil_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `komentar_apersepsi`
+--
+ALTER TABLE `komentar_apersepsi`
+  ADD CONSTRAINT `fk_id_user_boss` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_komentar_apersepsi` FOREIGN KEY (`id_apersepsi`) REFERENCES `apersepsi` (`id_apersepsi`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `media`
+--
+ALTER TABLE `media`
+  ADD CONSTRAINT `fk_sub_materi_media` FOREIGN KEY (`id_submateri`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pesan`
+--
+ALTER TABLE `pesan`
+  ADD CONSTRAINT `fk_pesan_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `soal_latihan`
+--
+ALTER TABLE `soal_latihan`
+  ADD CONSTRAINT `fk_soal_id_submateri` FOREIGN KEY (`id_sub_materi`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `submateri`
+--
+ALTER TABLE `submateri`
+  ADD CONSTRAINT `fk_submateri_id_materi` FOREIGN KEY (`id_materi`) REFERENCES `materi` (`id_materi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sub_soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
-  ADD CONSTRAINT `fk_id_sub_materi` FOREIGN KEY (`id_sub_materi`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_sub_soal_latihan` FOREIGN KEY (`id_latihan`) REFERENCES `soal_latihan` (`id_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -172,16 +172,29 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
-    public function getMediaByID($id_media)
+    public function getMediaByID($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("media", $argumen);
+        return $data->result_array();
+    }
+
+    public function updateMediaByID($id_media)
     {
         $argumen = array("id_media" => $id_media);
         $data = $this->db->get_where("media", $argumen);
-        return $data->row_array();
+        return $data->result_array();
     }
 
     public function addMedia($data)
     {
         $data = $this->db->insert("media", $data);
+        return $data;
+    }
+
+    public function addPesan($data)
+    {
+        $data = $this->db->insert("pesan", $data);
         return $data;
     }
 
@@ -256,6 +269,11 @@ class m_guru extends CI_Model
         $data = $this->db->get("soal_latihan");
         return $data->result_array();
     }
+    public function getPesan()
+    {
+        $data= $this->db->query("SELECT * FROM pesan  INNER JOIN user ON pesan.id_user = user.id_user");
+        return $data->result_array();
+    }
 
     public function getLastLatihan()
     {
@@ -294,6 +312,27 @@ class m_guru extends CI_Model
         return $data->row_array();
     }
 
+    public function getLatihanByIDMateri($id_sub_materi)
+    {
+        $argumen = array("id_sub_materi" => $id_sub_materi);
+        $data = $this->db->get_where("soal_latihan", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubLatihanByIDLatihan($id_latihan)
+    {
+        $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubLatihanByID($id_sub_latihan)
+    {
+        $argumen = array("id_sub_latihan" => $id_sub_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->row_array();
+    }
+
     public function deleteLatihan($id_latihan)
     {
         $db_debug = $this->db->db_debug; //save setting
@@ -316,9 +355,36 @@ class m_guru extends CI_Model
         return $result;
     }
 
+    public function deleteSubLatihan($id_sub_latihan)
+    {
+        $db_debug = $this->db->db_debug; //save setting
+        $this->db->db_debug = FALSE; //disable debugging for queries
+
+        $this->db->where('id_sub_latihan', $id_sub_latihan);
+        $this->db->delete('sub_soal_latihan');
+        $db_error = $this->db->error();
+        $this->db->db_debug = $db_debug; //restore setting
+
+        //cek error db
+        if ($db_error['code'] == 0) {
+            //kalau 0, maka return true
+            $result = TRUE;
+        } else {
+            //kalau bukan 0, maka return false
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
     public function updateLatihan($id_latihan, $argumen)
     {
         $this->db->where('id_latihan', $id_latihan)->update('soal_latihan', $argumen);
+    }
+
+    public function updateSubLatihan($id_sub_latihan, $argumen)
+    {
+        $this->db->where('id_sub_latihan', $id_sub_latihan)->update('sub_soal_latihan', $argumen);
     }
 
     public function getSubSoalByID($id_latihan, $jenis_sub_soal)
@@ -333,7 +399,7 @@ class m_guru extends CI_Model
         $data = $this->db->get("hasil_siswa");
         return $data->result_array();
     }
-    
+
     public function getHasilLatihanById($id_soal_latihan)
     {
         $argumen = array("id_soal_latihan" => $id_soal_latihan);
@@ -341,7 +407,7 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
-    public function getHasilSiswaById($id, $id_user ,$jenis_sub_soal)
+    public function getHasilSiswaById($id, $id_user, $jenis_sub_soal)
     {
         $this->db->select('*');
         $this->db->from('hasil_siswa');
@@ -356,7 +422,6 @@ class m_guru extends CI_Model
         $query = $this->db->get();
         $result = $query->row_array();
         return $result;
-    
     }
 
     public function getUserSiswa()

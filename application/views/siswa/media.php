@@ -14,7 +14,7 @@
                             <h6>Setelah belajar melalui media yang kamu pilih, lanjutkan pembelajaran dengan menyelesaikan latihan!</h6>
                         </div>
                         <div class="card-footer text-left">
-                            <a href=""><button class="btn btn-primary">Mulai Latihan</button></a>
+                            <a href="<?= site_url('siswa/latihan'. '/'. $m['id_submateri'] ); ?>"><button class="btn btn-primary">Mulai Latihan</button></a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {
-        fetch("<?= base_url('siswa/detail_media/' . $id_materi . '/') ?>" + this.value, {
+        fetch("<?= base_url('siswa/detail_media/' . $id_submateri . '/') ?>" + this.value, {
                 method: 'GET',
             }).then((response) => response.text())
             .then((data) => {

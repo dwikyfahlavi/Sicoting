@@ -33,9 +33,15 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-title">Logged in 5 min ago</div>
+                        <?php if( $user['nip']==NULL):?>
                         <a href="<?= base_url('siswa/profile'); ?>" class="dropdown-item has-icon">
                             <i class="far fa-user"></i> Profile
                         </a>
+                        <?php else:?>
+                            <a href="<?= base_url('guru/profile'); ?>" class="dropdown-item has-icon">
+                            <i class="far fa-user"></i> Profile
+                        </a>
+                        <?php endif;?>
                         <div class="dropdown-divider"></div>
                         <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon text-danger">
                             <i class="fas fa-sign-out-alt"></i> Logout

@@ -79,6 +79,7 @@ class Siswa extends CI_Controller
                 Profile berhasil dirubah!</div>');
 		redirect('siswa/profile');
 	}
+	
 
 	public function materi()
 	{
@@ -93,11 +94,80 @@ class Siswa extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function media($id_materi)
+	public function subMateri($id_materi)
+	{
+		$data['title'] = 'Daftar Sub Materi';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['submateri'] = $this->siswa->getSubMateri($id_materi);
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('siswa/subMateri', $data);
+		$this->load->view('templates/footer');
+	}
+
+ 	public function getSubMateriById()
+    {
+		$id_submateri = $this->input->get('id');
+        $get_subMateri = $this->siswa->getSubMateriById($id_submateri);
+        echo json_encode($get_subMateri); 
+        exit();
+    }
+
+ 	public function getApersepsiByIdMateri()
+    {
+		$id_subMateri = $this->input->get('id');
+        $get_subMateri = $this->siswa->getApersepsiByIdSubMateri($id_subMateri);
+        echo json_encode($get_subMateri); 
+        exit();
+    }
+
+	public function komenApersepsi($id_subMateri)
+	{
+		$data['title'] = 'Komentar Apersepsi';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['apersepsi'] = $this->siswa->getApersepsiByIdSubMateri($id_subMateri);
+		$data['komen'] = $this->siswa->getKomenApersepsiByIdUser($data['user']['id_user'],$data['apersepsi']->id_apersepsi);
+		$data['id_submateri'] = $id_subMateri;
+
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		if($data['komen']  == null) {
+			$this->load->view('siswa/komentarApersepsi', $data);
+		}else{
+			$this->load->view('siswa/media', $data);
+		}
+		
+		$this->load->view('templates/footer');
+	}
+
+	public function komenApersepsiRespon()
+	{		
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$idUser = $this->input->post('id_user');
+		$idApersepsi = $this->input->post('id_apersepsi');
+		$data = [
+			'id_user' => $idUser,
+			'id_apersepsi' => $idApersepsi,
+			'nis' => $data['user']['nis'],
+			'nama' => $data['user']['nama'],
+			'komentar' => $this->input->post('komenAper'),
+		];
+		$this->siswa->addKomenApersepsi($data);
+		$this->session->set_flashdata('message', '<div class="alert alert-success">
+                Berhasil Menambahkan Komentar Apersepsi!</div>');
+		 redirect('siswa/media/' . $this->input->post('id_submateri'));
+	}
+
+	public function media($id_submateri)
 	{
 		$data['title'] = 'Media';
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['id_materi'] = $id_materi;
+		$data['id_submateri'] = $id_submateri;
+		$data['media'] = $this->siswa->getMediaById($id_submateri);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
@@ -106,19 +176,19 @@ class Siswa extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function detail_media($id_materi, $jenis_media)
+	public function detail_media($id_submateri, $jenis_media)
 	{
 		$data = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row();
-		$data7 = $this->siswa->getMediaPilih($id_materi, $jenis_media);
-		$data8 = $this->siswa->getMediaPilihCount($id_materi, $jenis_media);
+		$data7 = $this->siswa->getMediaPilih($id_submateri, $jenis_media);
+		$data8 = $this->siswa->getMediaPilihCount($id_submateri, $jenis_media);
 		if ($data8 == 0) {
 			echo "media tidak tersedia!!!.";
 		} else {
-			$cek_status = $this->siswa->GetStatusBelajar($id_materi, $data->id_user);
-			if ($cek_status == 0) {
-				$arg2 = array('status_belajar' => 1, 'id_materi' => $id_materi, 'id_user' => $data->id_user);
-				$this->siswa->insertStatusBelajar($arg2);
-			}
+			// $cek_status = $this->siswa->getStatusBelajar($id_submateri, $data->id_user);
+			// if ($cek_status == 0) {
+			// 	$arg2 = array('status_belajar' => 1, 'id_materi' => $id_submateri, 'id_user' => $data->id_user);
+			// 	$this->siswa->insertStatusBelajar($arg2);
+			// }
 			echo "Selamat Belajar!!!";
 			echo "<br>";
 			echo "<br>";
@@ -138,6 +208,19 @@ class Siswa extends CI_Controller
 			}
 		}
 	}
+
+	public function latihan($id_sub_materi)
+    {
+        $data['title'] = 'latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->siswa->getLatihanByIDMateri($id_sub_materi);
+        $data['subMateri'] = $this->siswa->getSubMateriByID($id_sub_materi);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/latihan', $data);
+        $this->load->view('templates/footer');
+    }
 
 	public function download_media($file)
 	{

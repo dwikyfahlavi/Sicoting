@@ -37,6 +37,31 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function chat()
+    {
+        $data['title'] = 'Room Chat';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['pesan'] = $this->guru->getPesan();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/chat', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function chat_siswa_response()
+    {
+        $data = [
+            'isi_pesan' => $this->input->post('isi_pesan'),
+            'tanggal' => date("Y-m-d H:i:s"),
+            'id_user' => $this->input->post('id_user'),
+        ];
+        $this->guru->addPesan($data);
+        
+        redirect('guru/chat');
+    }
+
     public function editProfile($id_user)
     {
         $data['title'] = 'Edit Profile';
@@ -424,7 +449,7 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['media'] = $this->guru->getMedia();
+        $data['media'] = $this->guru->getMediaByID($id_submateri);
         $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
@@ -459,7 +484,7 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'Update Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['updateMedia'] = $this->guru->getMediaByID($id_media);
+        $data['updateMedia'] = $this->guru->UpdateMediaByID($id_media);
         $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
 
@@ -603,17 +628,60 @@ class Guru extends CI_Controller
         redirect('guru/latihan/' . $id_materi);
     }
 
+    public function deleteSubSoalLatihan($id_sub_latihan, $id_latihan, $id_materi)
+    {
+        $this->guru->deleteSubLatihan($id_sub_latihan);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                Soal Latihan berhasil dihapus!</div>');
+        redirect('guru/soalCT/' . $id_latihan . '/' . $id_materi);
+    }
+
     public function latihan($id_sub_materi)
     {
         $data['title'] = 'latihan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['latihan'] = $this->guru->getLatihan();
+        $datasubmateri = $this->guru->getSubMateriByID($id_sub_materi);
+        $data['latihan'] = $this->guru->getLatihanByIDMateri($id_sub_materi);
         $data['subMateri'] = $this->guru->getSubMateriByID($id_sub_materi);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('guru/latihan', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function editLatihan($id_latihan)
+    {
+        $data['title'] = 'update latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->guru->getLatihanByID($id_latihan);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/latihanupdate', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function updateLatihanRespon()
+    {
+        $id = $this->input->post('id_latihan');
+
+        $config['upload_path']          = './assets/materi/latihan';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('file_latihan');
+        $data1 = array('upload_file_latihan' => $this->upload->data());
+        $data = [
+            'soal' => $this->input->post('soal'),
+            'file_latihan' => $data1['upload_file_latihan']['file_name'],
+        ];
+        $this->guru->updateLatihan($id, $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Latihan berhasil dirubah!</div>');
+        redirect('guru/latihan/' . $this->input->post('id_sub_materi'));
     }
 
     public function tambahLatihan()
@@ -630,191 +698,105 @@ class Guru extends CI_Controller
         $data = [
             'soal' => $this->input->post('soal'),
             'file_latihan' => $data1['upload_file_latihan']['file_name'],
-            'id_materi' => $this->input->post('id_materi'),
+            'id_sub_materi' => $this->input->post('id_sub_materi'),
         ];
         $this->guru->addLatihan($data);
-
-        $soal = $this->guru->getLastLatihan();
-        $soalId = $soal->id_latihan;
-
-        //Sub Soal Dekomposisi
-
-        $config['upload_path']          = './assets/materi/latihan/dekomposisi';
-        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-        $config['max_size']             = 5000;
-
-        $this->load->library('upload', $config);
-
-        $this->upload->do_upload('fileMediaDecom');
-        $data1 = array('upload_fileMediaDecom' => $this->upload->data());
-
-        $jawaban_benar;
-
-        if ($this->input->post('jawabanBenar1Decom') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar1Decom');
-        } else if ($this->input->post('jawabanBenar2Decom') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar2Decom');
-        } else {
-            $jawaban_benar = $this->input->post('jawabanBenar3Decom');
-        }
-
-        $data = [
-            'file_soal' => $data1['upload_fileMediaDecom']['file_name'],
-            'jenis_sub_soal' => $this->input->post('jenisSoalDekom'),
-            'jenis_jawaban' => $this->input->post('jenisJawabanDecom'),
-            'soal_sub_latihan' => $this->input->post('soalDecom'),
-            'bobot' => $this->input->post('bobotJawabanDecom'),
-            'jawaban_benar' => $jawaban_benar,
-            'id_soal_latihan' => $soalId,
-        ];
-        $this->guru->addSubSoal($data);
-
-        $subSoalDecom = $this->guru->getLastSubSoal();
-        $idSubSoalDecom = $subSoalDecom->id_sub_latihan;
-
-        $data2 = [
-            'opsi_a' => $this->input->post('jawabanADecom'),
-            'opsi_b' => $this->input->post('jawabanBDecom'),
-            'opsi_c' => $this->input->post('jawabanCDecom'),
-            'opsi_d' => $this->input->post('jawabanDDecom'),
-            'opsi_e' => $this->input->post('jawabanEDecom'),
-            'id_sub_soal' => $idSubSoalDecom,
-        ];
-
-        $this->guru->addOpsiSubSoal($data2);
-
-        //Sub Soal Abstrak
-
-        $config['upload_path']          = './assets/materi/latihan/abstraksi';
-        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-        $config['max_size']             = 5000;
-
-        $this->load->library('upload', $config);
-
-        $this->upload->do_upload('fileMediaAbstrak');
-        $data1 = array('upload_fileMediaAbstrak' => $this->upload->data());
-
-        $jawaban_benar;
-
-        if ($this->input->post('jawabanBenar1Abstrak') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar1Abstrak');
-        } else if ($this->input->post('jawabanBenar2Abstrak') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar2Abstrak');
-        } else {
-            $jawaban_benar = $this->input->post('jawabanBenar3Abstrak');
-        }
-
-        $data = [
-            'file_soal' => $data1['upload_fileMediaAbstrak']['file_name'],
-            'jenis_sub_soal' => $this->input->post('jenisSoalAbstrak'),
-            'jenis_jawaban' => $this->input->post('jenisJawabanAbstrak'),
-            'soal_sub_latihan' => $this->input->post('soalAbstrak'),
-            'bobot' => $this->input->post('bobotJawabanAbstrak'),
-            'jawaban_benar' => $jawaban_benar,
-            'id_soal_latihan' => $soalId,
-        ];
-        $this->guru->addSubSoal($data);
-
-        $subSoalAbstrak = $this->guru->getLastSubSoal();
-        $idSubSoalAbstrak = $subSoalAbstrak->id_sub_latihan;
-
-        $data2 = [
-            'opsi_a' => $this->input->post('jawabanAAbstrak'),
-            'opsi_b' => $this->input->post('jawabanBAbstrak'),
-            'opsi_c' => $this->input->post('jawabanCAbstrak'),
-            'opsi_d' => $this->input->post('jawabanDAbstrak'),
-            'opsi_e' => $this->input->post('jawabanEAbstrak'),
-            'id_sub_soal' => $idSubSoalAbstrak,
-        ];
-
-        $this->guru->addOpsiSubSoal($data2);
-
-        //Sub Soal Pattern
-
-        $config['upload_path']          = './assets/materi/latihan/pattern';
-        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-        $config['max_size']             = 5000;
-
-        $this->load->library('upload', $config);
-
-        $this->upload->do_upload('fileMediaPola');
-        $data1 = array('upload_fileMediaPola' => $this->upload->data());
-
-        $jawaban_benar;
-
-        if ($this->input->post('jawabanBenar1Pola') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar1Pola');
-        } else if ($this->input->post('jawabanBenar2Pola') != null) {
-            $jawaban_benar = $this->input->post('jawabanBenar2Pola');
-        } else {
-            $jawaban_benar = $this->input->post('jawabanBenar3Pola');
-        }
-
-        $data = [
-            'file_soal' => $data1['upload_fileMediaPola']['file_name'],
-            'jenis_sub_soal' => $this->input->post('jenisSoalPola'),
-            'jenis_jawaban' => $this->input->post('jenisJawabanPola'),
-            'soal_sub_latihan' => $this->input->post('soalPola'),
-            'bobot' => $this->input->post('bobotJawabanPola'),
-            'jawaban_benar' => $jawaban_benar,
-            'id_soal_latihan' => $soalId,
-        ];
-        $this->guru->addSubSoal($data);
-
-        $subSoalPola = $this->guru->getLastSubSoal();
-        $idSubSoalPola = $subSoalPola->id_sub_latihan;
-
-        $data2 = [
-            'opsi_a' => $this->input->post('jawabanAPola'),
-            'opsi_b' => $this->input->post('jawabanBPola'),
-            'opsi_c' => $this->input->post('jawabanCPola'),
-            'opsi_d' => $this->input->post('jawabanDPola'),
-            'opsi_e' => $this->input->post('jawabanEPola'),
-            'id_sub_soal' => $idSubSoalPola,
-        ];
-
-        $this->guru->addOpsiSubSoal($data2);
-
-        //Sub Soal Algoritma
-
-        $config['upload_path']          = './assets/materi/latihan/algoritma';
-        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
-        $config['max_size']             = 5000;
-
-        $this->load->library('upload', $config);
-
-        $this->upload->do_upload('fileMediaAlgo');
-        $data1 = array('upload_fileMediaAlgo' => $this->upload->data());
-
-
-        $data = [
-            'file_soal' => $data1['upload_fileMediaAlgo']['file_name'],
-            'jenis_sub_soal' => $this->input->post('jenisSoalAlgo'),
-            'jenis_jawaban' => $this->input->post('jenisJawabanAlgo'),
-            'soal_sub_latihan' => $this->input->post('soalAlgo'),
-            'bobot' => $this->input->post('bobotJawabanAlgo'),
-            'jawaban_benar' => $this->input->post('jawabanBenar1Algo'),
-            'id_soal_latihan' => $soalId,
-        ];
-        $this->guru->addSubSoal($data);
-
-        $subSoalAlgo = $this->guru->getLastSubSoal();
-        $idSubSoalAlgo = $subSoalAlgo->id_sub_latihan;
-
-        $data2 = [
-            'opsi_a' => $this->input->post('jawabanAAlgo'),
-            'opsi_b' => $this->input->post('jawabanBAlgo'),
-            'opsi_c' => $this->input->post('jawabanCAlgo'),
-            'opsi_d' => $this->input->post('jawabanDAlgo'),
-            'opsi_e' => $this->input->post('jawabanEAlgo'),
-            'id_sub_soal' => $idSubSoalAlgo,
-        ];
-
-        $this->guru->addOpsiSubSoal($data2);
 
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Soal Latihan berhasil ditambahkan!</div>');
         redirect('guru/latihan/' . $this->input->post('id_materi'));
+    }
+
+    public function soalCT($id_latihan, $id_sub_materi)
+    {
+        $data['title'] = 'Soal CT';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->guru->getSubLatihanByIDLatihan($id_latihan);
+        $data['subMateri'] = $this->guru->getSubMateriByID($id_sub_materi);
+        $data['subLatihan'] = $this->guru->getLatihanByID($id_latihan);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/SoalCT', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function editSubLatihan($id_sub_latihan, $id_sub_materi)
+    {
+        $data['title'] = 'update latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->guru->getSubLatihanByID($id_sub_latihan);
+        $data['subMateri'] = $this->guru->getSubMateriByID($id_sub_materi);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/soalCTUpdate', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function updateSubLatihanRespon()
+    {
+        $id = $this->input->post('id_sub_latihan');
+
+        $config['upload_path']          = './assets/materi/latihan';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('file_soal');
+        $data1 = array('upload_file_soal' => $this->upload->data());
+        $data = [
+            'jenis_sub_soal' => $this->input->post('jenis_sub_soal'),
+            'pertanyaan' => $this->input->post('pertanyaan'),
+            'file_soal' => $data1['upload_file_soal']['file_name'],
+            'tipe_file' => $data1['upload_file_soal']['file_type'],
+            'opsi_a' => $this->input->post('opsi_a'),
+            'opsi_b' => $this->input->post('opsi_b'),
+            'opsi_c' => $this->input->post('opsi_c'),
+            'opsi_d' => $this->input->post('opsi_d'),
+            'opsi_e' => $this->input->post('opsi_e'),
+            'jawaban_benar' => $this->input->post('jawaban_benar'),
+            'alasan' => $this->input->post('alasan'),
+            
+        ];
+        $this->guru->updateSubLatihan($id, $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Latihan berhasil dirubah!</div>');
+        redirect('guru/soalCT/' . $this->input->post('id_latihan'). '/' . $this->input->post('id_submateri'));
+    }
+
+    public function tambahSubLatihan()
+    {
+        $config['upload_path']          = './assets/materi/latihan';
+        $config['allowed_types']        = 'docs|docx|pdf|jpg|png|jpeg|svg';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+
+        //Soal Besar
+        $this->upload->do_upload('file_soal');
+        $data1 = array('upload_file_soal' => $this->upload->data());
+        $data = [
+            'jenis_sub_soal' => $this->input->post('jenis_sub_soal'),
+            'pertanyaan' => $this->input->post('pertanyaan'),
+            'file_soal' => $data1['upload_file_soal']['file_name'],
+            'tipe_file' => $data1['upload_file_soal']['file_type'],
+            'opsi_a' => $this->input->post('opsi_a'),
+            'opsi_b' => $this->input->post('opsi_b'),
+            'opsi_c' => $this->input->post('opsi_c'),
+            'opsi_d' => $this->input->post('opsi_d'),
+            'opsi_e' => $this->input->post('opsi_e'),
+            'jawaban_benar' => $this->input->post('jawaban_benar'),
+            'alasan' => $this->input->post('alasan'),
+            'id_latihan' => $this->input->post('id_latihan'),
+            
+        ];
+        $this->guru->addSubSoal($data);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Sub Soal Latihan berhasil ditambahkan!</div>');
+        redirect('guru/soalCT/' . $this->input->post('id_latihan'). '/' . $this->input->post('id_submateri'));
     }
 
     public function getSubSoal()
@@ -826,29 +808,28 @@ class Guru extends CI_Controller
         exit();
     }
 
-     public function getHasilSoal()
+    public function getHasilSoal()
     {
         $id = $this->input->get('id');
         $id_user = $this->input->get('id_user');
         $jenis_sub_soal = $this->input->get('jenis_sub_soal');
-        $get_latihan = $this->guru->getHasilSiswaById($id,$id_user,$jenis_sub_soal);
-        echo json_encode($get_latihan); 
+        $get_latihan = $this->guru->getHasilSiswaById($id, $id_user, $jenis_sub_soal);
+        echo json_encode($get_latihan);
         exit();
     }
 
-    public function hasilLatihan($id_soal,$id_materi)
+    public function hasilLatihan($id_soal, $id_materi)
     {
         $data['title'] = 'latihan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['hasil'] = $this->guru->getHasilLatihanById($id_soal);
         $data['latihan'] = $this->guru->getLatihanByID($id_soal);
         $data['materi'] = $this->guru->getSubMateriByID($id_materi);
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('guru/hasilSiswaLatihan', $data);
-            $this->load->view('templates/footer');
-
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/hasilSiswaLatihan', $data);
+        $this->load->view('templates/footer');
     }
 
     public function akunsiswa()
