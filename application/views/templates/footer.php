@@ -536,6 +536,25 @@
         var url = method + "/siswa/komenApersepsi/" + idSubMateri;
         window.location.href = url;  
     };
+    
+    
+    function showDekom() {
+        $("#content-dekomposisi").show();
+        $("#content-abstraksi, #content-pola, #content-algoritma").hide();
+    }
+    function showAbstraksi() {
+        $("#content-abstraksi").show();
+        $("#content-dekomposisi, #content-pola, #content-algoritma").hide();
+    }
+    function showPola() {
+        $("#content-pola").show();
+        $("#content-dekomposisi, #content-abstraksi, #content-algoritma").hide();
+    }
+    function showAlgo() {
+        $("#content-algoritma").show();
+        $("#content-dekomposisi, #content-abstraksi, #content-pola").hide();
+    }
+   
 
 </script>
 <script>

@@ -109,16 +109,36 @@ class m_siswa extends CI_Model
         return $data->result_array();
     }
 
-    // public function getSubMateriByID($id_submateri)
-    // {
-    //     $argumen = array("id_submateri" => $id_submateri);
-    //     $data = $this->db->get_where("submateri", $argumen);
-    //     return $data->row_array();
-    // }
+    public function getLatihanByIDLatihan($id_latihan)
+    {
+        $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("soal_latihan", $argumen);
+        return $data->row();
+    }
+    
+    public function getHasilByIdSubmateriUser($id_submateri,$id_user)
+    {
+        $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);
+        $data1 = $this->db->get_where("hasil_siswa", $argumen);
+        return $data1->row();
+    }
+
+    public function getSubLatihanByIDLatihan($id_latihan)
+    {
+        $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->result_array();
+    }
 
     public function insertStatusBelajar($data)
     {
         $result  = $this->db->insert("belajar", $data);
+        return $result;
+    }
+
+    public function insertHasilLatihan($data)
+    {
+        $result  = $this->db->insert("hasil_siswa", $data);
         return $result;
     }
 

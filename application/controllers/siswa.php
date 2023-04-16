@@ -210,7 +210,62 @@ class Siswa extends CI_Controller
 	}
 
 	public function latihan($id_sub_materi)
-	{
+    {
+        $data['title'] = 'Latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['latihan'] = $this->siswa->getLatihanByIDMateri($id_sub_materi);
+        $data['hasil'] = $this->siswa->getHasilByIdSubmateriUser($id_sub_materi,$data['user']['id_user']);
+        $data['idsubmateri'] = $id_sub_materi;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('siswa/latihan', $data);
+        $this->load->view('templates/footer');
+    }
+
+	public function latihanSiswa($id_latihan, $id_sub_materi)
+    {
+        $data['title'] = 'Latihan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['sublatihan'] = $this->siswa->getSubLatihanByIDLatihan($id_latihan);
+        $data['latihan'] = $this->siswa->getLatihanByIDLatihan($id_latihan);
+        $data['idsubmateri'] = $id_sub_materi;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('siswa/latihanSiswa', $data);
+        $this->load->view('templates/footer');
+    }
+
+	public function latihanTestRespon()
+    {
+		$idUser = $this->input->post('id_user');
+		$idSubmateri = $this->input->post('id_submateri');
+		$opsiDekom = $this->input->post('opsiDekom');
+		$opsiAbtrak = $this->input->post('opsiabstraksi');
+		$opsiPola = $this->input->post('opsiPola');
+		$opsiAlgo = $this->input->post('opsiAlgo');
+		$alasanDekom = $this->input->post('alasanDekom');
+		$alasanAbstraksi = $this->input->post('alasanAbstraksi');
+		$alasanPola = $this->input->post('alasanPola');
+		$alasanAlgo = $this->input->post('alasanAlgo');
+
+		$data = [
+			'list_soal' => "1;2;3;4;5",
+			'list_jawaban' => "1;Dekomposisi;$opsiDekom,2;Abstraksi;$opsiAbtrak,3;Pengenalan Pola;$opsiPola;4;Algoritma;$opsiAlgo",
+			'list_alasan' => "1;Dekomposisi;$alasanDekom,2;Abstraksi;$alasanAbstraksi,3;Pengenalan Pola;$alasanPola;4;Algoritma;$alasanAlgo",
+			'status' => 1,
+			'id_submateri' => $idSubmateri,
+			'id_user' => $idUser
+		];
+		$this->siswa->insertHasilLatihan($data);
+		$this->session->set_flashdata('message', '<div class="alert alert-success">
+                Profile berhasil dirubah!</div>');
+		redirect('siswa/test');
+    }
+
+	public function test()
+    {
 		$data['title'] = 'latihan';
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$data['latihan'] = $this->siswa->getLatihanByIDMateri($id_sub_materi);
