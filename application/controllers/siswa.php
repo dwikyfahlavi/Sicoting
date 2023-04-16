@@ -79,7 +79,7 @@ class Siswa extends CI_Controller
                 Profile berhasil dirubah!</div>');
 		redirect('siswa/profile');
 	}
-	
+
 
 	public function materi()
 	{
@@ -107,45 +107,45 @@ class Siswa extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
- 	public function getSubMateriById()
-    {
+	public function getSubMateriById()
+	{
 		$id_submateri = $this->input->get('id');
-        $get_subMateri = $this->siswa->getSubMateriById($id_submateri);
-        echo json_encode($get_subMateri); 
-        exit();
-    }
+		$get_subMateri = $this->siswa->getSubMateriById($id_submateri);
+		echo json_encode($get_subMateri);
+		exit();
+	}
 
- 	public function getApersepsiByIdMateri()
-    {
+	public function getApersepsiByIdMateri()
+	{
 		$id_subMateri = $this->input->get('id');
-        $get_subMateri = $this->siswa->getApersepsiByIdSubMateri($id_subMateri);
-        echo json_encode($get_subMateri); 
-        exit();
-    }
+		$get_subMateri = $this->siswa->getApersepsiByIdSubMateri($id_subMateri);
+		echo json_encode($get_subMateri);
+		exit();
+	}
 
 	public function komenApersepsi($id_subMateri)
 	{
 		$data['title'] = 'Komentar Apersepsi';
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$data['apersepsi'] = $this->siswa->getApersepsiByIdSubMateri($id_subMateri);
-		$data['komen'] = $this->siswa->getKomenApersepsiByIdUser($data['user']['id_user'],$data['apersepsi']->id_apersepsi);
+		$data['komen'] = $this->siswa->getKomenApersepsiByIdUser($data['user']['id_user'], $data['apersepsi']->id_apersepsi);
 		$data['id_submateri'] = $id_subMateri;
 
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('templates/topbar', $data);
-		if($data['komen']  == null) {
+		if ($data['komen']  == null) {
 			$this->load->view('siswa/komentarApersepsi', $data);
-		}else{
+		} else {
 			$this->load->view('siswa/media', $data);
 		}
-		
+
 		$this->load->view('templates/footer');
 	}
 
 	public function komenApersepsiRespon()
-	{		
+	{
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$idUser = $this->input->post('id_user');
 		$idApersepsi = $this->input->post('id_apersepsi');
@@ -159,7 +159,7 @@ class Siswa extends CI_Controller
 		$this->siswa->addKomenApersepsi($data);
 		$this->session->set_flashdata('message', '<div class="alert alert-success">
                 Berhasil Menambahkan Komentar Apersepsi!</div>');
-		 redirect('siswa/media/' . $this->input->post('id_submateri'));
+		redirect('siswa/media/' . $this->input->post('id_submateri'));
 	}
 
 	public function media($id_submateri)
@@ -266,20 +266,46 @@ class Siswa extends CI_Controller
 
 	public function test()
     {
-        $data['title'] = 'Latihan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        // $data['latihan'] = $this->siswa->getLatihanByIDMateri($id_sub_materi);
-        // $data['hasil'] = $this->siswa->getHasilByIdSubmateriUser($id_sub_materi,$data['user']['id_user']);
-        // $data['idsubmateri'] = $id_sub_materi;
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('siswa/latihan', $data);
-        $this->load->view('templates/footer');
-    }
+		$data['title'] = 'latihan';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['latihan'] = $this->siswa->getLatihanByIDMateri($id_sub_materi);
+		$data['subMateri'] = $this->siswa->getSubMateriByID($id_sub_materi);
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('siswa/latihan', $data);
+		$this->load->view('templates/footer');
+	}
 
 	public function download_media($file)
 	{
 		force_download('/skripsi/assets/materi/media/' . $file, NULL);
+	}
+
+	public function tes()
+	{
+		$data['title'] = 'Daftar Tes';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['materi'] = $this->siswa->getMateri();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('siswa/tes', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function tes_detail($id_materi)
+	{
+		$data['title'] = 'Daftar Tes';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['tes'] = $this->siswa->getTesByID($id_materi);
+		$data['materi'] = $this->siswa->getMateriByID($id_materi);
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('siswa/tes_detail', $data);
+		$this->load->view('templates/footer');
 	}
 }

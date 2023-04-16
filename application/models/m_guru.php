@@ -231,11 +231,11 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
-    public function getTesByID($id_tes)
+    public function getTesByID($id_materi)
     {
-        $argumen = array("id_tes" => $id_tes);
+        $argumen = array("id_materi" => $id_materi);
         $data = $this->db->get_where("tes", $argumen);
-        return $data->row_array();
+        return $data->result_array();
     }
 
     public function deleteTes($id_tes)
@@ -259,6 +259,13 @@ class m_guru extends CI_Model
         return $result;
     }
 
+    public function updateTesByID($id_tes)
+    {
+        $argumen = array("id_tes" => $id_tes);
+        $data = $this->db->get_where("tes", $argumen);
+        return $data->row_array();
+    }
+
     public function updateTes($id_tes, $argumen)
     {
         $this->db->where('id_tes', $id_tes)->update('tes', $argumen);
@@ -271,7 +278,7 @@ class m_guru extends CI_Model
     }
     public function getPesan()
     {
-        $data= $this->db->query("SELECT * FROM pesan  INNER JOIN user ON pesan.id_user = user.id_user");
+        $data = $this->db->query("SELECT * FROM pesan  INNER JOIN user ON pesan.id_user = user.id_user");
         return $data->result_array();
     }
 

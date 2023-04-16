@@ -58,7 +58,7 @@ class Guru extends CI_Controller
             'id_user' => $this->input->post('id_user'),
         ];
         $this->guru->addPesan($data);
-        
+
         redirect('guru/chat');
     }
 
@@ -541,9 +541,9 @@ class Guru extends CI_Controller
 
     public function tes($id_materi)
     {
-        $data['title'] = 'Tes';
+        $data['title'] = 'Daftar Tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['tes'] = $this->guru->getTes();
+        $data['tes'] = $this->guru->getTesByID($id_materi);
         $data['materi'] = $this->guru->getMateriByID($id_materi);
 
         $this->load->view('templates/header', $data);
@@ -557,8 +557,8 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        // $data['tes'] = $this->guru->getTesByID($id_materi);
 
-        $this->form_validation->set_rules('nama_tes', 'Nama', 'required');
         $this->form_validation->set_rules('jenis_tes', 'Jenis', 'required');
         $this->form_validation->set_rules('url', 'Url', 'required');
 
@@ -570,7 +570,6 @@ class Guru extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'nama_tes' => htmlspecialchars($this->input->post('nama_tes')),
                 'jenis_tes' => htmlspecialchars($this->input->post('jenis_tes')),
                 'url' => htmlspecialchars($this->input->post('url')),
                 'id_materi' => htmlspecialchars($this->input->post('id_materi')),
@@ -587,7 +586,7 @@ class Guru extends CI_Controller
         $data['title'] = 'Update Tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
-        $data['updateTes'] = $this->guru->getTesByID($id_tes);
+        $data['updateTes'] = $this->guru->updateTesByID($id_tes);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -600,7 +599,6 @@ class Guru extends CI_Controller
     {
         $id = $this->input->post('id_tes');
         $data = [
-            'nama_tes' => htmlspecialchars($this->input->post('nama_tes')),
             'jenis_tes' => htmlspecialchars($this->input->post('jenis_tes')),
             'url' => htmlspecialchars($this->input->post('url')),
             'id_materi' => htmlspecialchars($this->input->post('id_materi')),
@@ -758,12 +756,12 @@ class Guru extends CI_Controller
             'opsi_e' => $this->input->post('opsi_e'),
             'jawaban_benar' => $this->input->post('jawaban_benar'),
             'alasan' => $this->input->post('alasan'),
-            
+
         ];
         $this->guru->updateSubLatihan($id, $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Latihan berhasil dirubah!</div>');
-        redirect('guru/soalCT/' . $this->input->post('id_latihan'). '/' . $this->input->post('id_submateri'));
+        redirect('guru/soalCT/' . $this->input->post('id_latihan') . '/' . $this->input->post('id_submateri'));
     }
 
     public function tambahSubLatihan()
@@ -790,13 +788,13 @@ class Guru extends CI_Controller
             'jawaban_benar' => $this->input->post('jawaban_benar'),
             'alasan' => $this->input->post('alasan'),
             'id_latihan' => $this->input->post('id_latihan'),
-            
+
         ];
         $this->guru->addSubSoal($data);
 
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Sub Soal Latihan berhasil ditambahkan!</div>');
-        redirect('guru/soalCT/' . $this->input->post('id_latihan'). '/' . $this->input->post('id_submateri'));
+        redirect('guru/soalCT/' . $this->input->post('id_latihan') . '/' . $this->input->post('id_submateri'));
     }
 
     public function getSubSoal()

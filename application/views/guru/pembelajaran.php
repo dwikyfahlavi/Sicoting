@@ -35,6 +35,7 @@
                                             <td><a href="<?php echo site_url('guru/submateri/' . $m['id_materi']); ?>"><?= $m['materi']; ?></a></td>
                                             <td><?= $m['cp_pembelajaran']; ?></td>
                                             <td>
+                                                <a href="<?php echo site_url('guru/tes/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Tes</a>
                                                 <a href="<?php echo site_url('guru/updatePembelajaran/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
                                                 <a href="<?php echo site_url('guru/deletePembelajaran/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
