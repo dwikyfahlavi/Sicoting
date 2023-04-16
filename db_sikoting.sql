@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.3.0-dev+20220905.b20d7f3a04
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2023 at 08:03 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Generation Time: Apr 16, 2023 at 05:25 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `apersepsi` (
   `id_apersepsi` int(11) NOT NULL,
-  `pertanyaan_apersepsi` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_apersepsi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pertanyaan_apersepsi` longtext CHARACTER SET utf8mb4 DEFAULT NULL,
+  `file_apersepsi` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `id_submateri` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `apersepsi`
@@ -58,7 +58,7 @@ CREATE TABLE `hasil_siswa` (
   `id_materi` int(11) DEFAULT NULL,
   `id_mapel` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE `jawaban_sub_soal` (
   `id_jawaban` int(11) NOT NULL,
   `jawaban_siswa` text NOT NULL,
   `id_sub_soal_latihan` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -80,12 +80,12 @@ CREATE TABLE `jawaban_sub_soal` (
 
 CREATE TABLE `komentar_apersepsi` (
   `id_komentar` int(11) NOT NULL,
-  `nis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nama` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `komentar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nis` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `komentar` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `id_apersepsi` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `komentar_apersepsi`
@@ -93,7 +93,8 @@ CREATE TABLE `komentar_apersepsi` (
 
 INSERT INTO `komentar_apersepsi` (`id_komentar`, `nis`, `nama`, `komentar`, `id_apersepsi`, `id_user`) VALUES
 (3, '1808283', 'Ihsan Akbar', 'memek komen', 104, 11),
-(4, NULL, 'Ihsan Akbar', 'ihsan gelo', 102, 11);
+(4, NULL, 'Ihsan Akbar', 'ihsan gelo', 102, 11),
+(5, '1801342', 'Harlixa', 'asdas', 104, 4);
 
 -- --------------------------------------------------------
 
@@ -103,9 +104,9 @@ INSERT INTO `komentar_apersepsi` (`id_komentar`, `nis`, `nama`, `komentar`, `id_
 
 CREATE TABLE `materi` (
   `id_materi` int(11) NOT NULL,
-  `materi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cp_pembelajaran` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+  `materi` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `cp_pembelajaran` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `materi`
@@ -124,10 +125,10 @@ INSERT INTO `materi` (`id_materi`, `materi`, `cp_pembelajaran`) VALUES
 
 CREATE TABLE `media` (
   `id_media` int(11) NOT NULL,
-  `jenis_media` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file_media` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jenis_media` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `file_media` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `id_submateri` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `media`
@@ -144,10 +145,10 @@ INSERT INTO `media` (`id_media`, `jenis_media`, `file_media`, `id_submateri`) VA
 
 CREATE TABLE `pesan` (
   `id_pesan` int(11) NOT NULL,
-  `isi_pesan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `isi_pesan` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -160,7 +161,7 @@ CREATE TABLE `soal_latihan` (
   `soal` varchar(255) DEFAULT NULL,
   `file_latihan` varchar(255) DEFAULT NULL,
   `id_sub_materi` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `soal_latihan`
@@ -178,12 +179,12 @@ INSERT INTO `soal_latihan` (`id_latihan`, `soal`, `file_latihan`, `id_sub_materi
 
 CREATE TABLE `submateri` (
   `id_submateri` int(11) NOT NULL,
-  `sub_materi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `kompetensidasar` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ipk` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tujuan` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sub_materi` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `kompetensidasar` longtext CHARACTER SET utf8mb4 DEFAULT NULL,
+  `ipk` longtext CHARACTER SET utf8mb4 DEFAULT NULL,
+  `tujuan` longtext CHARACTER SET utf8mb4 DEFAULT NULL,
   `id_materi` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `submateri`
@@ -201,19 +202,19 @@ INSERT INTO `submateri` (`id_submateri`, `sub_materi`, `kompetensidasar`, `ipk`,
 
 CREATE TABLE `sub_soal_latihan` (
   `id_sub_latihan` int(11) NOT NULL,
-  `jenis_sub_soal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jenis_sub_soal` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `pertanyaan` longtext NOT NULL,
-  `file_soal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipe_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_soal` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `tipe_file` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `opsi_a` longtext NOT NULL,
   `opsi_b` longtext NOT NULL,
   `opsi_c` longtext NOT NULL,
   `opsi_d` longtext NOT NULL,
   `opsi_e` longtext NOT NULL,
   `alasan` enum('1','0') NOT NULL,
-  `jawaban_benar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jawaban_benar` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `id_latihan` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sub_soal_latihan`
@@ -230,18 +231,20 @@ INSERT INTO `sub_soal_latihan` (`id_sub_latihan`, `jenis_sub_soal`, `pertanyaan`
 
 CREATE TABLE `tes` (
   `id_tes` int(11) NOT NULL,
-  `nama_tes` text NOT NULL,
-  `jenis_tes` text NOT NULL,
+  `jenis_tes` varchar(128) NOT NULL,
   `url` text NOT NULL,
   `id_materi` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tes`
 --
 
-INSERT INTO `tes` (`id_tes`, `nama_tes`, `jenis_tes`, `url`, `id_materi`) VALUES
-(2, 'meki bau', 'pre cum', 'https://www.pornhub.com', 102);
+INSERT INTO `tes` (`id_tes`, `jenis_tes`, `url`, `id_materi`) VALUES
+(1, 'Pretest', 'https://www.google.com', 102),
+(2, 'Postest', 'https://www.pornhub.com', 102),
+(3, 'Posttest', 'https://www.instagram.com', 105),
+(5, 'Pretest', 'https://www.instagram.com', 105);
 
 -- --------------------------------------------------------
 
@@ -263,14 +266,14 @@ CREATE TABLE `user` (
   `role_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
   `date_created` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `nama`, `username`, `email`, `kontak`, `image`, `nip`, `nis`, `mapel`, `password`, `role_id`, `is_active`, `date_created`) VALUES
-(4, 'Harlixa', 'harli', 'harli@gmail.com', '08314442582', 'default.jpg', NULL, '1801342', NULL, '$2y$10$Nf2Xh3u8LUSh5.ecs3bZFucP0LQVwBCJcmgORssmAOkIiDpamLOCG', 3, 1, 1663329279),
+(4, 'Harlixa', 'harli', 'harli@gmail.com', '08314442582', 'default.jpg', NULL, '1801342', NULL, '$2y$10$bzqyEslXUHIAQdfqbLRPLOK8DuKGTYb1ECQnKLeqNuO3.LKhFaLEq', 3, 1, 1681109106),
 (6, 'Muhammad Cahya', 'cahya', 'muhammadcahya32@yahoo.com', '081234412346', 'avatar-5.png', '1921681002', NULL, 'Pemrograman Dasar Basic', '$2y$10$Iu9GYLu5a.t9mhrLcHzNzerNvnWtPz4Qny6OXw5rEw.dDmYNVRNP.', 2, 1, 1669335930),
 (7, 'Admin', 'admin', 'muhammadcahya32@gmail.com', '08314442582', 'default.jpg', NULL, NULL, NULL, '$2y$10$3eMdtTKVxm9FOImxYVUaSurUCWcyWuVMku.441Bo2ucfBl5jziUui', 1, 1, 1668668626),
 (8, 'Dwiqy Fahlavi', 'dwiqy', 'dwiqy@gmail.com', NULL, NULL, NULL, NULL, NULL, 'dwiqy123', 3, 0, 0),
@@ -286,7 +289,7 @@ CREATE TABLE `user_access_menu` (
   `id_user_access_menu` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_access_menu`
@@ -307,7 +310,7 @@ INSERT INTO `user_access_menu` (`id_user_access_menu`, `role_id`, `menu_id`) VAL
 CREATE TABLE `user_menu` (
   `id_user_menu` int(11) NOT NULL,
   `menu` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_menu`
@@ -328,7 +331,7 @@ INSERT INTO `user_menu` (`id_user_menu`, `menu`) VALUES
 CREATE TABLE `user_role` (
   `id_user_role` int(11) NOT NULL,
   `role` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_role`
@@ -352,7 +355,7 @@ CREATE TABLE `user_sub_menu` (
   `url` varchar(128) NOT NULL,
   `icon` varchar(128) NOT NULL,
   `is_active` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_sub_menu`
@@ -368,8 +371,10 @@ INSERT INTO `user_sub_menu` (`id_user_sub_menu`, `menu_id`, `title`, `url`, `ico
 (12, 4, 'Manajemen Akun', 'menu/manajemenakun', 'fas fa-fw fa-users-cog', 1),
 (13, 3, 'Beranda', 'siswa/beranda', 'fas fa-fw fa-home', 1),
 (14, 3, 'Mata Pelajaran', 'siswa/materi', 'fas fa-fw fa-book', 1),
-(15, 3, 'Bantuan', 'siswa/bantuan', 'fas fa-fw fa-info-circle', 1),
-(17, 2, 'Chat Room', 'guru/chat', 'fas fa-comments', 1);
+(15, 3, 'Nilai', 'siswa/nilai', 'fas fa-star', 1),
+(17, 2, 'Chat Room', 'guru/chat', 'fas fa-comments', 1),
+(18, 3, 'Tes', 'siswa/tes', 'fas fa-folder-open', 1),
+(19, 3, 'About', 'siswa/about', 'fas fa-info-circle', 1);
 
 --
 -- Indexes for dumped tables
@@ -473,6 +478,12 @@ ALTER TABLE `user_menu`
   ADD PRIMARY KEY (`id_user_menu`);
 
 --
+-- Indexes for table `user_sub_menu`
+--
+ALTER TABLE `user_sub_menu`
+  ADD PRIMARY KEY (`id_user_sub_menu`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -492,7 +503,7 @@ ALTER TABLE `hasil_siswa`
 -- AUTO_INCREMENT for table `komentar_apersepsi`
 --
 ALTER TABLE `komentar_apersepsi`
-  MODIFY `id_komentar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_komentar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `media`
@@ -517,6 +528,18 @@ ALTER TABLE `soal_latihan`
 --
 ALTER TABLE `sub_soal_latihan`
   MODIFY `id_sub_latihan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tes`
+--
+ALTER TABLE `tes`
+  MODIFY `id_tes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_sub_menu`
+--
+ALTER TABLE `user_sub_menu`
+  MODIFY `id_user_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
@@ -576,4 +599,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
