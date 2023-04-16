@@ -12,12 +12,12 @@
                             <?= form_open('guru/updateTesRespon') ?>
                             <input type="hidden" class="form-control" name="id_tes" value="<?= $updateTes['id_tes'] ?>">
                             <div class="form-group">
-                                <label>Nama Tes</label>
-                                <input type="text" class="form-control" name="nama_tes" value="<?= $updateTes['nama_tes'] ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Jenis Tes</label>
-                                <input type="text" class="form-control" name="jenis_tes" value="<?= $updateTes['jenis_tes'] ?>">
+                                <label for="jenis_tes">Jenis Tes</label>
+                                <select name="jenis_tes" class="form-control">
+                                    <option value="<?= $updateTes['jenis_tes'] ?>"><?= $updateTes['jenis_tes'] ?></option>
+                                    <option value="Pretest">Pretest</option>
+                                    <option value="Posttest">Posttest</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Url</label>

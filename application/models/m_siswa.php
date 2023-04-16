@@ -27,6 +27,13 @@ class m_siswa extends CI_Model
         return $data->result_array();
     }
 
+    public function getMateriByID($id_materi)
+    {
+        $argumen = array("id_materi" => $id_materi);
+        $data = $this->db->get_where("materi", $argumen);
+        return $data->row_array();
+    }
+
     public function getSubMateri($id_materi)
     {
         $argumen = array("id_materi" => $id_materi);
@@ -47,10 +54,10 @@ class m_siswa extends CI_Model
         $data = $this->db->get_where("apersepsi", $argumen);
         return $data->row();
     }
-    
-    public function getKomenApersepsiByIdUser($id_user,$id_apersepsi)
+
+    public function getKomenApersepsiByIdUser($id_user, $id_apersepsi)
     {
-        $argumen = array("id_user" => $id_user,"id_apersepsi" => $id_apersepsi);
+        $argumen = array("id_user" => $id_user, "id_apersepsi" => $id_apersepsi);
         $data = $this->db->get_where("komentar_apersepsi", $argumen);
         return $data->row();
     }
@@ -113,5 +120,12 @@ class m_siswa extends CI_Model
     {
         $result  = $this->db->insert("belajar", $data);
         return $result;
+    }
+
+    public function getTesByID($id_materi)
+    {
+        $argumen = array("id_materi" => $id_materi);
+        $data = $this->db->get_where("tes", $argumen);
+        return $data->result_array();
     }
 }
