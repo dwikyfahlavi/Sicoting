@@ -3,6 +3,12 @@
     <section class="section">
         <div class="section-header">
             <h1><?= $title; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("siswa"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("siswa/materi"); ?>">Mata Pelajaran</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("siswa/submateri/" . $submateri['id_materi']); ?>">Materi</a></div>
+                <div class="breadcrumb-item">Media</div>
+            </div>
         </div>
 
         <div class="section-body">
@@ -14,7 +20,7 @@
                             <h6>Setelah belajar melalui media yang kamu pilih, lanjutkan pembelajaran dengan menyelesaikan latihan!</h6>
                         </div>
                         <div class="card-footer text-left">
-                            <a href=""><button class="btn btn-primary">Mulai Latihan</button></a>
+                            <a href="<?= site_url('siswa/latihan' . '/' . $id_submateri); ?>"><button class="btn btn-primary">Mulai Latihan</button></a>
                         </div>
                     </div>
                 </div>
@@ -30,7 +36,6 @@
                             <option disabled selected>Klik Disini Untuk Pilih Media</option>
                             <option value="pdf">PDF</option>
                             <option value="ppt">PPT</option>
-                            <option value="audio">AUDIO</option>
                             <option value="video">VIDEO</option>
                         </select>
                     </div>
@@ -50,7 +55,7 @@
 
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {
-        fetch("<?= base_url('siswa/detail_media/' . $id_materi . '/') ?>" + this.value, {
+        fetch("<?= base_url('siswa/detail_media/' . $id_submateri . '/') ?>" + this.value, {
                 method: 'GET',
             }).then((response) => response.text())
             .then((data) => {

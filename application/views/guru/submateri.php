@@ -2,27 +2,32 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1><?= $materi['materi']; ?></h1>
+            <h1>Mata Pelajaran: <?= $materi['materi']; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran</a></div>
+                <div class="breadcrumb-item">Materi</div>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Sub Materi</h4>
+                        <h4>Daftar Materi</h4>
                     </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>
                             <div class="alert alert-danger"> <?= validation_errors(); ?> </div>
                         <?php endif; ?>
                         <?= $this->session->flashdata('message'); ?>
-                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMateriModal">Tambah Sub Materi</a>
+                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMateriModal">Tambah Materi</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Sub Materi</th>
+                                        <th>Nama Materi</th>
                                         <th>Kompetensi Dasar</th>
                                         <th>Indikator Pencapaian Kompetensi</th>
                                         <th>Tujuan Pembelajaran</th>
@@ -75,7 +80,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Sub Materi</h5>
+                <h5 class="modal-title">Tambah Materi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -3,30 +3,28 @@
     <section class="section">
         <div class="section-header">
             <h1><?= $title; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran </a></div>
+                <div class="breadcrumb-item">Tes</div>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-lg">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Daftar Tes<br></h4>
-                    </div>
-                    <div class="card-header">
-                    <h4><?= $materi['judul'] ?></h4>
-                    </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>
                             <div class="alert alert-danger"> <?= validation_errors(); ?> </div>
                         <?php endif; ?>
-                        <?= $this->session->flashdata('message'); ?> 
-                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTesModal"><i class="fas fa-plus"></i>Test</a>
+                        <?= $this->session->flashdata('message'); ?>
+                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newTesModal"><i class="fas fa-plus"></i> Tes</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>
                                     <tr>
                                         <th>Nomor</th>
-                                        <th>Nama Tes</th>
-                                        <th>Jenis Media</th>
+                                        <th>Jenis Tes</th>
                                         <th>Url</th>
                                         <th>Action</th>
                                     </tr>
@@ -36,11 +34,9 @@
                                     <?php foreach ($tes as $m) : ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?= $m['nama_tes']; ?></td>
                                             <td><?= $m['jenis_tes']; ?></td>
-                                            <td><a href="<?= $m['url']; ?>" class="btn btn-primary">Pretest</a></td>
+                                            <td><a href="<?= $m['url']; ?>" class="btn btn-primary"><?= $m['jenis_tes']; ?></a></td>
                                             <td>
-                                                <!-- <a href="<?php echo site_url('guru/media/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i>Details</a>  -->
                                                 <a href="<?php echo site_url('guru/updateTes/' . $m['id_tes'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
                                                 <a href="<?php echo site_url('guru/deleteTes/' . $m['id_tes'] . '/' . $m['id_materi']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
@@ -67,20 +63,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('guru/tesRespon'); ?>" method="post">
+            <form action="<?= base_url('guru/tesRespon/' . $materi['id_materi']); ?>" method="post">
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="nama_tes"><h6>Nama Tes</h6></label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="nama_tes" name="nama_tes" placeholder="Contoh : Tes for">
-                                </div>
-                                <label for="jenis_tes"><h6>Jenis Tes</h6></label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="jenis_tes" name="jenis_tes" placeholder="Contoh : Pretest">
-                                </div>
-                                <label for="jenis_tes"><h6>URL (Google Form)</h6></label>
+                                <label for="jenis_tes">Jenis Tes</label>
+                                <select name="jenis_tes" class="form-control">
+                                    <option value="Pretest">Pretest</option>
+                                    <option value="Posttest">Posttest</option>
+                                </select>
+                                <label for="url">
+                                    <h6>URL (Google Form)</h6>
+                                </label>
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" id="url" name="url" placeholder="Contoh : https://www.google.com">
                                 </div>

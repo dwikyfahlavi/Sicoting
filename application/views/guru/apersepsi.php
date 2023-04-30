@@ -2,13 +2,19 @@
     <section class="section">
         <div class="section-header">
             <h1><?= $title; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/submateri/" . $submateri['id_materi']); ?>">Materi</a></div>
+                <div class="breadcrumb-item">Apersepsi</div>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h4><?= $submateri['sub_materi'] ?></h4>
+                        <h4>Nama Materi: <?= $submateri['sub_materi'] ?></h4>
                     </div>
                     <div class="card-body">
                         <?php if (validation_errors()) : ?>
