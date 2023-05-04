@@ -55,11 +55,12 @@
 
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {
-        fetch("<?= base_url('siswa/detail_media/' . $id_submateri . '/') ?>" + this.value, {
-                method: 'GET',
-            }).then((response) => response.text())
-            .then((data) => {
-                document.getElementById('pakai_media').innerHTML = data
-            })
-    })
+                fetch("<?= base_url('siswa/detail_media/' . $id_submateri . '/') ?>" + this.value, {
+                    fetch("<?= base_url('siswa/detail_media/' . $id_submateri . '/') ?>" + this.value, {
+                        method: 'GET',
+                    }).then((response) => response.text())
+                    .then((data) => {
+                        document.getElementById('pakai_media').innerHTML = data
+                    })
+                })
 </script>

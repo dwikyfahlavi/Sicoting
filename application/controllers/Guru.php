@@ -65,6 +65,31 @@ class Guru extends CI_Controller
         redirect('guru/chat');
     }
 
+    public function chat()
+    {
+        $data['title'] = 'Room Chat';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['pesan'] = $this->guru->getPesan();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('guru/chat', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function chat_siswa_response()
+    {
+        $data = [
+            'isi_pesan' => $this->input->post('isi_pesan'),
+            'tanggal' => date("Y-m-d H:i:s"),
+            'id_user' => $this->input->post('id_user'),
+        ];
+        $this->guru->addPesan($data);
+
+        redirect('guru/chat');
+    }
+
     public function editProfile($id_user)
     {
         $data['title'] = 'Edit Profile';
@@ -454,6 +479,7 @@ class Guru extends CI_Controller
         $data['title'] = 'Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['media'] = $this->guru->getMediaByID($id_submateri);
+        $data['media'] = $this->guru->getMediaByID($id_submateri);
         $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
         $this->load->view('templates/header', $data);
@@ -488,6 +514,7 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'Update Media';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['updateMedia'] = $this->guru->UpdateMediaByID($id_media);
         $data['updateMedia'] = $this->guru->UpdateMediaByID($id_media);
         $data['submateri'] = $this->guru->getSubMateriByID($id_submateri);
 
@@ -546,7 +573,9 @@ class Guru extends CI_Controller
     public function tes($id_materi)
     {
         $data['title'] = 'Daftar Tes';
+        $data['title'] = 'Daftar Tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['tes'] = $this->guru->getTesByID($id_materi);
         $data['tes'] = $this->guru->getTesByID($id_materi);
         $data['materi'] = $this->guru->getMateriByID($id_materi);
 
@@ -561,6 +590,7 @@ class Guru extends CI_Controller
     {
         $data['title'] = 'tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        // $data['tes'] = $this->guru->getTesByID($id_materi);
         // $data['tes'] = $this->guru->getTesByID($id_materi);
 
         $this->form_validation->set_rules('jenis_tes', 'Jenis', 'required');
@@ -590,6 +620,7 @@ class Guru extends CI_Controller
         $data['title'] = 'Update Tes';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $data['updateMateri'] = $this->guru->getMateriByID($id_materi);
+        $data['updateTes'] = $this->guru->updateTesByID($id_tes);
         $data['updateTes'] = $this->guru->updateTesByID($id_tes);
 
         $this->load->view('templates/header', $data);
@@ -638,10 +669,20 @@ class Guru extends CI_Controller
         redirect('guru/soalCT/' . $id_latihan . '/' . $id_materi);
     }
 
+    public function deleteSubSoalLatihan($id_sub_latihan, $id_latihan, $id_materi)
+    {
+        $this->guru->deleteSubLatihan($id_sub_latihan);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger">
+                Soal Latihan berhasil dihapus!</div>');
+        redirect('guru/soalCT/' . $id_latihan . '/' . $id_materi);
+    }
+
     public function latihan($id_sub_materi)
     {
         $data['title'] = 'latihan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $datasubmateri = $this->guru->getSubMateriByID($id_sub_materi);
+        $data['latihan'] = $this->guru->getLatihanByIDMateri($id_sub_materi);
         $datasubmateri = $this->guru->getSubMateriByID($id_sub_materi);
         $data['latihan'] = $this->guru->getLatihanByIDMateri($id_sub_materi);
         $data['subMateri'] = $this->guru->getSubMateriByID($id_sub_materi);
@@ -652,6 +693,7 @@ class Guru extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function editLatihan($id_latihan)
     public function editLatihan($id_latihan)
     {
         $data['title'] = 'update latihan';
@@ -685,7 +727,15 @@ class Guru extends CI_Controller
                 Latihan berhasil dirubah!</div>');
         redirect('guru/latihan/' . $this->input->post('id_sub_materi'));
     }
+        $this->guru->updateLatihan($id, $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
+                Latihan berhasil dirubah!</div>');
+        redirect('guru/latihan/' . $this->input->post('id_sub_materi'));
+    }
 
+    public function tambahLatihan()
+    {
+        $config['upload_path']          = './assets/materi/latihan';
     public function tambahLatihan()
     {
         $config['upload_path']          = './assets/materi/latihan';
@@ -697,11 +747,18 @@ class Guru extends CI_Controller
         //Soal Besar
         $this->upload->do_upload('file_latihan');
         $data1 = array('upload_file_latihan' => $this->upload->data());
+        //Soal Besar
+        $this->upload->do_upload('file_latihan');
+        $data1 = array('upload_file_latihan' => $this->upload->data());
         $data = [
             'soal' => $this->input->post('soal'),
             'file_latihan' => $data1['upload_file_latihan']['file_name'],
             'id_sub_materi' => $this->input->post('id_sub_materi'),
+            'soal' => $this->input->post('soal'),
+            'file_latihan' => $data1['upload_file_latihan']['file_name'],
+            'id_sub_materi' => $this->input->post('id_sub_materi'),
         ];
+        $this->guru->addLatihan($data);
         $this->guru->addLatihan($data);
 
         $this->session->set_flashdata('message', '<div class="alert alert-success">
@@ -821,6 +878,8 @@ class Guru extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success">
                 Sub Soal Latihan berhasil ditambahkan!</div>');
         redirect('guru/soalCT/' . $this->input->post('id_latihan') . '/' . $this->input->post('id_submateri'));
+                Sub Soal Latihan berhasil ditambahkan!</div>');
+        redirect('guru/soalCT/' . $this->input->post('id_latihan') . '/' . $this->input->post('id_submateri'));
     }
 
     public function getSubSoal()
@@ -833,10 +892,13 @@ class Guru extends CI_Controller
     }
 
     public function getHasilSoal()
+    public function getHasilSoal()
     {
         $id = $this->input->get('id');
         $id_user = $this->input->get('id_user');
         $jenis_sub_soal = $this->input->get('jenis_sub_soal');
+        $get_latihan = $this->guru->getHasilSiswaById($id, $id_user, $jenis_sub_soal);
+        echo json_encode($get_latihan);
         $get_latihan = $this->guru->getHasilSiswaById($id, $id_user, $jenis_sub_soal);
         echo json_encode($get_latihan);
         exit();

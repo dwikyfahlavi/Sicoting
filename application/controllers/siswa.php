@@ -106,6 +106,7 @@ class Siswa extends CI_Controller
 	}
 
 
+
 	public function materi()
 	{
 		$data['title'] = 'Daftar Materi';
@@ -264,13 +265,21 @@ class Siswa extends CI_Controller
 	}
 
 	public function detail_media($id_submateri, $jenis_media)
+	public function detail_media($id_submateri, $jenis_media)
 	{
 		$data = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row();
+		$data7 = $this->siswa->getMediaPilih($id_submateri, $jenis_media);
+		$data8 = $this->siswa->getMediaPilihCount($id_submateri, $jenis_media);
 		$data7 = $this->siswa->getMediaPilih($id_submateri, $jenis_media);
 		$data8 = $this->siswa->getMediaPilihCount($id_submateri, $jenis_media);
 		if ($data8 == 0) {
 			echo "media tidak tersedia!!!.";
 		} else {
+			// $cek_status = $this->siswa->getStatusBelajar($id_submateri, $data->id_user);
+			// if ($cek_status == 0) {
+			// 	$arg2 = array('status_belajar' => 1, 'id_materi' => $id_submateri, 'id_user' => $data->id_user);
+			// 	$this->siswa->insertStatusBelajar($arg2);
+			// }
 			// $cek_status = $this->siswa->getStatusBelajar($id_submateri, $data->id_user);
 			// if ($cek_status == 0) {
 			// 	$arg2 = array('status_belajar' => 1, 'id_materi' => $id_submateri, 'id_user' => $data->id_user);

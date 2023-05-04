@@ -31,6 +31,7 @@
                                         <th>Nomor</th>
                                         <th>Soal</th>
                                         <th>File Soal</th>
+                                        <th>File Soal</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -77,6 +78,7 @@
 
                         <div class="form-group">
                             <label for="soal">
+                                <h6>Soal Latihan - <?= $subMateri['sub_materi'] ?></h6>
                                 <h6>Soal Latihan - <?= $subMateri['sub_materi'] ?></h6>
                             </label>
                             <div class="input-group mb-2">

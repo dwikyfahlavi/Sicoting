@@ -155,6 +155,7 @@ INSERT INTO `media` (`id_media`, `jenis_media`, `file_media`, `id_submateri`) VA
 
 --
 -- Table structure for table `pesan`
+-- Table structure for table `pesan`
 --
 
 CREATE TABLE `pesan` (
@@ -418,6 +419,13 @@ ALTER TABLE `apersepsi`
   ADD KEY `fk_apersepsi_submateri` (`id_submateri`) USING BTREE;
 
 --
+-- Indexes for table `apersepsi`
+--
+ALTER TABLE `apersepsi`
+  ADD PRIMARY KEY (`id_apersepsi`) USING BTREE,
+  ADD KEY `fk_apersepsi_submateri` (`id_submateri`) USING BTREE;
+
+--
 -- Indexes for table `hasil_siswa`
 --
 ALTER TABLE `hasil_siswa`
@@ -440,6 +448,8 @@ ALTER TABLE `komentar_apersepsi`
   ADD PRIMARY KEY (`id_komentar`) USING BTREE,
   ADD KEY `fk_komentar_apersepsi` (`id_apersepsi`) USING BTREE,
   ADD KEY `fk_idUser` (`id_user`) USING BTREE;
+  ADD KEY `fk_komentar_apersepsi` (`id_apersepsi`) USING BTREE,
+  ADD KEY `fk_idUser` (`id_user`) USING BTREE;
 
 --
 -- Indexes for table `materi`
@@ -457,7 +467,11 @@ ALTER TABLE `media`
 
 --
 -- Indexes for table `pesan`
+-- Indexes for table `pesan`
 --
+ALTER TABLE `pesan`
+  ADD PRIMARY KEY (`id_pesan`) USING BTREE,
+  ADD KEY `fk_pesan_user` (`id_user`) USING BTREE;
 ALTER TABLE `pesan`
   ADD PRIMARY KEY (`id_pesan`) USING BTREE,
   ADD KEY `fk_pesan_user` (`id_user`) USING BTREE;
@@ -619,6 +633,12 @@ ALTER TABLE `user_menu`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `apersepsi`
+--
+ALTER TABLE `apersepsi`
+  ADD CONSTRAINT `fk_apersepsi_submateri` FOREIGN KEY (`id_submateri`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `apersepsi`

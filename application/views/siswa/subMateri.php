@@ -47,17 +47,17 @@
       <div class="modal-body">
         <div class="column">
           <div class="row">
-        <div class="col-3">
-        </div>
-          <div class="col-6">
-          <div class="article-image" data-background="../assets/img/news/img08.jpg"></div><br>
-          <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(1)">Kompetensi Dasar</button><br><br>
-          <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(2)">Indikator Pencapaian Kompetensi</button><br><br>
-          <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(3)">Tujuan Pembelajaran</button>
-        </div>
-        <div class="col-3">
-        </div>
-        </div>
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+              <div class="article-image" data-background="../assets/img/news/img08.jpg"></div><br>
+              <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(1)">Kompetensi Dasar</button><br><br>
+              <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(2)">Indikator Pencapaian Kompetensi</button><br><br>
+              <button type="button" class="btn btn-warning" style="width: 100%;" onclick="showModalSecc(3)">Tujuan Pembelajaran</button>
+            </div>
+            <div class="col-3">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
