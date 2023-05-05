@@ -26,7 +26,6 @@
                     </div>
                 </div>
             </div>
-</div>
-<?php endforeach ?>
-</section>
+        <?php endforeach ?>
+    </section>
 </div>

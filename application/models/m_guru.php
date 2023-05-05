@@ -220,14 +220,6 @@ class m_guru extends CI_Model
     }
 
     public function updateMediaByID($id_media)
-    public function getMediaByID($id_submateri)
-    {
-        $argumen = array("id_submateri" => $id_submateri);
-        $data = $this->db->get_where("media", $argumen);
-        return $data->result_array();
-    }
-
-    public function updateMediaByID($id_media)
     {
         $argumen = array("id_media" => $id_media);
         $data = $this->db->get_where("media", $argumen);
@@ -237,12 +229,6 @@ class m_guru extends CI_Model
     public function addMedia($data)
     {
         $data = $this->db->insert("media", $data);
-        return $data;
-    }
-
-    public function addPesan($data)
-    {
-        $data = $this->db->insert("pesan", $data);
         return $data;
     }
 
@@ -285,7 +271,6 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
-    public function getTesByID($id_materi)
     public function getTesByID($id_materi)
     {
         $argumen = array("id_materi" => $id_materi);
@@ -495,36 +480,9 @@ class m_guru extends CI_Model
         return $result;
     }
 
-    public function deleteSubLatihan($id_sub_latihan)
-    {
-        $db_debug = $this->db->db_debug; //save setting
-        $this->db->db_debug = FALSE; //disable debugging for queries
-
-        $this->db->where('id_sub_latihan', $id_sub_latihan);
-        $this->db->delete('sub_soal_latihan');
-        $db_error = $this->db->error();
-        $this->db->db_debug = $db_debug; //restore setting
-
-        //cek error db
-        if ($db_error['code'] == 0) {
-            //kalau 0, maka return true
-            $result = TRUE;
-        } else {
-            //kalau bukan 0, maka return false
-            $result = FALSE;
-        }
-
-        return $result;
-    }
-
     public function updateLatihan($id_latihan, $argumen)
     {
         $this->db->where('id_latihan', $id_latihan)->update('soal_latihan', $argumen);
-    }
-
-    public function updateSubLatihan($id_sub_latihan, $argumen)
-    {
-        $this->db->where('id_sub_latihan', $id_sub_latihan)->update('sub_soal_latihan', $argumen);
     }
 
     public function updateSubLatihan($id_sub_latihan, $argumen)
@@ -558,8 +516,6 @@ class m_guru extends CI_Model
         $data = $this->db->get_where("hasil_siswa", $argumen);
         return $data->row_array();
     }
-
-
 
     public function getUserSiswa()
     {

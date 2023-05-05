@@ -20,13 +20,13 @@
                             <div class="alert alert-danger"> <?= validation_errors(); ?> </div>
                         <?php endif; ?>
                         <?= $this->session->flashdata('message'); ?>
-                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMateriModal">Tambah Materi</a>
+                        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMateriModal">Tambah Mata Pelajaran</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Materi</th>
+                                        <th>Nama Mata Pelajaran</th>
                                         <th>Capaian Pembelajaran</th>
                                         <th>Action</th>
                                     </tr>
@@ -51,23 +51,6 @@
                             </table>
                         </div>
                     </div>
-                    <!-- <div class="card-footer text-right">
-                        <nav class="d-inline-block">
-                            <ul class="pagination mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div> -->
                 </div>
             </div>
             <div class="section-body">
@@ -80,7 +63,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Materi</h5>
+                <h5 class="modal-title">Tambah Mata Pelajaran</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

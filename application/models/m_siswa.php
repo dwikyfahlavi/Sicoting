@@ -83,14 +83,6 @@ class m_siswa extends CI_Model
     }
 
     public function getMediaPilih($id_submateri, $jenis_media)
-    public function getMediaById($id_subMateri)
-    {
-        $argumen = array("id_submateri" => $id_subMateri);
-        $data = $this->db->get_where("media", $argumen);
-        return $data->result_array();
-    }
-
-    public function getMediaPilih($id_submateri, $jenis_media)
     {
         $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
         $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
@@ -99,7 +91,6 @@ class m_siswa extends CI_Model
     }
 
     public function getMediaPilihCount($id_submateri, $jenis_media)
-    public function getMediaPilihCount($id_submateri, $jenis_media)
     {
         $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
         $argumen = array("id_submateri" => $id_submateri, "jenis_media" => $jenis_media);
@@ -107,7 +98,6 @@ class m_siswa extends CI_Model
         return $data1->num_rows();
     }
 
-    public function getStatusBelajar($id_submateri, $id_user)
     public function getStatusBelajar($id_submateri, $id_user)
     {
         $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);

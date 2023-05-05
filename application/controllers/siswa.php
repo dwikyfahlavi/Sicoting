@@ -105,11 +105,9 @@ class Siswa extends CI_Controller
 		redirect('siswa/profile');
 	}
 
-
-
 	public function materi()
 	{
-		$data['title'] = 'Daftar Materi';
+		$data['title'] = 'Daftar Mata Pelajaran';
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$data['materi'] = $this->siswa->getMateri();
 
@@ -182,7 +180,7 @@ class Siswa extends CI_Controller
 
 	public function subMateri($id_materi)
 	{
-		$data['title'] = 'Daftar Sub Materi';
+		$data['title'] = 'Daftar Materi';
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$data['submateri'] = $this->siswa->getSubMateri($id_materi);
 
@@ -264,7 +262,6 @@ class Siswa extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function detail_media($id_submateri, $jenis_media)
 	public function detail_media($id_submateri, $jenis_media)
 	{
 		$data = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row();
