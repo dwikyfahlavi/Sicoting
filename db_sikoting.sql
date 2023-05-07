@@ -63,15 +63,16 @@ CREATE TABLE `hasil_siswa` (
   `status` enum('1','0') NOT NULL,
   `id_materi` int(11) DEFAULT NULL,
   `id_submateri` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL
+  `id_user` int(11) DEFAULT NULL,
+  `id_latihan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `hasil_siswa`
 --
 
-INSERT INTO `hasil_siswa` (`id_hasil_siswa`, `list_soal`, `list_jawaban`, `list_alasan`, `nilai_dekomposisi`, `nilai_abstraksi`, `nilai_pp`, `nilai_ba`, `nilai_akhir`, `status` , `id_materi`, `id_submateri`, `id_user`) VALUES
-(202, '1;2;3;4;5', '1;Dekomposisi;B,2;Abstraksi;C,3;Pengenalan Pola;D,4;Algoritma;A', '1;Dekomposisi;dasd,2;Abstraksi;-,3;Pengenalan Pola;-,4;Algoritma;-', NULL, NULL, NULL, NULL, NULL, '1', 105,105, 4);
+INSERT INTO `hasil_siswa` (`id_hasil_siswa`, `list_soal`, `list_jawaban`, `list_alasan`, `nilai_dekomposisi`, `nilai_abstraksi`, `nilai_pp`, `nilai_ba`, `nilai_akhir`, `status` , `id_materi`, `id_submateri`, `id_user`,  `id_latihan`) VALUES
+(202, '1;2;3;4;5', '1;Dekomposisi;B,2;Abstraksi;C,3;Pengenalan Pola;D,4;Algoritma;A', '1;Dekomposisi;dasd,2;Abstraksi;-,3;Pengenalan Pola;-,4;Algoritma;-', NULL, NULL, NULL, NULL, NULL, '1', 105,105, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -432,7 +433,8 @@ ALTER TABLE `hasil_siswa`
   ADD PRIMARY KEY (`id_hasil_siswa`) USING BTREE,
   ADD KEY `fk_hasil_user` (`id_user`) USING BTREE,
   ADD KEY `fk_hasil_submateri` (`id_submateri`) USING BTREE,
-  ADD KEY `fk_hasil_materi` (`id_materi`) USING BTREE;
+  ADD KEY `fk_hasil_materi` (`id_materi`) USING BTREE,
+  ADD KEY `id_latihan` (`id_latihan`) USING BTREE;
 
 --
 -- Indexes for table `jawaban_sub_soal`
@@ -652,7 +654,8 @@ ALTER TABLE `apersepsi`
 ALTER TABLE `hasil_siswa`
 ADD CONSTRAINT `fk_hasil_materi` FOREIGN KEY (`id_materi`) REFERENCES `materi` (`id_materi`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_hasil_submateri` FOREIGN KEY (`id_submateri`) REFERENCES `submateri` (`id_submateri`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_hasil_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_hasil_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_hasil_latihan` FOREIGN KEY (`id_latihan`) REFERENCES `soal_latihan` (`id_latihan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `komentar_apersepsi`
