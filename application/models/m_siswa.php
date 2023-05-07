@@ -120,12 +120,19 @@ class m_siswa extends CI_Model
     {
         $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);
         $data1 = $this->db->get_where("hasil_siswa", $argumen);
-        return $data1->row();
+        return $data1->result_array();
     }
 
     public function getSubLatihanByIDLatihan($id_latihan)
     {
         $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->result_array();
+    }
+
+    public function getSubLatihanByIdJenisSoal($id_latihan)
+    {
+        $argumen = array("jenis_sub_soal" => $id_latihan);
         $data = $this->db->get_where("sub_soal_latihan", $argumen);
         return $data->result_array();
     }

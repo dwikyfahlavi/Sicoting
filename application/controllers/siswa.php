@@ -227,7 +227,10 @@ class Siswa extends CI_Controller
     {
         $data['title'] = 'Latihan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['sublatihan'] = $this->siswa->getSubLatihanByIDLatihan($id_latihan);
+        $data['dekomposisi'] = $this->siswa->getSubLatihanByIdJenisSoal("Dekomposisi");
+        $data['abstraksi'] = $this->siswa->getSubLatihanByIdJenisSoal("Abstraksi");
+        $data['pengenalanPola'] = $this->siswa->getSubLatihanByIdJenisSoal("Pengenalan Pola");
+        $data['algoritma'] = $this->siswa->getSubLatihanByIdJenisSoal("Algoritma");
         $data['latihan'] = $this->siswa->getLatihanByIDLatihan($id_latihan);
         $data['idsubmateri'] = $id_sub_materi;
         $this->load->view('templates/header', $data);
@@ -241,22 +244,52 @@ class Siswa extends CI_Controller
     {
 		$idUser = $this->input->post('id_user');
 		$idSubmateri = $this->input->post('id_submateri');
-		$opsiDekom = $this->input->post('opsiDekom');
-		$opsiAbtrak = $this->input->post('opsiabstraksi');
-		$opsiPola = $this->input->post('opsiPola');
-		$opsiAlgo = $this->input->post('opsiAlgo');
-		$alasanDekom = $this->input->post('alasanDekom');
-		$alasanAbstraksi = $this->input->post('alasanAbstraksi');
-		$alasanPola = $this->input->post('alasanPola');
-		$alasanAlgo = $this->input->post('alasanAlgo');
+		$id_latihan = $this->input->post('id_latihan');
+		$dekomposisi = $this->siswa->getSubLatihanByIdJenisSoal("Dekomposisi");
+		$abstraksi = $this->siswa->getSubLatihanByIdJenisSoal("Abstraksi");
+		$pengenalan_pola = $this->siswa->getSubLatihanByIdJenisSoal("Pengenalan Pola");
+		$algoritma = $this->siswa->getSubLatihanByIdJenisSoal("Algoritma");
+		$list_jawaban = "";
+		$list_alasan = "";
+		$index = 1;
+		for($i=0;$i<sizeof($dekomposisi);$i++){
+			$text = 'opsiDekom' . "{$i}";
+			$textAlasan = 'alasanDekom' . "{$i}";
+			$list_alasan =  $list_alasan . "{$index}".";Dekomposisi;".$this->input->post($textAlasan).",";
+			$list_jawaban =  $list_jawaban . "{$index}".";Dekomposisi;".$this->input->post($text).",";
+			$index ++;
+        }    
+		for($i=0;$i<sizeof($abstraksi);$i++){
+			$text = 'opsiabstraksi' . "{$i}";
+			$textAlasan = 'alasanAbstraksi' . "{$i}";
+			$list_alasan =  $list_alasan . "{$index}".";Abstraksi;".$this->input->post($textAlasan).",";
+			$list_jawaban = $list_jawaban . "{$index}".";Abstraksi;".$this->input->post($text).",";
+			$index ++;
+        }    
+		for($i=0;$i<sizeof($pengenalan_pola);$i++){
+			$text = 'opsiPola' . "{$i}";
+			$textAlasan = 'alasanPola' . "{$i}";
+			$list_alasan =  $list_alasan . "{$index}".";Pengenalan Pola;".$this->input->post($textAlasan).",";
+			$list_jawaban = $list_jawaban . "{$index}".";Pengenalan Pola;".$this->input->post($text).",";
+			$index ++;
+        }    
+		for($i=0;$i<sizeof($algoritma);$i++){
+			$text = 'opsiAlgo' . "{$i}";
+			$textAlasan = 'alasanAlgo' . "{$i}";
+			$list_alasan =  $list_alasan . "{$index}".";Algoritma;".$this->input->post($textAlasan);
+			$list_jawaban = $list_jawaban . "{$index}".";Algoritma;".$this->input->post($text);
+			$index ++;
+
+        }    
 
 		$data = [
 			'list_soal' => "1;2;3;4;5",
-			'list_jawaban' => "1;Dekomposisi;$opsiDekom,2;Abstraksi;$opsiAbtrak,3;Pengenalan Pola;$opsiPola;4;Algoritma;$opsiAlgo",
-			'list_alasan' => "1;Dekomposisi;$alasanDekom,2;Abstraksi;$alasanAbstraksi,3;Pengenalan Pola;$alasanPola;4;Algoritma;$alasanAlgo",
+			'list_jawaban' => $list_jawaban,
+			'list_alasan' => $list_alasan,
 			'status' => 1,
 			'id_submateri' => $idSubmateri,
-			'id_user' => $idUser
+			'id_user' => $idUser,
+			'id_latihan' => $id_latihan
 		];
 		$this->siswa->insertHasilLatihan($data);
 		$this->session->set_flashdata('message', '<div class="alert alert-success">
