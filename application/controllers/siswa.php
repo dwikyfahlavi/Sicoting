@@ -326,6 +326,7 @@ class Siswa extends CI_Controller
         $data['pengenalanPola'] = $this->siswa->getSubLatihanByIdJenisSoal("Pengenalan Pola");
         $data['algoritma'] = $this->siswa->getSubLatihanByIdJenisSoal("Algoritma");
         $data['latihan'] = $this->siswa->getLatihanByIDLatihan($id_latihan);
+		$data['materi'] = $this->siswa->getSubMateriID($id_sub_materi);
         $data['idsubmateri'] = $id_sub_materi;
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -339,6 +340,7 @@ class Siswa extends CI_Controller
 		$idUser = $this->input->post('id_user');
 		$idSubmateri = $this->input->post('id_submateri');
 		$id_latihan = $this->input->post('id_latihan');
+		$idmateri = $this->input->post('id_materi');
 		$dekomposisi = $this->siswa->getSubLatihanByIdJenisSoal("Dekomposisi");
 		$abstraksi = $this->siswa->getSubLatihanByIdJenisSoal("Abstraksi");
 		$pengenalan_pola = $this->siswa->getSubLatihanByIdJenisSoal("Pengenalan Pola");
@@ -389,7 +391,7 @@ class Siswa extends CI_Controller
 		$this->siswa->insertHasilLatihan($data);
 		$this->session->set_flashdata('message', '<div class="alert alert-success">
                 Profile berhasil dirubah!</div>');
-		redirect('siswa/test/' . $idSubmateri);
+		redirect('siswa/tes/');
 	}
 
 	public function test($id_sub_materi)

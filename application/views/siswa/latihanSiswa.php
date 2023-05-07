@@ -9,7 +9,9 @@
                             <h4>Apersepsi</h4>
                         </div>
                         <div class="card-body">
-                             <img src="<?= base_url(); ?>/assets/img/news/<?= $latihan->file_latihan ?>" alt="Girl in a jacket" width="500" height="300">   
+                             <?php if($latihan->file_latihan != null){?>
+                                <img src="<?= base_url(); ?>/assets/img/news/<?= $latihan->file_latihan ?>" alt="Girl in a jacket" width="500" height="300">   
+                            <?php }?>
                             
                             <div class="form-group">
                                 <h4><?= $latihan->soal; ?></h4>
@@ -50,7 +52,7 @@
                                 <div class="card-header">
                                     <div class="column">
                                         <?php if($data['file_soal'] != null){?>
-                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Girl in a jacket" width="500" height="300">
+                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Dekomposisi" width="500" height="300">
                                         <?php }?>
                                         <h3 >Soal Latihan - Pilihan Ganda <?=$titleAlasan; ?></h3>
                                     </div>
@@ -60,6 +62,7 @@
                                     <input type="hidden" class="form-control" name="id_user" value="<?= $user['id_user']?>" >
                                     <input type="hidden" class="form-control" name="id_submateri" value="<?= $idsubmateri?>" >
                                     <input type="hidden" class="form-control" name="id_latihan" value="<?= $latihan->id_latihan?>" >
+                                    <input type="hidden" class="form-control" name="id_materi" value="<?= $materi['id_materi']?>" >
                                     <h4><?=$data['pertanyaan']; ?></h4>
                                     <input type="radio" name="opsiDekom<?=$index?>" value="A" required>
                                     <label for="opsi_a"><?= $data['opsi_a']; ?></label><br>
@@ -115,7 +118,7 @@
                                 <div class="card-header">
                                     <div class="column">
                                          <?php if($data['file_soal'] != null){?>
-                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Girl in a jacket" width="500" height="300">
+                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Abstraksi" width="500" height="300">
                                         <?php }?>
                                         <h3 >Soal Latihan - Pilihan Ganda <?=$titleAlasan; ?></h3>
                                     </div>
@@ -140,6 +143,7 @@
                             <?php 
                             $alasan = '';
                             $titleAlasan = "";
+                            $index++;
                         endforeach;?>
                             <div class="card-footer text-right">
                                 <a class="btn btn-primary mr-1" onclick="showPola()" style="color: white;">Lanjut</a>
@@ -173,7 +177,7 @@
                                 <div class="card-header">
                                     <div class="column">
                                          <?php if($data['file_soal'] != null){?>
-                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Girl in a jacket" width="500" height="300">
+                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Pengenalan Pola" width="500" height="300">
                                         <?php }?>
                                         <h3 >Soal Latihan - Pilihan Ganda <?=$titleAlasan; ?></h3>
                                     </div>
@@ -198,6 +202,7 @@
                             <?php 
                             $alasan = '';
                             $titleAlasan = "";
+                             $index++;
                         endforeach;?>
                             <div class="card-footer text-right">
                                 <a class="btn btn-primary mr-1" onclick="showAlgo()" style="color: white;">Lanjut</a>
@@ -231,7 +236,7 @@
                                 <div class="card-header">
                                     <div class="column">
                                         <?php if($data['file_soal'] != null){?>
-                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Girl in a jacket" width="500" height="300">
+                                            <img  src="<?= base_url(); ?>/assets/img/news/<?= $data['file_soal'] ?>" alt="Algoritma" width="500" height="300">
                                         <?php }?>
                                         <h3 >Soal Latihan - Pilihan Ganda <?=$titleAlasan; ?></h3>
                                     </div>
@@ -256,6 +261,7 @@
                             <?php 
                             $alasan = '';
                             $titleAlasan = "";
+                             $index++;
                         endforeach;?>
                             <div class="card-footer text-right">
                                  <button class="btn btn-success mr-1" id="btn-algoritma">Submit</button>
