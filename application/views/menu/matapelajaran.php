@@ -60,11 +60,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-            <div class="section-body">
-            </div>
+        </div>
     </section>
 </div>

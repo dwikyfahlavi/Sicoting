@@ -20,12 +20,12 @@
                             <button class="btn btn-primary mr-1" onclick="showAbstraksi()">Abstraksi</button>
                             <button class="btn btn-primary mr-1" onclick="showPola()">Pengenalan Pola</button>
                             <button class="btn btn-primary mr-1" onclick="showAlgo()">Algoritma</button>
-                         </div>       
+                        </div>
 
-                           
+
                     </div>
                     <?= form_open('siswa/latihanTestRespon') ?>
-                    <?php 
+                    <?php
                     $alasan = '';
                     $titleAlasan = "";
 

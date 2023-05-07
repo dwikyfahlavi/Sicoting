@@ -1,13 +1,21 @@
 <!-- Main Content -->
 <div class="main-content">
     <section class="section">
+        <div class="section-header">
+            <h1>Update Materi</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran </a></div>
+                <div class="breadcrumb-item">Materi</div>
+            </div>
+        </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg">
                     <div class="card">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <h4>Update Sub Materi</h4>
-                        </div>
+                        </div> -->
                         <div class="card-body">
                             <?= form_open('guru/updateSubMateriRespon') ?>
                             <input type="hidden" class="form-control" name="id_submateri" value="<?= $updateSubMateri['id_submateri'] ?>">

@@ -3,6 +3,11 @@
     <section class="section">
         <div class="section-header">
             <h1><?= $title; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran </a></div>
+                <div class="breadcrumb-item">Tes</div>
+            </div>
         </div>
 
         <div class="row">

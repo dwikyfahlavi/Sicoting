@@ -126,6 +126,11 @@ class auth extends CI_Controller
 		redirect('auth');
 	}
 
+	public function home()
+	{
+		$this->load->view("v_home");
+	}
+
 	public function blocked()
 	{
 		$this->load->view("error/v_403");

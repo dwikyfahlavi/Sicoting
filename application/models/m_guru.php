@@ -16,6 +16,14 @@ class m_guru extends CI_Model
         return $data->row();
     }
 
+    public function bandingNilai($id)
+    {
+        $this->db->select_min('nilai_akhir', 'min_nilai');
+        $this->db->select_max('nilai_akhir', 'max_nilai');
+        $this->db->select_avg('FORMAT(FLOOR(nilai_akhir),0)', 'avg_nilai');
+        $this->db->where('id_submateri', $id);
+        return $this->db->get('hasil_siswa')->row();
+    }
     public function editProfile($id_user, $argumen)
     {
         $this->db->where('id_user', $id_user)->update('user', $argumen);
@@ -74,10 +82,34 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
+    public function getSiswaCount()
+    {
+        $argumen = array("role_id" => 3);
+        $data = $this->db->get_where("user", $argumen);
+        return $data->num_rows();
+    }
+    public function getMateriCount()
+    {
+        $data = $this->db->get("materi");
+        return $data->num_rows();
+    }
+    public function getSubMateriCount()
+    {
+        $data = $this->db->get("submateri");
+        return $data->num_rows();
+    }
+
     public function getSubMateriByID($id_submateri)
     {
         $argumen = array("id_submateri" => $id_submateri);
         $data = $this->db->get_where("submateri", $argumen);
+        return $data->row_array();
+    }
+
+    public function getSubMateriID($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("apersepsi", $argumen);
         return $data->row_array();
     }
 
@@ -117,6 +149,13 @@ class m_guru extends CI_Model
     public function getApersepsi()
     {
         $data = $this->db->get("apersepsi");
+        return $data->result_array();
+    }
+
+    public function getApersepsiID($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("apersepsi", $argumen);
         return $data->result_array();
     }
 
@@ -160,9 +199,10 @@ class m_guru extends CI_Model
         return $result;
     }
 
-    public function getKomentarApersepsi()
+    public function getKomentarApersepsi($id_apersepsi)
     {
-        $data = $this->db->get("komentar_apersepsi");
+        $argumen = array("id_apersepsi" => $id_apersepsi);
+        $data = $this->db->get_where("komentar_apersepsi", $argumen);
         return $data->result_array();
     }
 
@@ -234,7 +274,9 @@ class m_guru extends CI_Model
     public function getTesByID($id_materi)
     {
         $argumen = array("id_materi" => $id_materi);
+        $argumen = array("id_materi" => $id_materi);
         $data = $this->db->get_where("tes", $argumen);
+        return $data->result_array();
         return $data->result_array();
     }
 
@@ -265,6 +307,12 @@ class m_guru extends CI_Model
         $data = $this->db->get_where("tes", $argumen);
         return $data->row_array();
     }
+    public function updateNilai($id_hasil_siswa, $data)
+    {
+        $this->db->where('id_hasil_siswa', $id_hasil_siswa);
+        $result  = $this->db->update("hasil_siswa", $data);
+        return $result;
+    }
 
     public function updateTes($id_tes, $argumen)
     {
@@ -275,6 +323,18 @@ class m_guru extends CI_Model
     {
         $data = $this->db->get("soal_latihan");
         return $data->result_array();
+    }
+    public function getSoal($id_submateri, $id_latihan)
+    {
+        $argumen = array("id_submateri" => $id_submateri, "id_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->result_array();
+    }
+    public function getSoalRow($id_submateri)
+    {
+        $argumen = array("id_submateri" => $id_submateri);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->row_array();
     }
     public function getPesan()
     {
@@ -312,7 +372,19 @@ class m_guru extends CI_Model
         return $data;
     }
 
-    public function getLatihanByID($id_latihan)
+    public function getLatihanByID($id_submateri)
+    {
+        $data = $this->db->query("SELECT * FROM hasil_siswa INNER JOIN submateri ON hasil_siswa.id_submateri = submateri.id_submateri  INNER JOIN user ON hasil_siswa.id_user = user.id_user WHERE hasil_siswa.id_submateri = $id_submateri");
+        return $data->result_array();
+    }
+
+    // public function getLatihanID($id_submateri)
+    // {
+    //     $data = $this->db->query("SELECT * FROM hasil_siswa INNER JOIN submateri ON hasil_siswa.id_submateri = submateri.id_submateri  INNER JOIN user ON hasil_siswa.id_user = user.id_user WHERE hasil_siswa.id_submateri = $id_submateri");
+    //     return $data->row_array();
+    // }
+
+    public function getLatihanRowID($id_latihan)
     {
         $argumen = array("id_latihan" => $id_latihan);
         $data = $this->db->get_where("soal_latihan", $argumen);
@@ -326,11 +398,35 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
+    public function getJawabanUser($id_submateri, $id_user)
+    {
+        $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);
+        $this->db->select('list_jawaban');
+        $this->db->from('hasil_siswa');
+        $this->db->where($argumen);
+        return $this->db->get()->row()->list_jawaban;
+    }
+
+    public function getAlasanUser($id_submateri, $id_user)
+    {
+        $argumen = array("id_submateri" => $id_submateri, "id_user" => $id_user);
+        $this->db->select('list_alasan');
+        $this->db->from('hasil_siswa');
+        $this->db->where($argumen);
+        return $this->db->get()->row()->list_alasan;
+    }
     public function getSubLatihanByIDLatihan($id_latihan)
     {
         $argumen = array("id_latihan" => $id_latihan);
         $data = $this->db->get_where("sub_soal_latihan", $argumen);
         return $data->result_array();
+    }
+
+    public function getSubLatihanByIDLatihanRow($id_latihan)
+    {
+        $argumen = array("id_latihan" => $id_latihan);
+        $data = $this->db->get_where("sub_soal_latihan", $argumen);
+        return $data->row_array();
     }
 
     public function getSubLatihanByID($id_sub_latihan)
@@ -407,28 +503,18 @@ class m_guru extends CI_Model
         return $data->result_array();
     }
 
-    public function getHasilLatihanById($id_soal_latihan)
+    public function getHasilLatihanById($id_submateri)
     {
-        $argumen = array("id_soal_latihan" => $id_soal_latihan);
+        $argumen = array("id_submateri" => $id_submateri);
         $data = $this->db->get_where("hasil_siswa", $argumen);
         return $data->result_array();
     }
 
-    public function getHasilSiswaById($id, $id_user, $jenis_sub_soal)
+    public function gethasilsiswaID($id_hasil_siswa)
     {
-        $this->db->select('*');
-        $this->db->from('hasil_siswa');
-        $this->db->join('sub_soal_latihan', 'hasil_siswa.id_sub_soal = sub_soal_latihan.id_sub_latihan');
-        $this->db->join('opsi_soal_latihan', 'opsi_soal_latihan.id_sub_soal = hasil_siswa.id_sub_soal');
-        // $this->db->join('sub_soal_latihan', 'sub_soal_latihan.id_soal_latihan = soal_latihan.id_latihan');
-        $this->db->where('hasil_siswa.id_sub_soal', $id);
-        $this->db->where('hasil_siswa.id_user', $id_user);
-        $this->db->where('opsi_soal_latihan.id_sub_soal', $id);
-        // $this->db->where('sub_soal_latihan.id_sub_latihan', $id);
-        // $this->db->where('sub_soal_latihan.jenis_sub_soal', $jenis_sub_soal);
-        $query = $this->db->get();
-        $result = $query->row_array();
-        return $result;
+        $argumen = array("id_hasil_siswa" => $id_hasil_siswa);
+        $data = $this->db->get_where("hasil_siswa", $argumen);
+        return $data->row_array();
     }
 
     public function getUserSiswa()

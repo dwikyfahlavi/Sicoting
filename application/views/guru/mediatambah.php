@@ -16,10 +16,8 @@
                                 <select class="form-control" id="jenis_media" name="jenis_media">
                                     <option value="">-- Jenis Media --</option>
                                     <option value="pdf">PDF</option>
-                                    <option value="docs">DOCS</option>
                                     <option value="ppt">POWER POINT</option>
                                     <option value="video">VIDEO</option>
-                                    <option value="audio">AUDIO</option>
                                 </select>
                             </div>
                             <div class="form-group">

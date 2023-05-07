@@ -3,6 +3,12 @@
     <section class="section">
         <div class="section-header">
             <h1><?= $title; ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?= site_url("guru"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/pembelajaran"); ?>">Mata Pelajaran</a></div>
+                <div class="breadcrumb-item"><a href="<?= site_url("guru/submateri/" . $subMateri['id_materi']); ?>">Materi</a></div>
+                <div class="breadcrumb-item">Latihan</div>
+            </div>
         </div>
 
         <div class="row">
@@ -18,13 +24,13 @@
                         <?= $this->session->flashdata('message'); ?>
                         <button class="btn btn-icon icon-left btn-primary" onclick="tambahSoal(2,1,'Dekomposisi')" id="tambah_soal"><i class="fas fa-plus"></i> Soal Latihan</button>
 
-                        <a href="<?php echo site_url('guru/latihan/' . $subMateri['id_submateri']); ?>" class="btn btn-primary mb-3" style="float: right;">Hasil Siswa</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
                                 <thead>
                                     <tr>
                                         <th>Nomor</th>
                                         <th>Soal</th>
+                                        <th>File Soal</th>
                                         <th>File Soal</th>
                                         <th>Action</th>
                                     </tr>
@@ -37,9 +43,9 @@
                                             <td style="width:30%"><?= $m['soal']; ?></td>
                                             <td style="width:20%"><?= $m['file_latihan']; ?></td>
                                             <td style="width:40%">
-                                                <a href="<?php echo site_url('guru/soalCT/' . $m['id_latihan']. '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-info-circle"></i>Soal CT</a>
-                                                <a href="<?php echo site_url('guru/hasilLatihan/' . $m['id_latihan']. '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-info-circle"></i>Hasil Siswa</a>
-                                                <a href="<?php echo site_url('guru/editLatihan/' . $m['id_latihan']);?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-info-circle"></i>Edit</a>
+                                                <a href="<?php echo site_url('guru/soalCT/' . $m['id_latihan'] . '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-brain"></i>Soal CT</a>
+                                                <a href="<?php echo site_url('guru/hasilLatihan/' . $m['id_latihan'] . '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-star"></i>Hasil Siswa</a>
+                                                <a href="<?php echo site_url('guru/editLatihan/' . $m['id_latihan']); ?>" class="btn btn-icon icon-left btn-primary"><i class="fas fa-edit"></i>Edit</a>
                                                 <a href="<?php echo site_url('guru/deleteSoalLatihan/' . $m['id_latihan'] . '/' . $subMateri['id_submateri']); ?>" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i>Delete</a>
                                             </td>
                                         </tr>
@@ -73,6 +79,7 @@
                         <div class="form-group">
                             <label for="soal">
                                 <h6>Soal Latihan - <?= $subMateri['sub_materi'] ?></h6>
+                                <h6>Soal Latihan - <?= $subMateri['sub_materi'] ?></h6>
                             </label>
                             <div class="input-group mb-2">
                                 <textarea class="form-control" id="soal" name="soal" placeholder="Example : Budi Membawa seekor karung" style="min-height:100wpx;height:100%"></textarea>
@@ -81,16 +88,17 @@
                                 <label>File Soal <br></label>
                                 <input type="file" class="form-control" name="file_latihan" id="file_latihan">
                             </div>
-                            <input type="hidden" class="form-control" name="id_materi" id="id_materi" value="<?php echo $subMateri['id_materi']?>">
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                            <input type="hidden" class="form-control" name="id_sub_materi" id="id_sub_materi" value="<?php echo $subMateri['id_submateri'] ?>">
+                            <input type="hidden" class="form-control" name="id_materi" id="id_materi" value="<?php echo $subMateri['id_materi'] ?>">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            <?= form_close() ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <?= form_close() ?>
         </div>
     </div>
-</div>
-</div>
-</div>
-</div>
 </div>

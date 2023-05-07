@@ -1,9 +1,9 @@
 <footer class="main-footer">
     <div class="footer-left">
-        Copyright &copy; 2022
+        Copyright &copy; 2023
     </div>
     <div class="footer-right">
-        SIKOTING
+        SICOTING
     </div>
 </footer>
 </div>
@@ -96,7 +96,7 @@
         });
     };
 
-    function getDetailHasilSiswa(id, id_user,jenis_sub_soal) { 
+    function getDetailHasilSiswa(id, id_user, jenis_sub_soal) {
 
         $.ajax({
             url: "<?php echo base_url(); ?>guru/getHasilSoal",
@@ -112,43 +112,43 @@
                 $('#file_soal').html(response.file_soal);
                 $('#soal_latihan').html(response.soal_latihan);
                 $('#soal_sub_latihan').html(response.soal_sub_latihan);
-                if("a" == response.jawaban){
+                if ("a" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_a').attr('value',response.opsi_a).prop('checked', check);
+                $('#opsi_a').attr('value', response.opsi_a).prop('checked', check);
                 $('#label_a').html(response.opsi_a);
-                if("b" == response.jawaban){
+                if ("b" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_b').attr('value',response.opsi_b).prop('checked', check);
+                $('#opsi_b').attr('value', response.opsi_b).prop('checked', check);
                 $('#label_b').html(response.opsi_b);
-                if("c" == response.jawaban){
+                if ("c" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsica').attr('value',response.opsi_c).prop('checked', check);
+                $('#opsica').attr('value', response.opsi_c).prop('checked', check);
                 $('#label_c').html(response.opsi_c);
-                if("d" == response.jawaban){
+                if ("d" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_d').attr('value',response.opsi_d).prop('checked', check);
+                $('#opsi_d').attr('value', response.opsi_d).prop('checked', check);
                 $('#label_d').html(response.opsi_d);
-                if("e" == response.jawaban){
+                if ("e" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_e').attr('value',response.opsi_e).prop('checked', check);
+                $('#opsi_e').attr('value', response.opsi_e).prop('checked', check);
                 $('#label_e').html(response.opsi_e);
-               
-                
+
+
                 $('#show_modal').modal({
                     backdrop: 'static',
                     keyboard: true,
@@ -215,7 +215,7 @@
         });
     };
 
-    function getDetailHasilSiswa(id, id_user,jenis_sub_soal) { 
+    function getDetailHasilSiswa(id, id_user, jenis_sub_soal) {
 
         $.ajax({
             url: "<?php echo base_url(); ?>guru/getHasilSoal",
@@ -231,43 +231,43 @@
                 $('#file_soal').html(response.file_soal);
                 $('#soal_latihan').html(response.soal_latihan);
                 $('#soal_sub_latihan').html(response.soal_sub_latihan);
-                if("a" == response.jawaban){
+                if ("a" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_a').attr('value',response.opsi_a).prop('checked', check);
+                $('#opsi_a').attr('value', response.opsi_a).prop('checked', check);
                 $('#label_a').html(response.opsi_a);
-                if("b" == response.jawaban){
+                if ("b" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_b').attr('value',response.opsi_b).prop('checked', check);
+                $('#opsi_b').attr('value', response.opsi_b).prop('checked', check);
                 $('#label_b').html(response.opsi_b);
-                if("c" == response.jawaban){
+                if ("c" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsica').attr('value',response.opsi_c).prop('checked', check);
+                $('#opsica').attr('value', response.opsi_c).prop('checked', check);
                 $('#label_c').html(response.opsi_c);
-                if("d" == response.jawaban){
+                if ("d" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_d').attr('value',response.opsi_d).prop('checked', check);
+                $('#opsi_d').attr('value', response.opsi_d).prop('checked', check);
                 $('#label_d').html(response.opsi_d);
-                if("e" == response.jawaban){
+                if ("e" == response.jawaban) {
                     check = true;
-                }else{
+                } else {
                     check = false;
                 }
-                $('#opsi_e').attr('value',response.opsi_e).prop('checked', check);
+                $('#opsi_e').attr('value', response.opsi_e).prop('checked', check);
                 $('#label_e').html(response.opsi_e);
-               
-                
+
+
                 $('#show_modal').modal({
                     backdrop: 'static',
                     keyboard: true,
@@ -333,7 +333,7 @@
             }
         });
     };
-    
+
 
     function tambahSoal(id, jenis_sub_soal, title) {
         index = 0;
@@ -473,7 +473,7 @@
             }
         });
     };
-    
+
 
     document.getElementById('jenisJawaban').addEventListener('change', function() {
         console.log(this.value);
@@ -482,7 +482,7 @@
     var kompetensi = "";
     var ipk = "";
     var tujuan = "";
-    var idSubMateri= 0;
+    var idSubMateri = 0;
 
     function getDetailSubMateri(id) {
 
@@ -510,52 +510,53 @@
             }
         });
     };
-    
+
     function showModalSecc(type) {
 
-        if(type == 1){
+        if (type == 1) {
             $('#titleSec').html("Kompetensi Dasar");
             $('#content').html(kompetensi);
-        }else if(type == 2){
+        } else if (type == 2) {
             $('#titleSec').html("Indikator Pencapaian Kompetensi");
             $('#content').html(ipk);
-        }else{
+        } else {
             $('#titleSec').html("Tujuan Pembelajaran");
             $('#content').html(tujuan);
         }
-         $('#show_modalsec').modal({
-                    backdrop: 'static',
-                    keyboard: true,
-                    show: true
-                });
+        $('#show_modalsec').modal({
+            backdrop: 'static',
+            keyboard: true,
+            show: true
+        });
     };
 
     function show_modalAperr() {
-        
+
         var method = "<?php echo site_url(); ?>";
         var url = method + "/siswa/komenApersepsi/" + idSubMateri;
-        window.location.href = url;  
+        window.location.href = url;
     };
-    
-    
+
+
     function showDekom() {
         $("#content-dekomposisi").show();
         $("#content-abstraksi, #content-pola, #content-algoritma").hide();
     }
+
     function showAbstraksi() {
         $("#content-abstraksi").show();
         $("#content-dekomposisi, #content-pola, #content-algoritma").hide();
     }
+
     function showPola() {
         $("#content-pola").show();
         $("#content-dekomposisi, #content-abstraksi, #content-algoritma").hide();
     }
+
     function showAlgo() {
         $("#content-algoritma").show();
         $("#content-dekomposisi, #content-abstraksi, #content-pola").hide();
     }
-   
-
 </script>
 <script>
     document.getElementById('detail_media').addEventListener('change', function() {

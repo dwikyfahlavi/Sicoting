@@ -6,7 +6,7 @@
                 <div class="col-12 col-md-6 col-lg">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Uptade Latihan</h4>
+                            <h4>Update Latihan</h4>
                         </div>
                         <div class="card-body">
                             <?= form_open_multipart('guru/updateLatihanRespon') ?>

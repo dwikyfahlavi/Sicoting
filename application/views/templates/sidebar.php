@@ -4,10 +4,10 @@
     <div class="main-sidebar">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
-                <a href="index.html">SIKOTING</a>
+                <a href="#">SICOTING</a>
             </div>
             <div class="sidebar-brand sidebar-brand-sm">
-                <a href="index.html">St</a>
+                <a href="#">CT</a>
             </div>
             <ul class="sidebar-menu">
                 <!-- HEADER -->

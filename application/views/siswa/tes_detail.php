@@ -2,6 +2,11 @@
     <section class="section">
         <div class="section-header">
             <h1>Daftar Tes Materi: <?= $materi['materi'] ?></h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="<?php echo site_url("Siswa"); ?>">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="<?php echo site_url("Siswa/tes"); ?>">Tes</a></div>
+                <div class="breadcrumb-item">Tes Detail</div>
+            </div>
         </div>
         <?php foreach ($tes as $t) : ?>
             <div class="section-body">
@@ -20,7 +25,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        <?php endforeach ?>
     </section>
-<?php endforeach ?>
-</section>
 </div>
